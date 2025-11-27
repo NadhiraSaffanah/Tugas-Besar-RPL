@@ -8,7 +8,7 @@ Database: PostGre
 Software untuk track project beserta keterangan jobdesk masing-masing tim: Trello (Kanban Board)
 
 Cara melakukan upload pada Github:
-1. Buat branch untuk masing-masing anggota tim.
+1. Buat branch untuk masing-masing fitur.
 2. Pull file dari main.
 3. Kerjakan masing-masing jobdesk sesuai jadwal.
 4. Push hasil pekerjaan ke branch pribadi terlebih dahulu.
