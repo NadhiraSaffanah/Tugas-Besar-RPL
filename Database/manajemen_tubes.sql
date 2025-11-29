@@ -65,7 +65,7 @@ INSERT INTO users (nama, email, password_hash, role, npm, no_induk, foto_profil)
 -- =======================
 CREATE TABLE matkul (
     id BIGSERIAL PRIMARY KEY,
-    nama_matkul VARCHAR(100) NOT NULL UNIQUE,
+    nama_matkul VARCHAR(100) NOT NULL,
 	kelas_matkul VARCHAR(10)
 );
 
