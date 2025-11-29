@@ -23,6 +23,13 @@ dependencies {
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	testImplementation("org.springframework.boot:spring-boot-starter-webmvc-test")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+
+	// tambahan
+	implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
+	implementation("org.springframework.boot:spring-boot-starter-jdbc")
+	runtimeOnly("org.postgresql:postgresql")
+	compileOnly("org.projectlombok:lombok")
+    annotationProcessor("org.projectlombok:lombok")
 }
 
 tasks.withType<Test> {
