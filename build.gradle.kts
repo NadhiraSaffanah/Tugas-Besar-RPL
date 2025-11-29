@@ -8,11 +8,11 @@ group = "com.example"
 version = "0.0.1-SNAPSHOT"
 description = "Sistem manajemen tugas besar untuk dosen dan mahasiswa."
 
-java {
-	toolchain {
-		languageVersion = JavaLanguageVersion.of(21)
-	}
-}
+// java {
+// 	toolchain {
+// 		languageVersion = JavaLanguageVersion.of(21)
+// 	}
+// }
 
 repositories {
 	mavenCentral()
