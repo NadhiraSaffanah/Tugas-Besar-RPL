@@ -27,6 +27,12 @@ public class LoginController {
         return "login";
     }
 
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate(); // Hapus semua data di session (user jadi null)
+        return "redirect:/login";
+    }
+
     @GetMapping("/forgot-password")
     public String forgotPassPage() {
         return "forgotPass";
@@ -61,12 +67,13 @@ public class LoginController {
         return "login";
     }
 
+    // ini masih belum dipindah ke controller masing-masing (belum ngikutin branch homepage_all)
     @GetMapping("/home-mahasiswa")
-    public String homeMhs() { return "homeMhs"; }
+    public String homeMhs() { return "Mahasiswa/homeMhs"; }
     
     @GetMapping("/home-dosen")
-    public String homeDosen() { return "homeDosen"; }
+    public String homeDosen() { return "Dosen/homeDosen"; }
     
     @GetMapping("/home-admin")
-    public String homeAdmin() { return "homeAdmin"; }
+    public String homeAdmin() { return "Admin/homeAdmin"; }
 } 
