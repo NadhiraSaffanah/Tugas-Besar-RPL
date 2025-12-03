@@ -10,7 +10,6 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import com.example.tubesrpl.data.Phase;
-import com.example.tubesrpl.data.Tubes;
 
 @Repository
 public class PhaseRepository {
@@ -30,7 +29,8 @@ public class PhaseRepository {
             // phase.setIdSemester(rs.getLong("semester_id")); //mungkin kepake
             phase.setStatus_penilaian(rs.getString("status_penilaian"));
             phase.setIdTubes(rs.getLong("tubes_id"));
-            phase.setTanggal_akhir(rs.getDate("tanggal_akhir").toLocalDate()); //convert sql.Date jadi LocalDate
+            phase.setEndDate(rs.getDate("tanggal_akhir").toLocalDate()); //convert sql.Date jadi LocalDate
+            phase.setMatkul(rs.getString("nama_matkul"));
             return phase;
         }
     };
@@ -46,7 +46,7 @@ public class PhaseRepository {
                 tt.status_penilaian,
                 tt.tubes_id,
                 m.id,
-                m.nama_matkul
+                m.nama_matkul,
                 s.id
             FROM tahap_tubes tt
             JOIN tubes t ON tt.tubes_id = t.id
