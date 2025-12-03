@@ -209,17 +209,6 @@ main {
     overflow-x: auto;
 }
 
-.course-card {
-    height: 60%;
-    padding: 1em;
-    background-color: #FEFFFA;
-    display: flex;
-    flex-direction: column;
-    border: 1px solid var(--input-border);
-    border-radius: 0.5em;
-    gap: 0.5em;
-}
-
 .date {
     font-size: 0.9em;
     color: #95A751;

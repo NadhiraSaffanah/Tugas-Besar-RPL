@@ -47,7 +47,7 @@
         <section id="on-going-course">
             <h1>On Going</h1>
             <div id="course-wrapper">
-                <div class="course-card" th:each="t : ${tubeslist}">
+                <div class="course-cardMHS" th:each="t : ${tubeslist}">
                     <div class="date">
                         <img src="images/calendar.svg" alt="calender icon">
                         <p th:text="${#temporals.format(t.endDate, 'dd MMMM yyyy')}">01 January 2025</p>
