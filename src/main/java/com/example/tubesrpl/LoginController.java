@@ -7,6 +7,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.tubesrpl.data.User;
+import com.example.tubesrpl.repository.UserRepository;
+
 import jakarta.servlet.http.HttpSession;
 import java.util.Optional;
 
@@ -63,8 +66,8 @@ public class LoginController {
     // @GetMapping("/home-mahasiswa")
     // public String homeMhs() { return "Mahasiswa/homeMhs"; }
     
-    @GetMapping("/home-dosen")
-    public String homeDosen() { return "Dosen/homeDosen"; }
+    // @GetMapping("/home-dosen")
+    // public String homeDosen() { return "Dosen/homeDosen"; }
     
     @GetMapping("/home-admin")
     public String homeAdmin() { return "Admin/homeAdmin"; }

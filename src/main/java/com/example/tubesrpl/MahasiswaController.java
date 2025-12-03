@@ -7,6 +7,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.example.tubesrpl.data.Tubes;
+import com.example.tubesrpl.repository.TubesRepository;
+
 @Controller
 public class MahasiswaController {
     @Autowired 
