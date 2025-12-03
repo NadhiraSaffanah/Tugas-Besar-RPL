@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../static/css/tubesPageStyleMhs.css" type="text/css">
+</head>
+<body>
+    <!--Navigation Bar-->
+    <div class="container">
+        <header class="navbar">
+            <!--Navbar-left-->
+            <div class="nav-left">
+                <img src="../static/images/Logo.png" alt="Logo" class="logo">
+                <a href="#">Home</a>
+                <a href="#">Course</a>
+            </div>
+
+            <!--Navbar-right-->
+            <div class="nav-right">
+                <span class="user-info">61823010xx@unpar.ac.id</span>
+                <span class="user-name">Nama</span>
+                <div class="avatar">A</div>
+                <i class="fas fa-bell"></i>
+                <i class="fas fa-arrow-right"></i>
+            </div>
+        </header>
+
+        <!--Konten utama, halaman tengah-->
+        <main class="main-content">
+            <!--Nav Page-->
+            <nav class="course-tabs">
+                <button class="tab-button active" name="Grading">Grading</button>
+                <button class="tab-button" name="Participants">Participant</button>
+                <button class="tab-button" name="Group">Groups</button>
+            </nav>
+
+            <section class="tubes-info">
+                <div>
+                    <!--Judul Tugas Besar-->
+                    <h2 class="tubes-title" name="judul-tubes">Project</h2>
+
+                    <!--Tanggal Tugas Besar-->
+                    <div class="date-info">
+                        <!--Start Date-->
+                        <div>
+                            <span class="label">Start date</span>
+                            <p name="start-date">Monday, 1 September 2025</p>
+                        </div>>
+
+                        <!--End Date-->
+                        <div>
+                            <span class="label">End date</span>
+                            <p name="end-date">Monday, 1 September 2025</p>
+                        </div>>
+                    </div>
+                </div>
+
+                <div class="tubes-details">
+                    <!--Deskripsi-->
+                    <div class="description-box">
+                        <h3>Description</h3>
+                        <p name="tubes-desc">lorem ipsum</p>
+                    </div>
+
+                    <!--Nilai Akhir-->
+                    <div class="finalScore-box">
+                        <h3>Final Score</h3>
+                        <div class="score" name="final-score">78</div>
+                    </div>
+
+                    <!--Preview Tahap Penilaian-->
+                    <div class="phasePrev-box">
+                        <div class="box-header">
+                            <h3>Phase</h3>
+                            <button class="view-deets-button">View Details</button>
+                        </div>
+
+                        <!--Tabel Tahap Penilaian-->
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Description</th>
+                                    <th>Schedule</th>
+                                    <th>Status</th>
+                                    <th>Comment</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>SRS</td>
+                                    <td>Wednesay, 15 Nov 2029</td>
+                                    <td>Graded</td>
+                                    <td><button class="view-button"><i class="fas fa-eye"></i> View</button></td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>ERD</td>
+                                    <td>Saturday, 18 Nov 2029</td>
+                                    <td>Not Graded</td>
+                                    <td><button class="view-button"><i class="fas fa-eye"></i> View</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="group-box">
+                        <div class="box--header">
+                            <h3>Group</h3>
+                            <span class="status-tag available">Available</span>
+                            <button class="view-deets-button">View Details</button
+                        </div> 
+                        <div class="group-name" name="group-name"> A </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+</body>
+</html>
