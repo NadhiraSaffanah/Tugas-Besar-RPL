@@ -6,6 +6,10 @@ body {
     color: #333;
 }
 
+*{
+    font-weight: 600;
+}
+
 .container {
     max-width: 0 auto;
     margin: 0 auto;
@@ -13,19 +17,19 @@ body {
 
 /* Base color palette */
 :root {
-    --primary-green: #90A959; /* Warna hijau utama di header/tabs */
-    --light-green: #D9E3B9; /* Warna latar belakang kontainer utama */
-    --text-color: #4A4A4A;
+    --primary-green: #535F24; /* Warna hijau utama di header/tabs */
+    --light-green: #ACBD6F; /* Warna latar belakang kontainer utama */
+    --text-color: #000000;
     --box-bg: #FFFFFF;
-    --border-radius: 12px;
+    --border-radius: 25px;
 }
 
-/* --- Header/Navbar Styles --- */
+/* --- HEADER/NAVBAR --- */
 .navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: var(--primary-green);
+    background-color: #ACBD6F;
     color: var(--box-bg);
     padding: 15px 30px;
 }
@@ -35,15 +39,20 @@ body {
     display: flex;
     /* 2. Pusatkan elemen secara vertikal (sehingga ikon, Home, dan Course setara) */
     align-items: center; 
-    font-weight: bold;
+}
+
+.nav-left img {
+    height: 40px; /* Sesuaikan ukuran logo */
+    margin-right: 15px; /* Jarak antara logo dan link */
 }
 
 .nav-left a,
 .nav-left i {
     color: var(--box-bg);
     text-decoration: none;
-    margin-right: 20px;
+    /* margin-right: 10px 30px; */
     font-size: 1.1em;
+    padding: 10px 15px;
 }
 
 .nav-left i {
@@ -81,18 +90,23 @@ body {
     cursor: pointer;
 }
 
-/* --- Main Content and Tabs Styles --- */
+/* --- MAIN CONTENT & TAB STYLES --- */
 .main-content {
     padding: 20px 0;
 }
 
 .course-tabs {
-    background-color: var(--light-green);
-    padding: 10px 20px;
+    background-color: #8FA053;
+    padding: 0px 20px;
     border-radius: var(--border-radius);
     display: flex;
-    max-width: 400px; /* Lebar sesuai gambar */
-    margin-bottom: 20px;
+    max-width: 380px; /* Lebar sesuai gambar */
+    margin-bottom: 35px;
+    color: var(--box-bg);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 70px;
 }
 
 .tab-button {
@@ -102,7 +116,7 @@ body {
     margin-right: 5px;
     font-size: 1em;
     cursor: pointer;
-    color: var(--text-color);
+    color: var(--box-bg);
     font-weight: 500;
     border-radius: var(--border-radius);
     transition: background-color 0.3s;
@@ -115,16 +129,44 @@ body {
 }
 
 /* --- Project Info Container Styles (The main grid layout) --- */
-.project-info-container {
+.tubes-info-container {
     padding: 0 20px;
 }
 
-.project-details {
+.tubes-main-info {
+    background-color: var(--box-bg);
+    margin-left: 50px;
+    border: 1px solid #535F24;
+    border-radius: 10px;
+
+    display: flex;
+    flex-direction: column;
+    padding: 25px;
+}
+
+.tubes-main-info h2 {
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: 40px;
+    color: #535F24;
+}
+
+.tubes-details {
     background-color: var(--box-bg);
     border-radius: var(--border-radius);
     padding: 20px;
     margin-bottom: 20px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.tubes-details .description-box {
+    border: 1px solid #535F24;
+}
+
+.tubes-desc {
+    border: 1px solid #535F24;
+    background-color: white;
+    border-radius: 10px;
 }
 
 .project-title {

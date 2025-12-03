@@ -19,11 +19,19 @@
 
             <!--Navbar-right-->
             <div class="nav-right">
-                <span class="user-info">61823010xx@unpar.ac.id</span>
-                <span class="user-name">Nama</span>
-                <div class="avatar">A</div>
-                <i class="fas fa-bell"></i>
-                <i class="fas fa-arrow-right"></i>
+                <li>
+                    <span>Nama</span>
+                    <span>61823010xx@unpar.ac.id</span>
+                </li>
+                <li>
+                    <div>
+                        <a href="profile-page.html">
+                            <img src="" alt="profile picture">
+                        </a>
+                    </div>
+                </li>
+                <li><img src="../images/bell.png" alt="notification icon"></li>
+                <li><img src="../images/logout.png" alt="logout icon"></li>
             </div>
         </header>
 
@@ -31,13 +39,13 @@
         <main class="main-content">
             <!--Nav Page-->
             <nav class="course-tabs">
-                <button class="tab-button active" name="Grading">Grading</button>
+                <button class="tab-button" name="Grading">Grading</button>
                 <button class="tab-button" name="Participants">Participant</button>
                 <button class="tab-button" name="Group">Groups</button>
             </nav>
 
-            <section class="tubes-info">
-                <div>
+            <section class="tubes-info-container">
+                <div class="tubes-main-info">
                     <!--Judul Tugas Besar-->
                     <h2 class="tubes-title" name="judul-tubes">Project</h2>
 
@@ -57,18 +65,39 @@
                     </div>
                 </div>
 
-                <div class="tubes-details">
-                    <!--Deskripsi-->
-                    <div class="description-box">
+                <section class="tubes-desc">
+                    <div class="desc-box">
                         <h3>Description</h3>
                         <p name="tubes-desc">lorem ipsum</p>
                     </div>
+                </section>
 
-                    <!--Nilai Akhir-->
+                <div class="tubes-details">
+                    <!--Deskripsi-->
+                    <!-- <div class="description-box">
+                        <h3>Description</h3>
+                        <p name="tubes-desc">lorem ipsum</p>
+                    </div> -->
+
+                    <section class="tubes-desc">
+                        <div class="desc-box">
+                            <h3>Description</h3>
+                            <p name="tubes-desc">lorem ipsum</p>
+                        </div>
+                    </section>
+
+                    <section class="tubes-finalScore">
+                        <div class="finalScore-box">
+                            <h3>Final Score</h3>
+                            <div class="score" name="final-score">78</div>
+                        </div>
+                    </section>
+
+                    <!-- Nilai Akhir
                     <div class="finalScore-box">
                         <h3>Final Score</h3>
                         <div class="score" name="final-score">78</div>
-                    </div>
+                    </div> -->
 
                     <!--Preview Tahap Penilaian-->
                     <div class="phasePrev-box">
