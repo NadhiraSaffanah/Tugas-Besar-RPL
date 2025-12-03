@@ -6,7 +6,7 @@
     --input-background: #FFFFFF;
     --input-border: #D8D8D8;
 }
- 
+
 * {
     margin: 0;
     padding: 0;
@@ -20,17 +20,15 @@ body {
     background-color: #FAF6D9;
     display: grid;
     height: 100vh;
-    grid-template-areas: 
-        "header"
-        "main";
+    grid-template-areas: "header" "main";
     grid-template-rows: auto 1fr;
 }
 
-body::-webkit-scrollbar { display: none; }
+body::-webkit-scrollbar {
+    display: none;
+}
 
-/* =====================
-   Header + Navigation
-===================== */
+/* ===================== Header + Navigation ===================== */
 header {
     position: sticky;
     top: 0;
@@ -40,7 +38,7 @@ header {
     background-color: var(--secondary-color);
     padding: 0.5em 0;
     color: #FFFFFF;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 nav {
@@ -75,7 +73,9 @@ nav img {
     margin-left: 2em;
 }
 
-#nav-left img { transform: scale(1.5); }
+#nav-left img {
+    transform: scale(1.5);
+}
 
 #nav-left li:nth-child(2),
 #nav-left li:nth-child(3) {
@@ -83,7 +83,7 @@ nav img {
 }
 
 #nav-left li:nth-child(2),
-#nav-left li:nth-child(3):hover { 
+#nav-left li:nth-child(3):hover {
     cursor: pointer;
 }
 
@@ -116,9 +116,7 @@ nav img {
     filter: none;
 }
 
-/* =====================
-   Main Layout
-===================== */
+/* ===================== Main Layout ===================== */
 main {
     grid-area: main;
     width: 100%;
@@ -129,9 +127,7 @@ main {
     padding-bottom: 2em;
 }
 
-/* =====================
-   Foto Section
-===================== */
+/* ===================== Foto Section ===================== */
 #image-container {
     margin-top: 3%;
     width: 85%;
@@ -148,7 +144,7 @@ main {
     border-radius: inherit;
     display: block;
 }
- 
+
 #image-container::after {
     content: "";
     position: absolute;
@@ -158,12 +154,7 @@ main {
     height: 100%;
     border-radius: inherit;
     pointer-events: none;
-
-    background: linear-gradient(to left,
-        rgba(65, 65, 65, 0.75) 0%,
-        rgba(120, 120, 120, 0.55) 40%,
-        rgba(200, 200, 200, 0.10) 100%
-    );
+    background: linear-gradient(to left, rgba(65, 65, 65, 0.75) 0%, rgba(120, 120, 120, 0.55) 40%, rgba(200, 200, 200, 0.10) 100%);
 }
 
 /* Text + Icon Overlay */
@@ -191,9 +182,7 @@ main {
     letter-spacing: 0px;
 }
 
-/* =====================
-    On-going Course Section
-===================== */
+/* ===================== On-going Course Section ===================== */
 #on-going-course {
     padding: 1.5em;
     width: 80%;
@@ -239,9 +228,7 @@ main {
     gap: 1em;
 }
 
-/* =====================
-   Admin Info Boxes
-===================== */
+/* ===================== Admin Info Boxes ===================== */
 .dropdown-box {
     width: 85%;
     background: #FFFFFF;
@@ -251,7 +238,7 @@ main {
     flex-direction: column;
     gap: 0.5em;
     border: 2px solid #EEE;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
 }
 
 .dropdown-header {
@@ -284,4 +271,173 @@ main {
 
 .dropdown-box.active .dropdown-content {
     display: block;
+}
+
+/* =========================== Scrollable Box Styling =========================== */
+/* Matches screenshot spacing + style */
+#on-going-course,
+#timeline-section {
+    width: 85%;
+    min-height: 25vh;
+    max-height: 35vh;
+    border: 1px solid var(--text-color);
+    border-radius: 0.7em;
+    padding: 1.5em; 
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    overflow-y: auto; 
+}
+ 
+#on-going-course::-webkit-scrollbar,
+#timeline-wrapper::-webkit-scrollbar {
+    width: 6px;
+}
+
+#on-going-course::-webkit-scrollbar-thumb,
+#timeline-wrapper::-webkit-scrollbar-thumb {
+    background-color: #b8c28b;
+    border-radius: 10px;
+}
+
+/* =========================== Timeline Section =========================== */
+#timeline-section h1 {
+    color: var(--text-color);
+}
+
+#timeline-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    overflow-y: auto;
+    padding-right: 0.5em;
+    max-height: 26vh;
+}
+
+.timeline-card {
+    background: #FEFFFA;
+    border: 1px solid var(--input-border);
+    border-radius: 0.5em;
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7em;
+    position: relative;
+}
+
+.timeline-content {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+    font-size: 0.95em;
+    color: #444;
+}
+
+.timeline-content img {
+    width: 1.2em;
+    filter: brightness(0) saturate(0) contrast(1);
+}
+
+.detail-button {
+    position: absolute;
+    right: 1em;
+    top: 1em;
+    padding: 0.4em 0.9em;
+    font-size: 0.8em;
+    border-radius: 0.4em;
+    border: 1px solid var(--input-border);
+    background: #FFFFFF;
+    cursor: pointer;
+}
+
+.detail-button:hover {
+    background: #eff5d8;
+}
+
+#bellowIMG {
+    display: flex;
+    flex-direction: row;
+}
+
+/* ===========================
+   FIX & ALIGN LAYOUT BELOW IMAGE
+=========================== */
+
+/* Wrapper untuk On Going + Timeline */
+#bellowIMG {
+    width: 85%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 2em;
+    margin-top: 1em;
+}
+
+/* Dua box dibuat berdampingan */
+#on-going-courseMHS,
+#timeline-section {
+    width: 48%; 
+    border: 1px solid var(--text-color);
+    border-radius: 0.8em;
+    padding: 1.5em;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    max-height: 35vh;
+    overflow-y: auto;
+}
+
+/* Title styling konsisten */
+#on-going-courseMHS h1,
+#timeline-section h1 {
+    color: var(--text-color);
+    font-size: 1.4em;
+    font-weight: 550;
+}
+
+/* CARD di dalam On Going */
+#course-wrapperMHS {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+.course-cardMHS {
+    background: #FEFFFA;
+    border: 1px solid var(--input-border);
+    border-radius: 0.6em;
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6em;
+}
+
+/* Scrollbar clean */
+#on-going-courseMHS::-webkit-scrollbar,
+#timeline-section::-webkit-scrollbar {
+    width: 6px;
+}
+
+#on-going-courseMHS::-webkit-scrollbar-thumb,
+#timeline-section::-webkit-scrollbar-thumb {
+    background: #b8c28b;
+    border-radius: 10px;
+}
+
+/* Timeline content spacing fix */
+#timeline-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+.timeline-card {
+    background: #FEFFFA;
+    border: 1px solid var(--input-border);
+    border-radius: 0.5em;
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7em;
+    position: relative;
 }
