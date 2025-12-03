@@ -20,7 +20,6 @@ public class Phase {
 
     //bisa null
     private String deskripsi;
-    private LocalDate tanggal_akhir;
-
-    private String nama_matkul;
+    private LocalDate endDate;
+    private String matkul;
 }
