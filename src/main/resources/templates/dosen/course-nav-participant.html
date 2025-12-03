@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tugas Besar</title>
+    <link rel="stylesheet" href="../styles/course-nav-participant.css">
+    <script src="../scripts/courseNavParticipant.js" defer></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul id="nav-left">
+                <li><img src="../assets/book.png" alt="book icon"></li>
+                <li><a href="home-page.html">Home</a></li>
+                <li><a href="course-home.html">Course</a></li>
+            </ul>
+            <ul id="nav-right">
+                <li>
+                    <span>Nama</span> 
+                    <span>61823010xx@unpar.ac.id</span>
+                </li>
+                <li>
+                    <div>
+                        <a href="profile-page.html">
+                            <img src="" alt="profile picture">
+                        </a>
+                    </div>    
+                </li>
+                <li><img src="../assets/bell.png" alt="notification icon"></li>
+                <li><img src="../assets/logout.png" alt="logout icon"></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="course-nav">
+            <a href="course-nav-grading.html"><p>Grading</p></a>
+            <a href="course-nav-participant.html"><p>Participant</p></a>
+            <a href="course-nav-group.html"><p>Group</p></a>
+        </section>
+
+        <section id="participant-container">
+            <div id="participant-header">
+                <div id="filter-sort">
+                    <img src="../assets/filter.svg" alt="filter icon">
+                    <button>Filter</button>
+                    <div id="filter-wrapper">    
+                        <div id="filter-checkbox">
+                            <div>
+                                <input type="checkbox" name="lecturer" id="lecturer">
+                                <label for="lecturer">Lecturer</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" name="student" id="student">
+                                <label for="student">Student</label>
+                            </div>
+                        </div>
+
+                        <div id="filter-button">
+                            <p>Reset</p>
+                            <p>Apply</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="search">
+                    <img src="../assets/search.svg" alt="search icon">
+                    <input type="text" placeholder="Search">
+                </div>
+            </div>
+
+            <div id="participant-list">
+                <div id="list-header">
+                    <h2>First Name / Last Name</h2>
+                    <h2>Roles</h2>
+                </div>
+
+                <div id="list-wrapper">
+                    <div id="list-item">
+                    <div>
+                        <a href="profile-page.html">
+                            <img src="" alt="profile picture">
+                        </a>
+                        <p>Nama <br>61822010xx@unpar.ac.id</p>
+                    </div> 
+                    <p>Lecturer</p>
+                </div>
+                
+                <div id="list-item">
+                    <div>
+                        <a href="profile-page.html">
+                            <img src="" alt="profile picture">
+                        </a>
+                        <p>Nama <br>61822010xx@unpar.ac.id</p>
+                    </div> 
+                    <p>Lecturer</p>
+                </div>
+                </div>
+                
+            </div>
+        </section>
+        
+        
+
+    </main>
+</body>
+</html>

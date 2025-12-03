@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tugas Besar</title>
+    <link rel="stylesheet" href="../styles/course-create.css">
+    <script src="../scripts/createCourse.js" defer></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul id="nav-left">
+                <li><img src="../assets/book.png" alt="book icon"></li>
+                <li><a href="home-page.html">Home</a></li>
+                <li><a href="course-home.html">Course</a></li>
+            </ul>
+            <ul id="nav-right">
+                <li>
+                    <span>Nama</span> 
+                    <span>61823010xx@unpar.ac.id</span>
+                </li>
+                <li>
+                    <div>
+                        <a href="profile-page.html">
+                            <img src="" alt="profile picture">
+                        </a>
+                    </div>    
+                </li>
+                <li><img src="../assets/bell.png" alt="notification icon"></li>
+                <li><img src="../assets/logout.png" alt="logout icon"></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div id="back-icon">
+            <img src="../assets/back.svg" alt="back icon">
+        </div>
+        <section id="create-course">
+            <h1>Create Project Details</h1>
+            <p>Fill additional details to get started</p>
+            <form id="createCourseForm" action="">
+                <label for="title">Title</label>
+                <input type="text" name="title" id="title" required>
+                <label for="description">Description</label>
+                <textarea name="description" id="description" rows="4" cols="50">Enter description</textarea>
+                <label for="groupMember">Number of group member</label>
+                <input type="number" name="groupMember" id="groupMember" required>
+                <label for="groupSize">Group Size</label>
+                <input type="number" name="groupSize" id="groupSize" required>
+                <input type="submit" value="Create">
+            </form>
+        </section>
+
+        <section id="popup-success">
+            <p>Project successfully created!</p>
+            <img src="../assets/close.svg" alt="close button">
+        </section>
+    </main>
+</body>
+</html>

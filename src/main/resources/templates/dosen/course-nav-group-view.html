@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tugas Besar</title>
+    <link rel="stylesheet" href="../styles/course-nav-group-view.css">
+    <script src="" defer></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul id="nav-left">
+                <li><img src="../assets/book.png" alt="book icon"></li>
+                <li><a href="home-page.html">Home</a></li>
+                <li><a href="course-home.html">Course</a></li>
+            </ul>
+            <ul id="nav-right">
+                <li>
+                    <span>Nama</span> 
+                    <span>61823010xx@unpar.ac.id</span>
+                </li>
+                <li>
+                    <div>
+                        <a href="profile-page.html">
+                            <img src="" alt="profile picture">
+                        </a>
+                    </div>    
+                </li>
+                <li><img src="../assets/bell.png" alt="notification icon"></li>
+                <li><img src="../assets/logout.png" alt="logout icon"></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="course-nav">
+            <a href="course-nav-grading.html"><p>Grading</p></a>
+            <a href="course-nav-participant.html"><p>Participant</p></a>
+            <a href="course-nav-group.html"><p>Group</p></a>
+        </section>
+
+        <div id="lock-button">
+                <img src="../assets/lock-group.svg" alt="lock group icon">
+                <p>Unlock</p>
+        </div>
+        
+        <section id="group-list">
+            <div id="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Group</th>
+                            <th>Members</th>
+                            <th>Group <br>Members</th>
+                            <th><button>Show Group<br>Members</button></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Group <span>A</span></td>
+                            <td>7</td>
+                            <div></div>
+                            <!-- TAMPILKAN SAAT TOMBOL SHOW MEMBER DITEKAN-->
+                            <td class="member-card">
+                                <div>61822010@student</div>
+                                <div>61822010@student</div>
+                                <div>61822010@student</div>
+                                <div>61822010@student</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Group <span>A</span></td>
+                            <td>7</td>
+                            <td class="member-card">
+                                <div>61822010@student</div>
+                                <div>61822010@student</div>
+                                <div>61822010@student</div>
+                                <div>61822010@student</div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        
+    </main>
+</body>
+</html>

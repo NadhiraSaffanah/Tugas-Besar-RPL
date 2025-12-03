@@ -1,4 +1,4 @@
-package com.example.tubesrpl;
+package com.example.tubesrpl.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
