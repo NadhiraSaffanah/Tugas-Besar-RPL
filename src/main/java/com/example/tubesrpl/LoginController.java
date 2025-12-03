@@ -59,13 +59,12 @@ public class LoginController {
         return "login";
     }
 
-    // ini sepertinya bakal pindah ke controller masing-masing
-    // @GetMapping("/home-mahasiswa")
-    // public String homeMhs() { return "Mahasiswa/homeMhs"; }
+    @GetMapping("/home-mahasiswa")
+    public String homeMhs() { return "homeMhs"; }
     
     @GetMapping("/home-dosen")
-    public String homeDosen() { return "Dosen/homeDosen"; }
+    public String homeDosen() { return "homeDosen"; }
     
     @GetMapping("/home-admin")
-    public String homeAdmin() { return "Admin/homeAdmin"; }
+    public String homeAdmin() { return "homeAdmin"; }
 } 
