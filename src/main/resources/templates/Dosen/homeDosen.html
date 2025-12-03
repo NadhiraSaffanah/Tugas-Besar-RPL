@@ -1,18 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+
+<head xmlns:th="http://www.thymeleaf.org"> >
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tugas Besar</title>
-    <link rel="stylesheet" href="/css/home-page.css">
+    <title>Homepage Dosen</title>
+    <link rel="stylesheet" th:href="@{/css/home-page.css}">
     <script src="" defer></script>
 </head>
+
 <body>
     <header>
         <nav>
             <ul id="nav-left">
                 <li><img src="/images/book.png" alt="book icon"></li>
-                <li><a href="home-page.html">Home</a></li>
+                <li><a href="home-dosen">Home</a></li>
                 <li><a href="course-home.html">Course</a></li>
             </ul>
             <ul id="nav-right">
@@ -45,30 +47,14 @@
         <section id="on-going-course">
             <h1>On Going</h1>
             <div id="course-wrapper">
-                <div class="course-card">
+                <div class="course-card" th:each="t : ${tubeslist}">
                     <div class="date">
-                        <img src="/images/calendar.svg" alt="calender icon">
-                        <p>17 November 2026</p>
+                        <img src="images/calendar.svg" alt="calender icon">
+                        <p th:text="${#temporals.format(t.endDate, 'dd MMMM yyyy')}">01 January 2025</p>
                     </div>
-                    <h3>Project - <span>Rekayasa Perangkat Lunak</span></h3>    
+                    <h3 th:text="${t.nama}"> - <span th:text="${t.matkul}"></span></h3>    
                 </div>
-                    
-                <div class="course-card">
-                    <div class="date">
-                        <img src="/images/calendar.svg" alt="calender icon">
-                        <p>17 November 2026</p>
-                    </div>
-                    <h3>Project - <span>Rekayasa Perangkat Lunak</span></h3>    
-                </div>
-                
-                <div class="course-card">
-                    <div class="date">
-                        <img src="/images/calendar.svg" alt="calender icon">
-                        <p>17 November 2026</p>
-                    </div>
-                    <h3>Project - <span>Rekayasa Perangkat Lunak</span></h3>    
-                </div>
-            </div>    
+            </div>       
         </section>
     </main>
 </body>

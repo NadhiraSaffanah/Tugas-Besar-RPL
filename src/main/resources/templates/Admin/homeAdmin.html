@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head xmlns:th="http://www.thymeleaf.org"> >
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homepage Dosen</title>
+    <link rel="stylesheet" th:href="@{/css/home-page.css}">
+    <script src="" defer></script>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <ul id="nav-left">
+                <li><img src="/images/book.png" alt="book icon"></li>
+                <li><a href="home-dosen">Home</a></li>
+                <li><a href="course-home.html">Course</a></li>
+            </ul>
+            <ul id="nav-right">
+                <li>
+                    <span>Nama</span> 
+                    <span>61823010xx@unpar.ac.id</span>
+                </li>
+                <li>
+                    <div>
+                        <a href="profile-page.html">
+                            <img src="" alt="profile picture">
+                        </a>
+                    </div>
+                </li>
+                <li><img src="/images/bell.png" alt="notification icon"></li>
+                <li><img src="/images/logout.png" alt="logout icon"></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="image-container">
+            <img src="/images/homepage-img.png" alt="">
+            <div id="info-wrapper">
+                <img src="/images/book.svg" alt="">
+                <p>Tubes <br>UNPAR</p>
+            </div>
+        </section>
+
+        <section id="admin-info">
+            <div class="admin-info-card">
+                <h2 style="color: #95A751;">Make an Account</h3>    
+                <img src="/images/bell.png" alt="">
+            </div>  
+            <div class="admin-info-card">
+                <h2 style="color: #95A751;">Manage Course<h3> 
+                <img src="/images/bell.png" alt="">   
+            </div>      
+        </section>
+    </main>
+</body>
+</html>
