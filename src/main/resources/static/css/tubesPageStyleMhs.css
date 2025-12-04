@@ -4,6 +4,7 @@ body {
     margin: 0;
     padding: 0;
     color: #333;
+    position: absolute;
 }
 
 *{
@@ -32,6 +33,9 @@ body {
     background-color: #ACBD6F;
     color: var(--box-bg);
     padding: 15px 30px;
+    position: sticky;
+    z-index: 1000;
+    top: 0;
 }
 
 .nav-left {
@@ -131,6 +135,7 @@ body {
 /* --- Project Info Container Styles (The main grid layout) --- */
 .tubes-info-container {
     padding: 0 20px;
+    margin-bottom: 30px;
 }
 
 .tubes-main-info {
@@ -192,142 +197,34 @@ body {
     font-weight: 600;
 }
 
-/* Grid for the 4 smaller boxes (Description, Score, Phase, Group) */
-.description-and-score-grid {
-    display: grid;
-    /* Membuat layout 2x2. Kolom kiri lebih lebar dari kolom kanan. */
-    grid-template-columns: 2fr 1fr;
-    grid-template-rows: auto auto;
+/* ---DESC BOX AND FINAL SCORE BOX--- */
+#top-box {
+    padding: 0 70px;
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
     gap: 20px;
 }
 
-.box {
-    background-color: var(--box-bg);
-    border-radius: var(--border-radius);
-    padding: 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+/* Biar description lebih lebar */
+.desc-group {
+    flex: 1;
+    border: 1px solid #535F24;
+    background-color: #FFFFFF;
+    border-radius: 10px;
+    padding: 0 20px;
+    /* margin-bottom: 30px; */
 }
 
-.box h3 {
-    color: var(--text-color);
-    margin-top: 0;
-    font-weight: 600;
-}
-
-/* Specific Box Styling */
-
-/* Description Box - Top Left */
-.description-box {
-    grid-column: 1 / 2;
-    grid-row: 1 / 2;
-}
-
-.description-box p {
-    font-size: 0.95em;
-    line-height: 1.4;
-    color: #666;
-}
-
-/* Final Score Box - Top Right */
-.final-score-box {
-    grid-column: 2 / 3;
-    grid-row: 1 / 2;
-    text-align: center;
-}
-
-.score {
-    font-size: 3em;
-    font-weight: bold;
-    color: var(--primary-green);
-    margin-top: 10px;
-}
-
-/* Phase Box - Bottom Left */
-.phase-box {
-    grid-column: 1 / 2;
-    grid-row: 2 / 3;
-}
-
-.box-header {
+.desc-group-header {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
+    align-items: flex-start;
 }
 
-.view-all-button {
-    background: none;
-    border: 1px solid #ccc;
-    color: #555;
-    padding: 5px 10px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 0.85em;
+/* Biar Final Score tetap kecil dan nempel kanan */
+.tubes-finalScore {
+    width: 200px;
 }
 
-.phase-box table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 0.9em;
-}
-
-.phase-box th,
-.phase-box td {
-    padding: 10px 5px;
-    text-align: left;
-}
-
-.phase-box th {
-    color: #999;
-    font-weight: normal;
-}
-
-.phase-box tr:nth-child(even) {
-    background-color: #f9f9f9;
-}
-
-.view-button {
-    background: none;
-    border: none;
-    color: var(--primary-green);
-    cursor: pointer;
-    padding: 5px 10px;
-    border-radius: 5px;
-    font-size: 0.9em;
-    font-weight: 500;
-}
-
-/* Group Box - Bottom Right */
-.group-box {
-    grid-column: 2 / 3;
-    grid-row: 2 / 3;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-}
-
-.group-box .box-header {
-    width: 100%;
-    justify-content: space-around;
-    margin-bottom: 10px;
-}
-
-.status-tag {
-    font-size: 0.75em;
-    padding: 3px 8px;
-    border-radius: 12px;
-    font-weight: bold;
-    color: white;
-}
-
-.status-tag.available {
-    background-color: #5CB85C; /* Warna hijau untuk Available */
-}
-
-.group-name {
-    font-size: 4em;
-    font-weight: bold;
-    color: var(--text-color);
-    line-height: 1.2;
-}
