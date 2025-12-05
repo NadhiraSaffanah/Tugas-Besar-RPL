@@ -9,7 +9,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import com.example.tubesrpl.data.Tubes;
+import com.example.tubesrpl.model.Tubes;
 
 @Repository
 public class TubesRepository {

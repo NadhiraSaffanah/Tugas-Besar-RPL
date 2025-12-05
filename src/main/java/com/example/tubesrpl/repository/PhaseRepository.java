@@ -9,7 +9,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import com.example.tubesrpl.data.Phase;
+import com.example.tubesrpl.model.Phase;
 
 @Repository
 public class PhaseRepository {
