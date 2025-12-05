@@ -15,12 +15,12 @@
             <ul id="nav-left">
                 <li><img src="/images/book.png" alt="book icon"></li>
                 <li><a href="home-mahasiswa">Home</a></li>
-                <li><a href="course-home.html">Course</a></li>
+                <li><a href="course">Course</a></li>
             </ul>
             <ul id="nav-right">
                 <li>
-                    <span>Nama</span>
-                    <span>61823010xx@unpar.ac.id</span>
+                    <span th:text="${user.nama}">Nama User</span> 
+                    <span th:text="${user.email}">user@unpar.ac.id</span>
                 </li>
                 <li>
                     <div>
