@@ -22,7 +22,6 @@ body {
         "header"
         "main";
     grid-template-rows: auto 1fr;
-    overflow-x: hidden;
 }
 
 body::-webkit-scrollbar {
@@ -37,7 +36,7 @@ header {
     width: 100%;
     background-color: var(--secondary-color);
     padding: 0.5em 0;
-    color: var(--input-background);
+    color: #FFFFFF;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -57,7 +56,7 @@ nav ul {
 
 nav ul li a {
     text-decoration: none;
-    color: var(--input-background);
+    color: #FFFFFF;
 }
 
 nav img {
@@ -74,7 +73,7 @@ nav img {
     transform: scale(1.5);
 }
 
-#nav-left li:nth-child(3) {
+#nav-left li:nth-child(2) {
     background-color: var(--button-color);
 }
 
@@ -124,81 +123,112 @@ nav img {
 /* MAIN CONTENT */
 main {
     grid-area: main;
-    width: 90%;
     height: 100%;
-    justify-self: center;
+    width: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: left;
-    align-items: start;
+    justify-content: start;
+    align-items: center;
     gap: 2em;
-    color: var(--text-color);
 }
 
-#course-nav {
-    margin-top: 2em;
-    width: 30%;
-    height: 6%;
-    border-radius: 0.3em;
-    background-color: var(--button-color);
+#image-container {
+    margin-top: 3%;
+    width: 80%;
+    height: 35%;
+    border-radius: 0.5em;
+    position: relative;
+    overflow: hidden;   
+}
+
+#image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 0.5em;
+    display: block;
+}
+
+/* Overlay warna */
+#image-container::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(to right, #FFFFFF 21%, #AAAAAA 69%, #737373 100%);
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+/* BOOK ICON */
+#info-wrapper {
+    position: absolute;
+    top: 4em;            
+    right: 5em;
+    z-index: 99;
     display: flex;
-    justify-content: space-around;
     align-items: center;
     gap: 1em;
 }
 
-#course-nav a {
-    padding: 0.4em;
-    text-decoration: none;
-    color: var(--input-background);
+#info-wrapper img {
+    width: 40%;
+    height: 40%;
+    object-fit: contain;
 }
 
-#course-nav a:nth-child(3) {
-    background-color: var(--secondary-color);
+/* TEKS TUBES UNPAR */
+#info-wrapper p {
+    color: white;
+    font-size: 3em;
+    font-weight: 500;
 }
 
-#course-nav a:hover {
-    background-color: var(--secondary-color);
-    transition: 0.5s;
-}
-
-
-/* GROUP MENU */
-#group-container {
-    padding: 2em;
-    width: 100%;
-    height: 80%;
+#on-going-course {
+    padding: 1.5em;
+    width: 80%;
+    height: 40%;
+    border: 1px solid#535F24;
+    border-radius: 0.5em;
     display: flex;
     flex-direction: column;
-    gap: 2em;
-    border-radius: 0.5em;
-    border: 1px solid var(--text-color);
-    background-color: var(--input-background);
+    gap: 1em;
+    overflow-x: auto;
 }
 
-.group-menu {
-    padding: 1em;
+#on-going-course h1 {
+    color: #535F24;
     width: 100%;
-    height: 20%;
-    color: var(--text-color);
+    height: 5vh;
+}
+
+#course-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    padding-top: 1em;
+    overflow-x: auto;
+}
+
+.course-card {
+    height: 60%;
+    display: flex;
+    padding: 1em;
+    background-color: #FEFFFA;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--input-border);
+    border-radius: 0.5em;
+    gap: 0.5em;
+}
+
+.date {
+    font-size: 0.9em;
+    color: #95A751;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    border-radius: 0.5em;
-    border: 1px solid var(--text-color);
-    background-color: var(--input-background);
-}
-
-.group-menu p {
-    font-size: 2em;
-    font-weight: 600;
-}
-
-.group-menu button {
-    align-self: end;
-    font-size: 3em;
-    font-weight: 600;
-    border: none;
-    cursor: pointer;
-    background-color: unset;
+    gap: 1em;
 }

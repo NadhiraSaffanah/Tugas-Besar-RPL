@@ -65,9 +65,6 @@ public class LoginController {
     @GetMapping("/home-mahasiswa")
     public String homeMhs() { return "homeMhs"; }
     
-    @GetMapping("/home-dosen")
-    public String homeDosen() { return "homeDosen"; }
-    
     @GetMapping("/home-admin")
     public String homeAdmin() { return "homeAdmin"; }
 } 
