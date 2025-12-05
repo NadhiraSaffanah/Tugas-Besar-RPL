@@ -6,23 +6,30 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
-import com.example.tubesrpl.data.Phase;
-import com.example.tubesrpl.data.Tubes;
+import com.example.tubesrpl.model.Phase;
+import com.example.tubesrpl.model.Tubes;
+import com.example.tubesrpl.model.User;
 import com.example.tubesrpl.repository.TubesRepository;
 
-import lombok.extern.slf4j.Slf4j;
-
+import jakarta.servlet.http.HttpSession;
 import com.example.tubesrpl.repository.PhaseRepository;
 
-@Slf4j
 @Controller
+@SessionAttributes("user")
 public class MahasiswaController {
     @Autowired 
     private TubesRepository tubesRepository;
 
     @Autowired
     private PhaseRepository phaseRepository;
+
+    @ModelAttribute("user") //supaya ga nerima parameter HttpSesison berkali kali
+    public User userSession(HttpSession session) {
+        return (User) session.getAttribute("user");
+    }
 
     @GetMapping("/home-mahasiswa")
     public String homeMhsView(Model model){
