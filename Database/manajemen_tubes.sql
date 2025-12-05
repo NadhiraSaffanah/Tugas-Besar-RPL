@@ -57,8 +57,9 @@ INSERT INTO users (nama, email, password_hash, role, npm, no_induk, foto_profil)
 ('Fauzan Hidayat', 'fauzan.hidayat@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230022', NULL, NULL),
 ('Dewi Lestari', 'dewi.lestari@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230023', NULL, NULL),
 ('Ardiansyah Putra', 'ardiansyah.putra@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230024', NULL, NULL),
-('Siti Nurjanah', 'siti.nurjanah@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230025', NULL, NULL);
-
+('Siti Nurjanah', 'siti.nurjanah@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230025', NULL, NULL),
+--ADMIN
+('Dogman', 'dogman@admin.edu', 'hashedpass', 'admin', NULL, NULL, NULL); --butuh buat restriction role-based
 
 -- =======================
 -- MATKUL 
