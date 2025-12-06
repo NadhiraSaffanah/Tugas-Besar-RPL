@@ -230,7 +230,8 @@ CREATE TABLE tahap_tubes (
 	rubrik_penilaian VARCHAR(255), 
 	tanggal_akhir DATE NOT NULL, 
 	status_penilaian VARCHAR(20) NOT NULL CHECK (status_penilaian IN ('Graded', 'Not Graded')),
-	tubes_id BIGINT NOT NULL REFERENCES tubes(id) ON DELETE CASCADE
+	tubes_id BIGINT NOT NULL REFERENCES tubes(id) ON DELETE CASCADE,
+	status_visibility_nilai VARCHAR(20) NOT NULL CHECK (status_visibility_nilai IN ('Hide', 'Unhide'))
 );
 
 INSERT INTO tahap_tubes (nama_tahap, deskripsi, rubrik_penilaian, tanggal_akhir, status_penilaian, tubes_id) VALUES 
@@ -239,42 +240,48 @@ INSERT INTO tahap_tubes (nama_tahap, deskripsi, rubrik_penilaian, tanggal_akhir,
  'Penilaian berdasarkan kelengkapan proposal dan kejelasan ide.', 
  '2025-03-10', 
  'Not Graded', 
- 1),
+ 1,
+ 'Unhide'),
 
 ('Tahap 2 - Desain Sistem', 
  'Pembuatan diagram class, flow, dan arsitektur.', 
  'Penilaian berdasarkan ketepatan desain dan kesesuaian requirement.', 
  '2025-03-20', 
  'Not Graded', 
- 1),
+ 1, 
+ 'Unhide'),
 
 ('Tahap 3 - Implementasi', 
  'Pengembangan kode sesuai desain yang telah disetujui.', 
  'Penilaian berdasarkan kualitas kode dan pemenuhan fitur.', 
  '2025-04-05', 
  'Not Graded', 
- 1),
+ 1, 
+ 'Unhide'),
 
  ('Tahap 1 - Proposal', 
  'Pengumpulan ide dan rancangan awal.', 
  'Penilaian berdasarkan kelengkapan proposal dan kejelasan ide.', 
  '2025-05-10', 
  'Not Graded', 
- 2),
+ 2, 
+ 'Unhide'),
 
 ('Tahap 2 - Desain Sistem', 
  'Pembuatan diagram class, flow, dan arsitektur.', 
  'Penilaian berdasarkan ketepatan desain dan kesesuaian requirement.', 
  '2025-05-20', 
  'Not Graded', 
- 2),
+ 2, 
+ 'Unhide'),
 
 ('Tahap 3 - Implementasi', 
  'Pengembangan kode sesuai desain yang telah disetujui.', 
  'Penilaian berdasarkan kualitas kode dan pemenuhan fitur.', 
  '2025-06-05', 
  'Not Graded', 
- 2);
+ 2, 
+ 'Unhide');
 
 -- ======================================
 -- ANGGOTA-KELOMPOK
