@@ -7,22 +7,28 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.example.tubesrpl.model.Matkul;
 import com.example.tubesrpl.model.Semester;
 import com.example.tubesrpl.model.User;
+import com.example.tubesrpl.repository.MatkulRepository;
 import com.example.tubesrpl.repository.SemesterRepository;
 
 import jakarta.servlet.http.HttpSession;
 
 @Controller
-@SessionAttributes("admin")
+@SessionAttributes("user")
 @RequestMapping("/admin")
 public class AdminController {
     @Autowired
     SemesterRepository semesterRepository;
+
+    @Autowired
+    MatkulRepository matkulRepository;
 
     @ModelAttribute("user") //supaya ga nerima parameter HttpSesison berkali kali
     public User userSession(HttpSession session) {
@@ -41,8 +47,10 @@ public class AdminController {
         return "Admin/semester";
     }
 
-    // @GetMapping("/courses")
-    // public String coursesAdminView(Model model){
-
-    // }
+    @GetMapping("/semesters/{idSemester}/courses")
+    public String coursesAdminView(@PathVariable Long idSemester, Model model){
+        List<Matkul> matkulList = matkulRepository.findAllBySemester(idSemester);
+        model.addAttribute("matkulList", matkulList);
+        return "matkul";
+    }
 }
