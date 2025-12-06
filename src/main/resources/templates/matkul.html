@@ -12,8 +12,14 @@
         <nav>
             <ul id="nav-left">
                 <li><img src="/images/Logo.png" alt="book icon"></li>
-                <li><a th:href="@{'/home-' + ${user.role}}"></li>
-                <li><a href="course">Course</a></li>
+                <li><a th:href="@{'/'+${user.role}+'/home'}">Home</li>
+                <li>
+                    <a th:href="${user.role != 'admin'} 
+                        ? @{/{r}/course(r=${user.role})}
+                        : @{/admin/semesters}">
+                        Course
+                    </a>
+                </li>
             </ul>
             <ul id="nav-right">
                 <li>
@@ -23,7 +29,10 @@
                 <li>
                     <div>
                         <a href="profile-page.html">
-                            <img src="" alt="profile picture">
+                            <img th:src="${user.fotoProfil != null} 
+                                ? @{/uploads/profile/{f}(f=${user.fotoProfil})} 
+                                : @{/images/default_profile.png}" 
+                                alt="profile picture">
                         </a>
                     </div>
                 </li>
