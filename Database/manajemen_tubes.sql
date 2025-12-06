@@ -234,7 +234,7 @@ CREATE TABLE tahap_tubes (
 	status_visibility_nilai VARCHAR(20) NOT NULL CHECK (status_visibility_nilai IN ('Hide', 'Unhide')) DEFAULT 'Unhide'          -- default value
 );
 
-INSERT INTO tahap_tubes (nama_tahap, deskripsi, rubrik_penilaian, tanggal_akhir, status_penilaian, tubes_id) VALUES 
+INSERT INTO tahap_tubes (nama_tahap, deskripsi, rubrik_penilaian, tanggal_akhir, tubes_id) VALUES 
 ('Tahap 1 - Proposal', 
  'Pengumpulan ide dan rancangan awal.', 
  'Penilaian berdasarkan kelengkapan proposal dan kejelasan ide.', 
