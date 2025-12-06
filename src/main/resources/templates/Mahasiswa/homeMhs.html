@@ -13,9 +13,9 @@
     <header>
         <nav>
             <ul id="nav-left">
-                <li><img src="/images/book.png" alt="book icon"></li>
-                <li><a href="home-mahasiswa">Home</a></li>
-                <li><a href="course">Course</a></li>
+                <li><img th:src="@{/images/Logo.png}" alt="logo"></li>
+                <li><a th:href="'/'+@{${user.role}+'/home'}">Home</li>
+                <li><a th:href="'/'+@{${user.role}+'/course'}">Course</a></li>
             </ul>
             <ul id="nav-right">
                 <li>
@@ -29,17 +29,17 @@
                         </a>
                     </div>
                 </li>
-                <li><img src="images/bell.png" alt="notification icon"></li>
-                <li><img src="images/logout.png" alt="logout icon"></li>
+                <li><img th:src="@{/images/bell.png}" alt="notification icon"></li>
+                <li><img th:src="@{/images/logout.png}" alt="logout icon"></li>
             </ul>
         </nav>
     </header>
 
     <main>
         <section id="image-container">
-            <img src="images/homepage-img.png" alt="">
+            <img th:src="@{/images/homepage-img.png}" alt="homepage image">
             <div id="info-wrapper">
-                <img src="images/book.svg" alt="">
+                <img th:src="@{/images/Logo.png}" alt="logo">
                 <p>Tubes <br>UNPAR</p>
             </div>
         </section>
@@ -51,7 +51,7 @@
                 <div id="course-wrapperMHS">
                     <div class="course-cardMHS" th:each="t : ${tubeslist}">
                         <div class="date">
-                            <img src="images/calendar.svg" alt="calender icon">
+                            <img th:src="@{/images/calendar.svg}" alt="calender icon">
                             <p th:text="${#temporals.format(t.endDate, 'dd MMMM yyyy')}">01 January 2025</p>
                         </div>
                         <h3 th:text="${t.nama}"> - <span th:text="${t.matkul}"></span></h3>
@@ -66,11 +66,11 @@
                     <div class="timeline-card" th:each="p : ${phaselist}">
 
                         <div class="date">
-                            <img src="images/calendar.svg" alt="calendar icon">
+                            <img th:src="@{/images/calendar.svg}" alt="calendar icon">
                             <p th:text="${#temporals.format(p.endDate, 'dd MMMM yyyy')}">01 January 2025</p>
                         </div>
                         <div class="timeline-content">
-                            <img src="images/Inbox.svg" alt="file icon">
+                            <img th:src="@{/images/Inbox.svg}" alt="file icon">
                             <p th:text="${p.nama} + ' - ' + ${p.matkul}">SRS - Rekayasa Perangkat Lunak</p>
                         </div>
 

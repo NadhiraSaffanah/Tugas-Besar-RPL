@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head xmlns:th="http://www.thymeleaf.org"> >
+<head xmlns:th="http://www.thymeleaf.org"> 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Homepage Dosen</title>
+    <title>Homepage Admin</title>
     <link rel="stylesheet" th:href="@{/css/home-page.css}">
     <script src="" defer></script>
 </head>
@@ -13,9 +13,11 @@
     <header>
         <nav>
             <ul id="nav-left">
-                <li><img src="/images/book.png" alt="book icon"></li>
-                <li><a href="home-admin">Home</a></li>
-                <li><a href="course">Course</a></li>
+                <li><img th:src="@{/images/Logo.png}" alt="book icon"></li>
+                <li><a th:href="@{'/'+${user.role}+'/home'}">Home</li>
+                <li><a th:href="@{'/'+${user.role}+'/semester'}">Course</a></li>
+                <!-- <li><a th:href="@{/home}">Home</li>
+                <li><a th:href="@{/semester}">Course</a></li> -->
             </ul>
             <ul id="nav-right">
                 <li>
@@ -25,21 +27,24 @@
                 <li>
                     <div>
                         <a href="profile-page.html">
-                            <img src="" alt="profile picture">
+                            <img th:src="${user.fotoProfil != null} 
+                                ? @{/uploads/profile/{f}(f=${user.fotoProfil})} 
+                                : @{/images/default_profile.png}" 
+                                alt="profile picture">
                         </a>
                     </div>
                 </li>
-                <li><img src="/images/bell.png" alt="notification icon"></li>
-                <li><img src="/images/logout.png" alt="logout icon"></li>
+                <li><img th:src="@{/images/bell.png}" alt="notification icon"></li>
+                <li><img th:src="@{/images/logout.png}" alt="logout icon"></li>
             </ul>
         </nav>
     </header>
 
     <main>
         <section id="image-container">
-            <img src="/images/homepage-img.png" alt="">
+            <img th:src="@{/images/homepage-img.png}" alt="">
             <div id="info-wrapper">
-                <img src="/images/book.svg" alt="">
+                <img th:src="@{/images/book.svg}" alt="">
                 <p>Tubes <br>UNPAR</p>
             </div>
         </section>
@@ -47,7 +52,7 @@
         <section class="dropdown-box" data-dropdown>
             <div class="dropdown-header" data-dropdown-trigger>
                 <span>Make Account</span>
-                <img src="images/Help circle.png" alt="?">
+                <img th:src="@{/images/Help circle.png}" alt="?">
             </div>
             <div class="dropdown-content">
                 <p>Create admin, assistant, or student accounts easily.</p> 
@@ -58,7 +63,7 @@
         <section class="dropdown-box" data-dropdown>
             <div class="dropdown-header" data-dropdown-trigger>
                 <span>Manage Course</span>
-                <img src="images/Help circle.png" alt="?">
+                <img th:src="@{/images/Help circle.png}" alt="?">
             </div>
             <div class="dropdown-content">
                 <p>Edit, remove, or add new courses.</p> 
