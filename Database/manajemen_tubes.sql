@@ -199,7 +199,8 @@ CREATE TABLE kelompok (
 	id BIGSERIAL PRIMARY KEY,
     nama_kelompok VARCHAR(100) NOT NULL,
 	jml_anggota BIGINT,
-	tubes_id BIGINT NOT NULL REFERENCES tubes(id) ON DELETE CASCADE
+	tubes_id BIGINT NOT NULL REFERENCES tubes(id) ON DELETE CASCADE,
+	UNIQUE (nama_kelompok, tubes_id)
 );
 
 INSERT INTO kelompok (nama_kelompok, jml_anggota, tubes_id) VALUES 
