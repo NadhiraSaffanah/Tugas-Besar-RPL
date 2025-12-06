@@ -13,12 +13,7 @@
             <ul id="nav-left">
                 <li><img src="/images/Logo.png" alt="book icon"></li>
                 <li><a th:href="@{'/'+${user.role}+'/home'}">Home</li>
-                <li>
-                    <a th:href="${user.role != 'admin'} 
-                        ? @{/{r}/course(r=${user.role})}
-                        : @{/admin/semesters}">
-                        Course
-                    </a>
+                <li><a th:href="">Course</a>
                 </li>
             </ul>
             <ul id="nav-right">
