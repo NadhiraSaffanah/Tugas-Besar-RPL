@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="../static/css/tubesPageStyleMhs.css" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/tubesPageStyleMhs.css}" type="text/css">
 </head>
 <body>
     <!--Navigation Bar-->
@@ -12,26 +12,26 @@
         <header class="navbar">
             <!--Navbar-left-->
             <div class="nav-left">
-                <img src="../static/images/Logo.png" alt="Logo" class="logo">
+                <img th:src="@{/images/Logo.png}" alt="Logo" class="logo">
                 <a href="#">Home</a>
                 <a href="#">Course</a>
             </div>
 
             <!--Navbar-right-->
             <div class="nav-right">
-                <li>
+                <div class="profile-info">
                     <span>Nama</span>
                     <span>61823010xx@unpar.ac.id</span>
-                </li>
-                <li>
-                    <div>
-                        <a href="profile-page.html">
-                            <img src="" alt="profile picture">
-                        </a>
-                    </div>
-                </li>
-                <li><img src="../images/bell.png" alt="notification icon"></li>
-                <li><img src="../images/logout.png" alt="logout icon"></li>
+                </div>
+
+                <div class="profile-page">
+                    <a href="profile-page.html">
+                        <img src="" alt="profile picture">
+                    </a>
+
+                    <img src="../images/bell.png" alt="notification icon">
+                    <img src="../images/logout.png" alt="logout icon">
+                </div>
             </div>
         </header>
 
@@ -53,13 +53,13 @@
                     <div class="date-info">
                         <!--Start Date-->
                         <div>
-                            <span class="label">Start date</span>
+                            <span class="label-date">Start date</span>
                             <p name="start-date">Monday, 1 September 2025</p>
                         </div>
 
                         <!--End Date-->
                         <div>
-                            <span class="label">End date</span>
+                            <span class="label-date">End date</span>
                             <p name="end-date">Monday, 1 September 2025</p>
                         </div>
                     </div>
@@ -79,13 +79,13 @@
                 <section class="tubes-finalScore">
                     <div class="finalScore-box">
                         <h3>Final Score</h3>
-                        <div class="score" name="final-score">78</div>
+                        <p class="score" name="final-score">78</p>
                     </div>
                 </section>
             </section>
 
             <!--BOX BOTTOM-->
-            <section class="bottom-box">
+            <section id="bottom-box">
 
                 <!--PHASEPREV-BOX-->
                 <section class="tubes-phasePrev">
@@ -99,7 +99,7 @@
                         <table>
                             <thead>
                                 <tr>
-                                    <th></th>
+                                    <th>Phase</th>
                                     <th>Description</th>
                                     <th>Schedule</th>
                                     <th>Status</th>
@@ -130,10 +130,13 @@
                 <!--GROUP-BOX-->
                 <section class="tubes-group">
                     <div class="group-box">
-                        <div class="box--header">
+                        <div class="box-header">
                             <h3>Group</h3>
-                            <span class="status-tag available">Available</span>
-                            <button class="view-deets-button">View Details</button
+
+                            <div class="right-side">
+                                <span class="status-tag-available">Available</span>
+                                <button class="view-deets-button">View Details</button>
+                            </div>
                         </div> 
                         <div class="group-name" name="group-name"> A </div>
                     </div>

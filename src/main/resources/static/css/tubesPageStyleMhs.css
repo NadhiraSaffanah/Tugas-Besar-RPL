@@ -4,7 +4,6 @@ body {
     margin: 0;
     padding: 0;
     color: #333;
-    position: absolute;
 }
 
 *{
@@ -12,7 +11,6 @@ body {
 }
 
 .container {
-    max-width: 0 auto;
     margin: 0 auto;
 }
 
@@ -69,8 +67,14 @@ body {
     align-items: center;
 }
 
-.user-info,
-.user-name {
+.profile-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.profile-info, 
+.profile-page {
     margin-right: 15px;
     font-size: 0.9em;
 }
@@ -136,6 +140,8 @@ body {
 .tubes-info-container {
     padding: 0 20px;
     margin-bottom: 30px;
+    padding-right: 70px; /* kanan diperbesar */
+    margin-bottom: 30px;
 }
 
 .tubes-main-info {
@@ -146,7 +152,7 @@ body {
 
     display: flex;
     flex-direction: column;
-    padding: 25px;
+    padding: 20px;
 }
 
 .tubes-main-info h2 {
@@ -202,29 +208,203 @@ body {
     padding: 0 70px;
     margin-bottom: 30px;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: flex-start;
     gap: 20px;
 }
 
-/* Biar description lebih lebar */
+.tubes-title {
+    font-weight: bold;
+}
+
+.label-date {
+    color: #8FA053;
+}
+
+.date-info {
+    color: #535F24;
+}
+
 .desc-group {
-    flex: 1;
+    flex: 0.7;
     border: 1px solid #535F24;
     background-color: #FFFFFF;
     border-radius: 10px;
     padding: 0 20px;
-    /* margin-bottom: 30px; */
 }
 
-.desc-group-header {
+.tubes-finalScore {
+    flex: 0.4;
+    border: 1px solid #535F24;
+    background-color: #FFFFFF;
+    border-radius: 10px;
+    padding: 0 20px;
+}
+
+#top-box h3 {
+    font-size: 25px;
+    color: #535F24;
+    margin-bottom: 0;
+    margin-top: 15px;
+}
+
+.desc-group p {
+    font-size: 17px;
+}
+
+.score{
+    font-size: 30px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+/* ---BOTTOM BOX KIRI--- */
+#bottom-box {
+    padding: 0 70px;
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+.tubes-phasePrev {
+    flex: 0.7;
+    border: 1px solid #535F24;
+    background-color: #FFFFFF;
+    border-radius: 10px;
+    padding: 0 20px;
+}
+
+.tubes-group {
+    flex: 0.4;
+    border: 1px solid #535F24;
+    background-color: #FFFFFF;
+    border-radius: 10px;
+    padding: 0 20px;
+}
+
+.group-box {
+    margin-bottom: 10px;
+}
+
+.phasePrev-box .box-header {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
+    align-items: center;
+    margin-bottom: 2px;
+    font-size: 15px;
 }
 
-/* Biar Final Score tetap kecil dan nempel kanan */
-.tubes-finalScore {
-    width: 200px;
+.phasePrev-box .box-header h3 { 
+    margin-top: 10px;
+    color: #8FA053;
 }
+
+.phasePrev-box .box-header button { 
+    background-color: #FFFFFF;
+    border: 1px solid black;
+    border-radius: 7px;
+    padding: 5px 7px;
+    font-size: 5px;
+}
+
+.phasePrev-box table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.phasePrev-box thead th {
+    text-align: center;
+    padding: 8px 0;
+    color: #6c7e2f;
+    font-weight: bold;
+    border-bottom: 1px solid #ccc;
+}
+
+.phasePrev-box tbody td {
+    padding: 7px 0;
+    font-size: 14px;
+}
+
+.view-button {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 6px 12px;
+    border-radius: 8px;
+    background: #f3f3f3;
+    border: 1px solid #bbb;
+    cursor: pointer;
+}
+
+/* Scrollable table body */
+.phasePrev-box tbody {
+    display: block;
+    max-height: 160px; /* bisa kamu ganti */
+    overflow-y: auto;
+}
+
+.phasePrev-box thead,
+.phasePrev-box tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+    text-align: center;
+}
+
+.phasePrev-box tbody td:last-child {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* BOTTOM BOX-KANAN */
+.group-box .box-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    font-size: 15px;
+}
+
+.right-side {
+    display: flex;
+    align-items: baseline;
+    gap: 10px; /* jarak antara Available dan View Details */
+}
+
+.status-tag-available {
+    border: 1px solid;
+    background-color: #8FA053;
+    color: white;
+    border-radius: 7px;
+    padding: 5px 10px;
+    font-size: 10px;
+}
+
+.tubes-group .view-deets-button {
+    background-color: #FFFFFF;
+    border: 1px solid black;
+    border-radius: 7px;
+    padding: 5px 7px;
+    font-size: 5px;
+}
+
+.tubes-group h3 {
+    font-size: 25px;
+    color: #535F24;
+    margin-bottom: 0;
+    margin-top: 15px;
+}
+
+.group-name {
+    font-size: 30px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+
+
+
 
