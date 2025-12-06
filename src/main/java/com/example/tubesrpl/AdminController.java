@@ -7,6 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.example.tubesrpl.model.Semester;
@@ -16,7 +18,8 @@ import com.example.tubesrpl.repository.SemesterRepository;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
-@SessionAttributes("user")
+@SessionAttributes("admin")
+@RequestMapping("/admin")
 public class AdminController {
     @Autowired
     SemesterRepository semesterRepository;
@@ -26,15 +29,20 @@ public class AdminController {
         return (User) session.getAttribute("user");
     }
     
-    @GetMapping("/home-admin")
+    @GetMapping("/home")
     public String homeAdminView(){
         return "Admin/homeAdmin";
     }
 
-    @GetMapping("/course")
-    public String coursesAdminView(Model model){
+    @GetMapping("/semesters")
+    public String semestersAdminView(Model model){
         List<Semester> semesterList = semesterRepository.findAll();
-        model.addAttribute("matkulList", semesterList); //matkul list karena menggunakan template yang sama dengan matkul
+        model.addAttribute("semesterList", semesterList); //matkul list karena menggunakan template yang sama dengan matkul
         return "Admin/semester";
     }
+
+    // @GetMapping("/courses")
+    // public String coursesAdminView(Model model){
+
+    // }
 }
