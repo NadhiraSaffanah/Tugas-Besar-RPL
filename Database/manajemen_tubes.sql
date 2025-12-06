@@ -23,7 +23,7 @@ CREATE TABLE users (
     npm VARCHAR(10) UNIQUE,
     no_induk VARCHAR(10) UNIQUE,
     foto_profil VARCHAR(255), 
-	status_aktif VARCHAR(20) NOT NULL CHECK (status_aktif IN ('Aktif', 'non-Aktif')),
+	status_aktif VARCHAR(20) NOT NULL CHECK (status_aktif IN ('Aktif', 'non-Aktif'))
 );
 
 INSERT INTO users (nama, email, password_hash, role, npm, no_induk, foto_profil, status_aktif) VALUES
@@ -89,14 +89,15 @@ CREATE TABLE semester (
     id BIGSERIAL PRIMARY KEY,
     start_date DATE NOT NULL,
     end_date DATE NOT NULL,
-	jenis_semester VARCHAR(20) NOT NULL CHECK (jenis_semester IN ('ganjil','genap'))
+	jenis_semester VARCHAR(20) NOT NULL CHECK (jenis_semester IN ('ganjil','genap')),
+	status_aktif VARCHAR(20) NOT NULL CHECK (status_aktif IN ('Aktif', 'non-Aktif'))
 );
 
-INSERT INTO semester (start_date, end_date, jenis_semester) VALUES 
-('2023-08-01', '2023-12-31', 'ganjil'),
-('2024-02-01', '2024-06-30', 'genap'),
-('2024-08-01', '2024-12-31', 'ganjil'),
-('2025-02-01', '2025-06-30', 'genap');
+INSERT INTO semester (start_date, end_date, jenis_semester, status_aktif) VALUES 
+('2023-08-01', '2023-12-31', 'ganjil', 'Aktif'),
+('2024-02-01', '2024-06-30', 'genap', 'Aktif'),
+('2024-08-01', '2024-12-31', 'ganjil', 'Aktif'),
+('2025-02-01', '2025-06-30', 'genap', 'Aktif');
 
 -- ==============================================
 -- MATKUL-SEMESTER (many-to-many matkul-semester)
