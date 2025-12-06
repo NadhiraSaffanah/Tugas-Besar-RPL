@@ -62,10 +62,10 @@ public class LoginController {
         return "login";
     }
 
-    @GetMapping("/home-mahasiswa")
-    public String homeMhs() { return "homeMhs"; }
+    // @GetMapping("/home-mahasiswa")
+    // public String homeMhs() { return "homeMhs"; }
     
-    // @GetMapping("/home-dosen")
+    // // @GetMapping("/home-dosen")
     // public String homeDosen() { return "Dosen/homeDosen"; }
     
     // @GetMapping("/home-admin")
