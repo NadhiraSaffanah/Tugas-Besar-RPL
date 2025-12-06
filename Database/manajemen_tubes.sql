@@ -376,3 +376,15 @@ INSERT INTO penilaian (nilai, komentar, tahap_id, user_id) VALUES
 (89.50, 'Clear delivery', 4, 9),
 (94.00, 'Great job', 4, 11),
 (85.25, 'Nice slides', 4, 12);
+
+-- ======================================
+-- NOTIFIKASI
+-- ======================================
+CREATE TABLE notifikasi (
+    id BIGSERIAL PRIMARY KEY,
+    user_id BIGINT REFERENCES users(id) ON DELETE CASCADE,
+    tipe VARCHAR(50),
+    konten TEXT,
+    is_read BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT NOW()
+);
