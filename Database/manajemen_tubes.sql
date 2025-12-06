@@ -317,7 +317,7 @@ INSERT INTO anggota_kelompok VALUES
 -- ======================================
 CREATE TABLE penilaian (
 	nilai NUMERIC(5,2),
-	komentar VARCHAR(255),
+	komentar VARCHAR(255) DEFAULT '',
 	tahap_id BIGINT NOT NULL REFERENCES tahap_tubes(id) ON DELETE CASCADE,
     user_id BIGINT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
     PRIMARY KEY (user_id, tahap_id)
