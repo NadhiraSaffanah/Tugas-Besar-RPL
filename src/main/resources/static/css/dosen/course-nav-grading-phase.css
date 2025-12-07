@@ -121,18 +121,19 @@ nav img {
     background-color: var(--button-color);
 }
 
+
 /* MAIN CONTENT */
 main {
     grid-area: main;
     width: 90%;
-    min-height: 80vh; 
+    height: 100%;
     justify-self: center;
     display: flex;
     flex-direction: column;
-    align-items: stretch;
+    justify-content: left;
+    align-items: start;
     gap: 2em;
     color: var(--text-color);
-    padding-bottom: 2em;
 }
 
 #course-nav {
@@ -153,119 +154,123 @@ main {
     color: var(--input-background);
 }
 
+#course-nav a:nth-child(1) {
+    background-color: var(--secondary-color);
+}
+
 #course-nav a:hover {
     background-color: var(--secondary-color);
     transition: 0.5s;
 }
 
-#project {
-    padding: 1em;
+
+/* GROUP MENU */
+#grading-container {
+    padding: 2em;
     width: 100%;
-    height: 20%;
-    border-radius: 0.5em;
-    border: 1px solid var(--text-color);
-    background-color: var(--input-background);
+    height: 80%;
     display: flex;
     flex-direction: column;
-    gap: 1em;
-}
-
-#project-date {
-    display: flex;
-    gap: 3em;
-}
-
-#project-date p {
-    color: var(--secondary-color);
-}
-
-#desc-group-container {
-    width: 100%;
-    display: flex;
     gap: 2em;
-    align-items: stretch; 
-    margin-bottom: 2em;
-}
-
-.desc-group {
-    padding: 1.5em;
-    flex: 1; 
-    
     border-radius: 0.5em;
     border: 1px solid var(--text-color);
     background-color: var(--input-background);
-    
+}
+
+/* ADD PHASE */
+#grading-container a {
+    padding: 1em;
+    height: 20%;
+    text-decoration: none;
+    border-radius: 0.5em;
+    border: 1px solid var(--text-color);
+    cursor: pointer;
+    justify-content: center;
+}
+
+#add-phase {
     display: flex;
     flex-direction: column;
+    align-items: center;
+}
+
+#add-phase p {
+    color: var(--text-color);
+    font-size: 1.5em;
+    font-weight: 600;
+}
+
+#grading-container > p {
+    color: #B3B3B3;
+    font-size: 2em;
+    align-self: center;
+}
+
+
+/* GRADING CARD CONTAINER */
+#grading-card-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
     gap: 1em;
 }
 
-.desc-group-header {
+.grading-card {
+    padding: 0.5em;
+    border-radius: 0.5em;
+    border: 1px solid var(--text-color);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+}
+
+.card-header {
     display: flex;
     justify-content: space-between;
 }
 
-.desc-group-header img {
-    cursor: pointer;
+.card-header p {
+    text-align: center;
+    width: 10%;
+    color: var(--input-background);
+    padding: 0.3em 1em;
+    border-radius: 0.5em;
+    background-color: red;
 }
 
-.desc-group-body {
+.card-body {
     display: flex;
+    flex-direction: column;
     gap: 0.5em;
 }
 
-.grading-body-container {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-}
-
-#grading {
-    padding: 1.5em;
-    width: 100%;
-    min-height: 300px; 
-    height: auto;      /* Biar tingginya ngikutin isi kartu */
-    border-radius: 0.5em;
-    border: 1px solid var(--text-color);
-    background-color: var(--input-background);
-    display: flex;
-    flex-direction: column;
-    gap: 1em; 
-}
-
-
-/* JIKA ADA GRADING PHASE */
-#grading-wrapper {
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap; 
-    gap: 1.5em;    
-    padding: 0.5em; 
-    overflow-x: auto; 
-}
-
-.grading-card {
-    padding: 1em; 
-    width: 300px; 
-    min-width: 250px;
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-    border-radius: 0.5em;
-    border: 1px solid var(--text-color);
-    background-color: var(--input-background);
-    gap: 0.8em;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-}
-
-.grading-body {
+.card-body-wrap {
     display: flex;
     align-items: center;
-    gap: 1em;
+    gap: 0.5em;
+}
+
+.card-body img {
+    width: 2em;
+}
+
+.card-body h5 {
+    width: 40%;
+    justify-self: left;
+}
+
+.card-button {
+    margin-top: 0.5em;
+    display: flex;
+    gap: 1em;   
 }
 
 .grading-card button {
-    padding: 0.2em;
+    width: 7em;
+    height: 2em;
+    padding: 0 0.5em;
     border-radius: 0.5em;
     border: 1px solid var(--text-color);
     background-color: var(--input-background);
@@ -273,7 +278,47 @@ main {
 }
 
 
-/* POP UP EDIT DETAILS */
+/* POPUP SHOW RUBRIC */
+#popup-show-rubric {
+    padding: 1em;
+    width: 35%;
+    height: 30%;
+    position: absolute;
+    transform: translate(0%, 75%);
+    align-self: center;
+    z-index: 999;
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    color: var(--input-background);
+    border-radius: 0.5em;
+    background-color: var(--button-color);
+}
+
+#popup-show-rubric div {
+    padding: 0.5em;
+    height: 50%;
+    border-radius: 0.5em;
+    background-color: var(--input-background);
+}
+
+#popup-show-rubric p {
+    color: #000;
+    font-size: large;
+}
+
+#popup-show-rubric button {
+    width: 30%;
+    padding: 0.3em;
+    border: none;
+    border-radius: 0.5em;
+    align-self: self-end;
+    background-color: var(--input-background);
+    cursor: pointer;
+}
+
+
+/* POP UP EDIT PHASE */
 #overlay {
     position: fixed;
     top: 0;
@@ -285,18 +330,19 @@ main {
     z-index: 2;
 }
 
-#course-edit-details {
-    position: fixed;
-    top: 0;
-    left: 0;
+#edit-phase-container {
+    grid-area: main;
+    margin-top: 2em;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); 
-    z-index: 100;
-    
-    display: none; 
-    justify-content: center;
     align-items: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 99;
+    display: none;
+    justify-content: center;
+    gap: 2em;
 }
 
 #back-icon {
@@ -310,7 +356,7 @@ main {
     filter: brightness(0) invert(1);
 }
 
-#edit-course {
+#edit-phase {
     color: var(--text-color);
     width: 50%;
     height: 80%;
@@ -323,24 +369,24 @@ main {
     gap: 0.5em;
 }
 
-#editCourseForm {
+#editPhaseForm {
     display: flex;
     flex-direction: column;
     gap: 0.5em;
 }
 
-#editCourseForm input {
+#editPhaseForm input {
     padding: 0.5em;
     border-radius: 0.2em;
     border: 2px solid var(--input-border);
     background-color: var(--input-background);
 }
 
-#editCourseForm textarea {
+#editPhaseForm textarea {
     padding: 0.5em;
 }
 
-#editCourseForm input[type='submit'] {
+#editPhaseForm input[type='submit'] {
     margin-top: 0.5em;
     width: 30%;
     color: var(--input-background);
@@ -349,14 +395,14 @@ main {
     cursor: pointer;
 }
 
-#editCourseForm input[type='submit']:hover {
+#editPhaseForm input[type='submit']:hover {
     color: #000000;
     background-color: #c6e74f;
     transition: 0.5s;
 }
 
 
-/* POPUP CREATE SUCCESS */
+/* POPUP EDIT PHASE SUCCESS */
 #popup-success {
     margin-top: 0.5em;
     padding: 1em;
@@ -384,120 +430,4 @@ main {
     align-self: end;
     cursor: pointer;
     background-color: #8FA053;
-}
-
-
-/* POPUP SHOW RUBRIC */
-#popup-show-rubric {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 1000; 
-    
-    width: 90%;
-    max-width: 600px; 
-    background-color: #FFFFFF; 
-    padding: 2em;
-    border-radius: 12px; /* Sudut membulat */
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2); 
-    
-    display: none;
-    flex-direction: column;
-}
-
-#popup-show-rubric div {
-    padding: 0.5em;
-    height: 50%;
-    border-radius: 0.5em;
-    background-color: var(--input-background);
-}
-
-#popup-show-rubric p {
-    color: #000;
-    font-size: large;
-}
-
-#popup-show-rubric button {
-    width: 30%;
-    padding: 0.3em;
-    border: none;
-    border-radius: 0.5em;
-    align-self: self-end;
-    background-color: var(--input-background);
-    cursor: pointer;
-}
-
-/* buat kalo belum ada tubes */
-.empty-state {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    
-    flex-grow: 1; 
-    min-height: 40vh; 
-    
-    border: 2px dashed #ccc;
-    border-radius: 10px;
-    margin-top: 20px;
-    color: #888;
-}
-
-.empty-state h2 {
-    margin-bottom: 15px;
-    font-weight: normal;
-}
-
-.btn-create {
-    background-color: var(--button-color);
-    color: white;
-    padding: 12px 24px;
-    text-decoration: none;
-    border-radius: 8px;
-    font-weight: bold;
-    font-size: 1.1em;
-    transition: 0.3s;
-}
-
-.btn-create:hover {
-    background-color: var(--secondary-color);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-}
-
-#course-create-details {
-    grid-area: main;
-    margin-top: 2em;
-    width: 100%;
-    height: 100%;
-    align-items: center;
-    position: fixed; /* Fixed biar overlay */
-    top: 0;
-    left: 0;
-    z-index: 100; /* Di atas overlay */
-    display: none;
-    justify-content: center;
-}
-
-/* Styling content create sama kayak edit */
-#create-course {
-    color: var(--text-color);
-    width: 50%;
-    background-color: var(--input-background);
-    padding: 2em;
-    border-radius: 0.5em;
-    border: 1px solid var(--text-color);
-    display: flex;
-    flex-direction: column;
-    gap: 1em;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-}
-
-/* Input styling samain aja */
-#createCourseForm input, #createCourseForm textarea {
-    padding: 0.8em;
-    border-radius: 0.3em;
-    border: 1px solid var(--input-border);
-    width: 100%;
 }

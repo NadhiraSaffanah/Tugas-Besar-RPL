@@ -36,7 +36,7 @@ header {
     width: 100%;
     background-color: var(--secondary-color);
     padding: 0.5em 0;
-    color: #FFFFFF;
+    color: var(--input-background);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -56,7 +56,7 @@ nav ul {
 
 nav ul li a {
     text-decoration: none;
-    color: #FFFFFF;
+    color: var(--input-background);
 }
 
 nav img {
@@ -122,123 +122,140 @@ nav img {
 
 /* MAIN CONTENT */
 main {
+    margin-top: 2em;
     grid-area: main;
-    height: 100%;
     width: 100%;
+    height: 100%;
     display: flex;
-    flex-direction: column;
-    justify-content: start;
-    align-items: center;
+    justify-content: center;
     gap: 2em;
 }
 
-#course-overview {
+#back-icon {
+    height: 80%;
+    cursor: pointer;
+}
+
+#back-icon img {
+    width: 3em;
+    align-items: start;
+}
+
+
+/* ADD GROUP */
+#group-add {
     color: var(--text-color);
-    width: 95%;
-    height: 90%;
-    margin-top: 2em;
+    width: 50%;
+    height: 80%;
     padding: 1em;
     border-radius: 0.5em;
     border: 1px solid var(--text-color);
-}
-
-#course-overview h3 {
-    margin-bottom: 0.5em;
-}
-
-#course-header {
+    background-color: var(--input-background);
     display: flex;
-    align-items: center;
-    gap: 1em;
-}
-
-#filter-sort {
-    padding: 0.5em;
-    display: flex;
-    border: 1px solid var(--text-color);
-    border-radius: 0.2em;
-    border: 1px solid var(--text-color);
-    background-color: #FFFFFF;
-}
-
-#filter-sort select {
-    border: none;
-    outline: none;
-}
-
-#filter-checkbox {
-    display: none;
-}
-
-#search {
-    padding: 0.5em;
-    display: flex;
-    width: 90%;
-    border-radius: 0.2em;
-    border: 1px solid var(--text-color);
-    background-color: #FFFFFF;
+    flex-direction: column;
     gap: 0.5em;
 }
 
-#search input {
-    width: 100%;
-    border: none;
-    outline: none;
-}
-
-#course-card-wrapper {
-    width: 100%;
-    height: 80%;
-    margin-top: 1em;
-    overflow-y: auto;
-    display: flex;
-    flex-wrap: wrap;
-    align-content: flex-start;
-    gap: 1.5em;
-}
-
-#course-card-wrapper a {
-    color: var(--text-color);
-    text-decoration: none;
-    width: 18%;
-    height: 35%;
-    display: block;
-}
-
-.course-card {
+#addGroupForm {
     width: 100%;
     height: 100%;
     display: flex;
     flex-direction: column;
-    border-radius: 0.5em;
-    border: 1px solid var(--text-color);
-    background-color: #FFFFFF;
-    overflow: hidden;
-    position: relative; /* Tambahkan ini */
+    gap: 0.5em;
 }
 
-.card-color {
-    height: 80%;
-    border-radius: 0.5em 0.5em 0 0;
+#addGroupForm label {
+    font-size: 1.5em;
+    font-weight: 500;
 }
 
-#course-card-wrapper a:nth-child(4n + 1) .card-color {
-    background-image: linear-gradient(to bottom, #FCE2A9 30%, #F8BE85 100%);
+#addGroupForm input {
+    padding: 0.5em;
 }
 
-#course-card-wrapper a:nth-child(4n + 2) .card-color {
-    background-image: linear-gradient(to bottom, #FDFAE7 0%, #CFD8A4 100%);
+
+/* TABEL */
+#table-container {
+    border: var(--text-color);
+    overflow-y: scroll;
+    height: 10rem;
 }
 
-#course-card-wrapper a:nth-child(4n + 3) .card-color {
-    background-image: linear-gradient(to bottom, #CBCBE7 30%, #9D9DBE 100%);
+#table-container table {
+    padding: 0 0.5em;
+    
+    align-items: center;
+    color: var(--text-color);
 }
 
-#course-card-wrapper a:nth-child(4n + 4) .card-color {
-    background-image: linear-gradient(to bottom, #E7F2FD 0%, #A4C2D8 100%);
+#table-container tbody td {
+    text-align: center;
+    padding: 0.2em;
 }
 
-.course-card h4 {
-    margin: 0.5em;
+#table-container tr td:last-of-type {
+    width: 100%;
+    text-align: end;
 }
+
+#table-container tr td button {
+    border: none;
+    font-size: large;
+    cursor: pointer;
+    background-color: var(--input-background);
+}
+
+
+/* IMAGE */
+#table-container tr td:nth-of-type(1) {
+    border: #535F24;
+    width: 2em;
+    height: 2em;
+    text-align: end;
+}
+
+
+/* BUTTON SUBMIT FORM */
+#addBtn {
+    color: var(--input-background);
+    border: none;
+    border-radius: 0.2em;
+    background-color: var(--button-color);
+}
+
+#addBtn:hover {
+    color: var(--input-background);
+    background-color: var(--secondary-color);
+    cursor: pointer;
+}
+
+/* POPUP CREATE SUCCESS */
+#popup-success {
+    margin-top: 1em;
+    padding: 1em;
+    width: 40%;
+    height: 17%;
+    color: var(--input-background);
+    background-color: var(--button-color);
+    position: absolute;
+    top: 0;
+    z-index: 99;
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 1em;
+}
+
+#popup-success p {
+    font-size: large;
+}
+
+#popup-success img {
+    padding: 0.5em;
+    height: 40%;
+    align-self: end;
+    cursor: pointer;
+    background-color: #8FA053;
+}
+
 

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import com.example.tubesrpl.model.Matkul;
 
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class MatkulRepository {
@@ -32,5 +33,18 @@ public class MatkulRepository {
         """;
         
         return jdbcTemplate.query(sql, matkulRowMapper, userId);
+    }
+
+    // BARU : Method untuk mengambil Header Info (Nama Matkul + Tanggal Semester)
+    public Map<String, Object> findHeaderInfo(Long matkulId) {
+        String sql = """
+            SELECT m.nama_matkul, s.start_date, s.end_date
+            FROM matkul m
+            JOIN matkul_semester ms ON m.id = ms.matkul_id
+            JOIN semester s ON ms.semester_id = s.id
+            WHERE m.id = ?
+        """;
+        
+        return jdbcTemplate.queryForMap(sql, matkulId);
     }
 }

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tugas Besar</title>
-    <link rel="stylesheet" th:href="@{/css/dosen/course-nav-group-add.css}">
+    <link rel="stylesheet" th:href="@{/css/dosen/course-nav-group-edit.css}">
     <script src="" defer></script>
 </head>
 <body>
@@ -38,12 +38,12 @@
             <a th:href="@{/dosen/course/nav/group}"><img th:src="@{/images/back.svg}" alt="back icon"></a>
         </div>
         <section id="group-add">
-            <h1>Add Group</h1>
+            <h1>Edit Group</h1>
             <p>Manajemen Proyek</p>
             
             <form id="addGroupForm" action="">
                 <label for="group-name">Group Name</label>    
-                <input type="text" name="group-name" id="group-name" placeholder="Masukan deskripsi">
+                <input type="text" name="group-name" id="group-name" placeholder="Group A">
                 <h2>Members</h2>
                 <p>Search Student</p>
                 <hr>

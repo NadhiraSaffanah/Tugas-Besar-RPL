@@ -53,9 +53,9 @@ public class LoginController {
 
                 // Redirect sesuai Role
                 switch (user.getRole()) {
-                    case "mahasiswa": return "redirect:/home-mahasiswa";
-                    case "dosen": return "redirect:/home-dosen";
-                    case "admin": return "redirect:/home-admin";
+                    case "mahasiswa": return "redirect:/home-mahasiswa"; 
+                    case "dosen": return "redirect:/dosen/home"; // ini diubah, jadi pake role/isinya
+                    case "admin": return "redirect:/home-admin"; 
                     default:
                         model.addAttribute("error", "Role tidak ada");
                         return "login";
