@@ -35,18 +35,16 @@
 
     <main>
         <div id="back-icon">
-            <a th:href="@{/dosen/course/nav/group}">
-                <img th:src="@{/images/back.svg}" alt="back icon">
-            </a>
+            <a th:href="@{/dosen/course/nav/group}"><img th:src="@{/images/back.svg}" alt="back icon"></a>
         </div>
         <section id="group-add">
             <h1>Add Group</h1>
             <p>Manajemen Proyek</p>
             
             <form id="addGroupForm" action="">
-                <label for="group-name" id="group-name">Group Name</label>    
+                <label for="group-name">Group Name</label>    
                 <input type="text" name="group-name" id="group-name" placeholder="Masukan deskripsi">
-                <label for="">Members</label>
+                <h2>Members</h2>
                 <p>Search Student</p>
                 <hr>
                 <div id="table-container">
@@ -55,36 +53,24 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td>
-                                    <div class="img-container">
-                                        <img src="" alt="">
-                                    </div>
-                                </td>
+                                <td>pic<img src="" alt=""></td>
                                 <td>61822010@student</td>
                                 <td><button>X</button></td>
                             </tr>
                             <tr>
-                                <td>
-                                    <div class="img-container">
-                                        <img src="" alt="">
-                                    </div>
-                                </td>
+                                <td>pic<img src="" alt=""></td>
                                 <td>61822010@student</td>
-                                <td>X</td>
+                                <td><button>X</button></td>
                             </tr>
                             <tr>
-                                <td>
-                                    <div class="img-container">
-                                        <img src="" alt="">
-                                    </div>
-                                </td>
+                                <td>pic<img src="" alt=""></td>
                                 <td>61822010@student</td>
-                                <td>X</td>
+                                <td><button>X</button></td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-                <input type="submit" value="Add">
+                <input id="addBtn" type="submit" value="Add">
             </form>
             
         </section>
