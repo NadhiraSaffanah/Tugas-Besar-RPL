@@ -92,6 +92,7 @@ public class DosenController {
         return "dosen/course-nav-group-add";
     }
 
+    // --> BARU DITAMBAHIN
     @GetMapping("/dosen/course/nav/group/edit")
     public String courseNavGroupEdit() {
         return "dosen/course-nav-group-edit";
