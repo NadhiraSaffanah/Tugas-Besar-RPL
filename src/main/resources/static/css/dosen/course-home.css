@@ -1,0 +1,243 @@
+:root {
+    --text-color: #535F24;
+    --secondary-color: #ACBD6F;
+    --background-color: #FDFAE7;
+    --button-color: #8FA053;
+    --input-background: #FFFFFF;
+    --input-border: #D8D8D8;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: var(--background-color);
+    display: grid;
+    height: 100vh;
+    grid-template-areas: 
+        "header"
+        "main";
+    grid-template-rows: auto 1fr;
+}
+
+body::-webkit-scrollbar {
+    display: none;
+}
+
+header {
+    position: sticky;
+    top: 0;
+    z-index: 99;
+    grid-area: header;
+    width: 100%;
+    background-color: var(--secondary-color);
+    padding: 0.5em 0;
+    color: #FFFFFF;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.1em;
+}
+
+nav ul {
+    list-style-type: none;
+    display: flex;
+    align-items: center;
+    gap: 1.5em;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #FFFFFF;
+}
+
+nav img {
+    width: 2.5em;
+    filter: brightness(0) invert(1);
+}
+
+#nav-left {
+    width: 20%;
+    margin-left: 2em;
+}
+
+#nav-left img {
+    transform: scale(1.5);
+}
+
+#nav-left li:nth-child(3) {
+    background-color: var(--button-color);
+}
+
+#nav-left li:nth-child(2),
+#nav-left li:nth-child(3) {
+    padding: 0.5em;
+}
+
+#nav-left li:nth-child(2):hover,
+#nav-left li:nth-child(3):hover {
+    cursor: pointer;
+    background-color: var(--button-color);
+}
+
+#nav-right {
+    margin-right: 2em;
+    cursor: pointer;
+}
+
+#nav-right li:first-child {
+    display: flex;
+    flex-direction: column;
+    text-align: right;
+    font-size: small;
+    justify-content: end;
+}
+
+#nav-right div {
+    width: 3.5em;
+    height: 3.5em;
+    background-color: rgb(198, 172, 209);
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+#nav-right div img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: none;
+}
+
+#nav-right li:hover {
+    background-color: var(--button-color);
+}
+
+/* MAIN CONTENT */
+main {
+    grid-area: main;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    gap: 2em;
+}
+
+#course-overview {
+    color: var(--text-color);
+    width: 95%;
+    height: 90%;
+    margin-top: 2em;
+    padding: 1em;
+    border-radius: 0.5em;
+    border: 1px solid var(--text-color);
+}
+
+#course-overview h3 {
+    margin-bottom: 0.5em;
+}
+
+#course-header {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+}
+
+#filter-sort {
+    padding: 0.5em;
+    display: flex;
+    border: 1px solid var(--text-color);
+    border-radius: 0.2em;
+    border: 1px solid var(--text-color);
+    background-color: #FFFFFF;
+}
+
+#filter-sort select {
+    border: none;
+    outline: none;
+}
+
+#filter-checkbox {
+    display: none;
+}
+
+#search {
+    padding: 0.5em;
+    display: flex;
+    width: 90%;
+    border-radius: 0.2em;
+    border: 1px solid var(--text-color);
+    background-color: #FFFFFF;
+    gap: 0.5em;
+}
+
+#search input {
+    width: 100%;
+    border: none;
+    outline: none;
+}
+
+#course-card-wrapper {
+    width: 100%;
+    height: 80%;
+    margin-top: 1em;
+    overflow-y: auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    gap: 1.5em;
+}
+
+#course-card-wrapper a {
+    color: var(--text-color);
+    text-decoration: none;
+    width: 18%;
+    height: 35%;
+    display: block;
+}
+
+.course-card {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    border-radius: 0.5em;
+    border: 1px solid var(--text-color);
+    background-color: #FFFFFF;
+    overflow: hidden;
+}
+
+.card-color {
+    height: 90%;
+    border-radius: 0.5em 0.5em 0 0;
+}
+
+#course-card-wrapper a:nth-child(4n + 1) .card-color {
+    background-image: linear-gradient(to bottom, #FCE2A9 30%, #F8BE85 100%);
+}
+
+#course-card-wrapper a:nth-child(4n + 2) .card-color {
+    background-image: linear-gradient(to bottom, #FDFAE7 0%, #CFD8A4 100%);
+}
+
+#course-card-wrapper a:nth-child(4n + 3) .card-color {
+    background-image: linear-gradient(to bottom, #CBCBE7 30%, #9D9DBE 100%);
+}
+
+#course-card-wrapper a:nth-child(4n + 4) .card-color {
+    background-image: linear-gradient(to bottom, #E7F2FD 0%, #A4C2D8 100%);
+}
+
+.course-card h4 {
+    margin: 0.5em;
+}
+

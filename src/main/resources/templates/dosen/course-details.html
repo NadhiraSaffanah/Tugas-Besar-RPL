@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tugas Besar</title>
+    <link rel="stylesheet" th:href="@{/css/dosen/course-details.css}">
+    <script th:src="@{/js/courseEditDetails.js}" defer></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul id="nav-left">
+                <li><img th:src="@{/images/book.png}" alt="book icon"></li>
+                <li><a th:href="@{/dosen/home}">Home</a></li>
+                <li><a th:href="@{/dosen/course}">Course</a></li>
+            </ul>
+            <ul id="nav-right">
+                <li>
+                    <span>Nama</span> 
+                    <span>61823010xx@unpar.ac.id</span>
+                </li>
+                <li>
+                    <div>
+                        <a th:href="@{/dosen/profile}">
+                            <img src="" alt="profile picture">
+                        </a>
+                    </div>    
+                </li>
+                <li><img th:src="@{/images/bell.png}" alt="notification icon"></li>
+                <li><img th:src="@{/images/logout.png}" alt="logout icon"></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="course-nav">
+            <a th:href="@{/dosen/course/nav/grading}"><p>Grading</p></a>
+            <a th:href="@{/dosen/course/nav/participant}"><p>Participant</p></a>
+            <a th:href="@{course-nav-group.html}"><p>Group</p></a>
+        </section>
+
+        <section id="project">
+            <h2>Project - <span>Rekayasa Perangkat Lunak</span></h2>
+            <div id="project-date">
+                <div id="start-date">
+                    <p>Start Date</p>
+                    <h5>Monday, <span>1 January 2025</span></h5>
+                </div>
+                <div id="end-date">
+                    <p>End Date</p>
+                    <h5>Tuesday, <span>1 January 2025</span></h5>
+                </div>
+            </div>
+        </section>
+        
+        <section id="desc-group-container">
+            <div class="desc-group">
+                <div class="desc-group-header">
+                    <h3>Description</h3>
+                    <img th:src="@{/images/edit.svg}" alt="edit icon">
+                </div>
+                <p>Lorem ipsum dolor sit amet consectetur</p>
+            </div>
+            <div class="desc-group">
+                <div class="desc-group-header">
+                    <h3>Group</h3>
+                    <a href=""><img th:src="@{/images/view-details.svg}" alt="edit icon"></a>
+                </div>
+                
+                <div class="desc-group-body">
+                    <img th:src="@{/images/bell.svg}" alt="status icon">
+                    <h5>Status: <span>Available</span></h5>
+                </div>    
+
+                <div class="desc-group-body">
+                    <img th:src="@{/images/user.svg}" alt="group member icon">
+                    <h5>Group Member Size: <span>Available</span></h5>
+                </div>    
+            </div>
+        </section>
+
+        <section id="grading">
+            <div class="desc-group-header">
+                <h3>Grading</h3>
+                <a href=""><img th:src="@{/images/view-details.svg}" alt="edit icon"></a>
+            </div>
+            <div class="grading-body-container">
+                <!-- 
+                    <p>Currently there is no grading to do</p> ini tampilan biasanya
+                    ak 
+                -->
+        
+                <!-- INI GRADING PHASE KALO DIISI BARU MUNCUL-->
+                <div id="grading-wrapper">
+                    <div class="grading-card">
+                        <p>Phase 1 - <span>SRS</span></p>
+                        <div class="grading-body">
+                            <img th:src="@{/images/bell.svg}" alt="bell icon">
+                            <h5>Status: <span>Not Graded</span></h5>
+                        </div>
+                        <div class="grading-body">
+                            <img th:src="@{/images/calendar.svg}" alt="bell icon">
+                            <h5>Schedule: <span>Wednesday, 15 Nov 2029</span></h5>
+                        </div>
+                        <button>Show Rubric</button>
+                    </div>
+
+                    <div class="grading-card">
+                        <p>Phase 1 - <span>SRS</span></p>
+                        <div class="grading-body">
+                            <img th:src="@{/images/bell.svg}" alt="bell icon">
+                            <h5>Status: <span>Not Graded</span></h5>
+                        </div>
+                        <div class="grading-body">
+                            <img th:src="@{/images/calendar.svg}" alt="bell icon">
+                            <h5>Schedule: <span>Wednesday, 15 Nov 2029</span></h5>
+                        </div>
+                        <button>Show Rubric</button>
+                    </div>
+
+                    <div class="grading-card">
+                        <p>Phase 1 - <span>SRS</span></p>
+                        <div class="grading-body">
+                            <img th:src="@{/images/bell.svg}" alt="bell icon">
+                            <h5>Status: <span>Not Graded</span></h5>
+                        </div>
+                        <div class="grading-body">
+                            <img th:src="@{/images/calendar.svg}" alt="bell icon">
+                            <h5>Schedule: <span>Wednesday, 15 Nov 2029</span></h5>
+                        </div>
+                        <button>Show Rubric</button>
+                    </div>
+                </div>
+            </div> 
+        </section>
+
+
+        <!-- POP UP EDIT DETAILS -->
+        <div id="overlay"></div>
+        <div id="course-edit-details">
+            <div id="back-icon">
+                <img th:src="@{/images/back.svg}" alt="back icon">
+            </div>
+            <section id="edit-course">
+                <h1>Project Details</h1>
+                <form id="editCourseForm" action="">
+                    <label for="title">Title</label>
+                    <input type="text" name="title" id="title">
+                    <label for="description">Description</label>
+                    <textarea name="description" id="description" rows="4" cols="50">Enter description</textarea>
+                    <label for="groupMember">Number of group member</label>
+                    <input type="number" name="groupMember" id="groupMember">
+                    <label for="groupSize">Group Size</label>
+                    <input type="number" name="groupSize" id="groupSize">
+                    <input type="submit" value="Save Changes">
+                </form>
+            </section>
+        </div>
+        
+        <!-- POP UP EDIT SUCCESS -->
+        <section id="popup-success">
+            <p>Project successfully edited!</p>
+            <img th:src="@{/images/close.svg}" alt="close button">
+        </section>
+
+        <!-- POP UP EDIT SUCCESS -->
+        <section id="popup-show-rubric">
+            <h2>Assesment Rubric for Phase 1 - SRS</h2>
+            <div>
+                <p>Revisi Bab 3</p>
+            </div>
+            <button id="closeShowRubric">Close</button>
+        </section>
+    </main>
+</body>
+</html>
