@@ -49,11 +49,19 @@ public class DosenController {
     }
 
 
-     // ROUTING GRADING PHASE   --> BARU DITAMBAHIN
+    // ROUTING GRADING PHASE   --> BARU DITAMBAHIN
     @GetMapping("/dosen/course/nav/grading/phase")
     public String gradingPhase() {
         return "dosen/course-nav-grading-phase";
     }
+
+    // --> BARU DITAMBAHIN
+    @GetMapping("/dosen/course/nav/grading/phase/details")
+    public String gradingPhaseDetails() {
+        return "dosen/course-nav-grading-phase-details";
+    }
+
+
 
     
 
