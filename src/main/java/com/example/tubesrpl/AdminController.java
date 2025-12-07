@@ -51,6 +51,6 @@ public class AdminController {
     public String coursesAdminView(@PathVariable Long idSemester, Model model){
         List<Matkul> matkulList = matkulRepository.findAllBySemester(idSemester);
         model.addAttribute("matkulList", matkulList);
-        return "matkul";
+        return "Admin/matkul";
     }
 }

@@ -12,8 +12,9 @@
         <nav>
             <ul id="nav-left">
                 <li><img src="/images/Logo.png" alt="book icon"></li>
-                <li><a th:href="@{'/admin/home'}">Home</li>
-                <li><a th:href="@{'/admin/semesters'}">Course</a></li>
+                <li><a th:href="@{'/'+${user.role}+'/home'}">Home</li>
+                <li><a href="">Course</a>
+                </li>
             </ul>
             <ul id="nav-right">
                 <li>
@@ -56,6 +57,7 @@
                         <input type="checkbox" name="hidden" id="hidden" value="hidden">
                         <label for="hidden">Hidden</label>
                     </div>
+                    
                 </div>
                 <div id="search">
                     <img th:src="@{/images/search.svg}" alt="search icon">
@@ -65,50 +67,44 @@
 
             <div id="course-card-wrapper">
                 <button id="create-course-button" class="course-card" onclick="openForm()">
-                    <div class="cards-color create-color">
+                    <div class="card-color create-color">
                         <img src="/images/add-button.svg" alt="add icon">
                     </div>
-                    <h4><span>Add Semester</span></h4>
+                    <h4><span>Add Course</span></h4>
                 </button>
-                <a th:href="@{'/admin/semesters/'+${s.id}+'/courses'}" class="course-link" th:each="s : ${semesterList}">
+                <a th:each="m : ${matkulList}" href="#" class="course-link">
                     <div class="course-card">
                         <div class="card-color"></div>
                         <h4>
-                            <span th:text="${s.jenis}">Ganjil</span> 
-                            <span th:text="${s.startDate.getYear() + '/' + s.endDate.getYear()}">2023/2024</span>
+                            <span th:text="${m.namaMatkul}">Nama Matkul</span> 
+                            (<span th:text="${m.kelasMatkul}">A</span>)
                         </h4>
                     </div>
                 </a>
             </div>
 
-            <script> //buat buka tutup popup bikin semester
+               <script> //buat buka tutup popup bikin semester
                 function openForm() {
-                    document.getElementById("semesterForm").style.display = "flex";
+                    document.getElementById("courseForm").style.display = "flex";
                 }
 
                 function closeForm() {
-                    document.getElementById("semesterForm").style.display = "none";
+                    document.getElementById("courseForm").style.display = "none";
                 }
             </script>
 
-            <div class="form-popup" id="semesterForm">
+            <div class="form-popup" id="courseForm">
                 <div class="popup-top">
                         <input type="image" src="/images/close.svg" onclick="closeForm()"/>
                 </div>
                 <div class="popup-bottom">
-                    <h1>Add Semester</h1>
+                    <h1>Add Course</h1>
                     <form action="/action_page.php" class="form-container">
-                        <label for="startDate">Start Date</label>
-                        <input type="date" placeholder="Enter Start Date" name="startDate" required>
+                        <label for="nama_matkul">Name</label>
+                        <input type="text" placeholder="Enter name" name="nama_matkul" required>
 
-                        <label for="endDate">End Date</label>
-                        <input type="date" placeholder="Enter End Date" name="endDate" required>
-
-                        <label for="jenis">Type</label>
-                        <select name="jenis">
-                            <option value="ganjil">Ganjil</option>
-                            <option value="genap">Genap</option>
-                        </select>
+                        <label for="kelas_matkul">Class</label>
+                        <input type="text" placeholder="Enter class" name="kelas_matkul" required>
 
                         <button type="submit" class="btn"><b>Add Semester</b></button>
                     </form>

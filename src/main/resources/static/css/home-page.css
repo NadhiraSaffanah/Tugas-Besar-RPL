@@ -429,3 +429,36 @@ main {
     gap: 0.7em;
     position: relative;
 }
+
+#create-course-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#create-course-button {
+    border: 1px solid var(--text-color);
+    background-color: #FFFFFF;
+    width: 18%;
+    height: 35%;
+    border-radius: 0.5em;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    padding: 0;
+}
+
+#create-course-button h4 {
+    margin: 0.5em;
+    font-size: 1.3em;
+    color: var(--text-color);
+}
+
+#create-course-button .create-color {
+    display: flex;
+    align-items: center;
+    justify-self: center;
+    height: 90%;
+    border-radius: 0.5em 0.5em 0 0;
+}
