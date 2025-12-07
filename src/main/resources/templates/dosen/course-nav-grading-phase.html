@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tugas Besar</title>
+    <link rel="stylesheet" th:href="@{/css/dosen/course-nav-grading-phase.css}">
+    <script th:src="@{/js/gradingPhase.js}" defer></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul id="nav-left">
+                <li><img th:src="@{/images/book.png}" alt="book icon"></li>
+                <li><a th:href="@{/dosen/home}">Home</a></li>
+                <li><a th:href="@{/dosen/course}">Course</a></li>
+            </ul>
+            <ul id="nav-right">
+                <li>
+                    <span>Nama</span> 
+                    <span>61823010xx@unpar.ac.id</span>
+                </li>
+                <li>
+                    <div>
+                        <a th:href="@{/dosen/profile}">
+                            <img src="" alt="profile picture">
+                        </a>
+                    </div>    
+                </li>
+                <li><img th:src="@{/images/bell.png}" alt="notification icon"></li>
+                <li><img th:src="@{/images/logout.png}" alt="logout icon"></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="course-nav">
+            <a th:href="@{/dosen/course/nav/grading}"><p>Grading</p></a>
+            <a th:href="@{/dosen/course/nav/participant}"><p>Participant</p></a>
+            <a th:href="@{/dosen/course/nav/group}"><p>Group</p></a>
+        </section>
+
+        <section id="grading-container">
+            <h1>Project - Rekayasa Perangkat Lunak</h1>
+            <a th:href="@{/dosen/course/nav/grading/add}">
+                <div id="add-phase">
+                    <p>+</p>
+                    <p>Add Phase</p>
+                </div>
+            </a>
+
+            <div id="grading-card-container">
+                <div class="grading-card">
+                    <div class="card-header">
+                        <h2>Phase 1 - <span>SRS</span></h2>
+                        <p>Not Graded</p>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="card-body-wrap">
+                            <img th:src="@{/images/bell.svg}" alt="bell icon">
+                            <h5>Status: <span>Not Graded</span></h5>
+                        </div>
+                        <div class="card-body-wrap">
+                            <img th:src="@{/images/calendar.svg}" alt="bell icon">
+                            <h5>Schedule: <span>Wednesday, 15 Nov 2029</span></h5>
+                        </div>
+                    </div>
+                    
+                    <div class="card-button">
+                        <button class="showRubricBtn">Show Rubric</button>
+                        <button class="editPhaseBtn">Edit Phase</button>
+                        <button class="showDetailsBtn">Show Details</button>
+                    </div>
+                </div>
+
+                <div class="grading-card">
+                    <div class="card-header">
+                        <h2>Phase 1 - <span>SRS</span></h2>
+                        <p style="background-color: purple;">Graded</p>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="card-body-wrap">
+                            <img th:src="@{/images/bell.svg}" alt="bell icon">
+                            <h5>Status: <span>Not Graded</span></h5>
+                        </div>
+                        <div class="card-body-wrap">
+                            <img th:src="@{/images/calendar.svg}" alt="bell icon">
+                            <h5>Schedule: <span>Wednesday, 15 Nov 2029</span></h5>
+                        </div>
+                    </div>
+
+                    <div class="card-button">
+                        <button class="showRubricBtn">Show Rubric</button>
+                        <button class="editPhaseBtn">Edit Phase</button>
+                        <button class="showDetailsBtn">Show Details</button>
+                    </div>
+                    
+                </div>
+            </div>
+        </section>
+        
+
+
+        <!-- TAMPILAN SAAT BUTTON SHOW RUBRIC DITEKAN -->
+        <section id="popup-show-rubric">
+            <h2>Assesment Rubric for Phase 1 - SRS</h2>
+            <div>
+                <p>Revisi Bab 3</p>
+            </div>
+            <button class="closeShowRubric">Close</button>
+        </section>
+
+        <!-- TAMPILAN SAAT EDIT PHASE DITEKAN -->
+        <div id="overlay"></div>
+        <div id="edit-phase-container">
+            <div id="back-icon">
+                <img th:src="@{/images/back.svg}" alt="back icon">
+            </div>
+            <section id="edit-phase">
+                <h1>Project Details</h1>
+                <form id="editPhaseForm" action="">
+                    <label for="title">Title</label>
+                    <input type="text" name="title" id="title">
+                    <label for="description">Description</label>
+                    <textarea name="description" id="description" rows="4" cols="50">Enter description</textarea>
+                    <label for="groupMember">Number of group member</label>
+                    <input type="number" name="groupMember" id="groupMember">
+                    <label for="groupSize">Group Size</label>
+                    <input type="number" name="groupSize" id="groupSize">
+                    <input id="saveChangeBtn" type="submit" value="Save Changes">
+                </form>
+            </section>
+        </div>
+        
+        <!-- TAMPILAN SAAT EDIT SUCCESS -->
+        <section id="popup-success">
+            <p>Project successfully edited!</p>
+            <img th:src="@{/images/close.svg}" alt="close button">
+        </section>
+
+    </main>
+</body>
+</html>

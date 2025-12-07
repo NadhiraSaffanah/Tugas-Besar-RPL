@@ -49,6 +49,14 @@ public class DosenController {
     }
 
 
+     // ROUTING GRADING PHASE   --> BARU DITAMBAHIN
+    @GetMapping("/dosen/course/nav/grading/phase")
+    public String gradingPhase() {
+        return "dosen/course-nav-grading-phase";
+    }
+
+    
+
     // ROUTING UNTUK COURSE PARTICIPANT
     @GetMapping("/dosen/course/nav/participant")
     public String courseNavParticipant() {
@@ -76,10 +84,6 @@ public class DosenController {
     public String courseNavGroupEdit() {
         return "dosen/course-nav-group-edit";
     }
-
-
-
-
 
 
 }
