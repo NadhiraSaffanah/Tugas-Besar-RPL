@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Page</title>
+    <link rel="stylesheet" th:href="@{/css/profile-page.css}">
+</head>
+
+<body>
+    <header>
+        <nav>
+            <ul id="nav-left">
+                <li><img src="images/book.png" alt="book icon"></li>
+                <li><a href="home-page.html">Home</a></li>
+                <li><a href="course-home.html">Course</a></li>
+            </ul>
+            <ul id="nav-right">
+                <li>
+                    <span>Nama</span>
+                    <span>61823010xx@unpar.ac.id</span>
+                </li>
+                <li>
+                    <div>
+                        <a href="profile-page.html">
+                            <img src="" alt="profile picture">
+                        </a>
+                    </div>
+                </li>
+                <li><img src="images/bell.png" alt="notification icon"></li>
+                <li><img src="images/logout.png" alt="logout icon"></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="profile-card">
+
+            <div class="profile-avatar"> <!--th:src="@{${user.fotoProfil}}"-->
+                <img id="profile-img" src="" alt="profile picture">
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="profile-info">
+                <div class="info-row">
+                    <span class="label">NAME</span> <!--th:text="${user.nama}"-->
+                    <span id="nama">Dogman Man of Dogs</span>
+                </div>
+
+                <div class="info-row">
+                    <span class="label">EMAIL</span> <!--th:text="${user.email}"-->
+                    <span id="email">dogman@lecturer.ac.id</span>
+                </div>
+
+                <div class="info-row">
+                    <span class="label">ROLE</span> <!--th:text="${user.role}"-->
+                    <span id="role">Lecturer</span>
+                </div>
+
+                <div class="info-row">
+                    <span class="label">NPM</span> <!--th:text="${user.npm}"-->
+                    <span id="npm">610309210192</span>
+                </div>
+
+                <div class="password-row">
+                    <span class="label">PASSWORD</span>
+                    <span>********</span>
+
+                    <div class="editPassword">
+                        <input type="password" id="old-password" placeholder="Enter old password">
+                        <input type="password" id="new-password" placeholder="Enter new password">
+                        <input type="password" id="confirm-password" placeholder="Retype new password">
+                    </div>
+                </div>
+
+                <button id="edit-btn">
+                    <img src="images/Edit.svg" alt="">
+                    Edit
+                </button>
+            </div>
+
+        </section>
+    </main>
+</body>
+
+</html>
