@@ -174,7 +174,7 @@ main {
     gap: 1em;
     font-size: 1rem;
     letter-spacing: 0.4px;
-    width: 450px;
+    width: 535px;
 }
 
 .label {
@@ -202,9 +202,23 @@ main {
     cursor: pointer;
 }
 
-#edit-btn img {
-    width: 15px;
-    height: 15px;
+#pfp-btn { 
+    justify-content: flex-end;
+    background: var(--secondary-color);
+    color: white;
+    border: none;
+    padding: 0.7em 2em;
+    border-radius: 25px;
+    font-size: 12px; 
+    display: flex;
+    gap: 0.5em;
+    align-items: center;
+    cursor: pointer;
+}
+
+#editsvg {
+    width: 12px;
+    height: 12px;
     border-radius: 0%;
 }
 
@@ -257,7 +271,7 @@ main {
 .editPassword { 
     display: flex;
     flex-direction: column;
-    width: 450px;
+    width: 400px;
     gap: 10px;
 }
 

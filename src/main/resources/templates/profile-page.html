@@ -40,7 +40,7 @@
             <div class="profile-avatar"> <!--th:src="@{${user.fotoProfil}}"-->
                 <img id="profile-img" src="" alt="profile picture">
                 <input id="file-input" type="file" accept="image/*" style="display:none" />
-                <button id="edit-btn" type="file">
+                <button id="pfp-btn" type="file">
                     <img src="images/Edit.svg" alt="">
                     Change Profile Picture
                 </button>
@@ -48,7 +48,7 @@
                 <script>
                     const image = document.querySelector('#profile-img');
                     const fileInput = document.querySelector('#file-input');
-                    const button = document.querySelector('#edit-btn');
+                    const button = document.querySelector('#pfp-btn');
 
                     button.addEventListener("click", () => fileInput.click());
 
@@ -121,21 +121,21 @@
                     document.addEventListener("DOMContentLoaded", () => {
 
                         const viewBlock = document.getElementById("password-hid");
+                        console.log(viewBlock);
                         const editBlock = document.getElementById("password-edit");
-
+                        console.log(editBlock);
                         const showEditBtn = document.getElementById("edit-btn");
+                        console.log(showEditBtn);
                         const cancelBtn = document.getElementById("cancel-btn");
-
-                        // Show the 3 inputs + save/cancel
+                        console.log(cancelBtn);
                         showEditBtn.addEventListener("click", () => {
-                            viewBlock.style.display = "none";     // hide view mode
-                            editBlock.style.display = "block";    // show edit mode
+                            viewBlock.style.display = "none";     
+                            editBlock.style.display = "block";    
                         });
-
-                        // Hide the 3 inputs + go back to placeholder
+ 
                         cancelBtn.addEventListener("click", () => {
-                            editBlock.style.display = "none";    // hide edit mode
-                            viewBlock.style.display = "block";   // show view mode
+                            editBlock.style.display = "none";     
+                            viewBlock.style.display = "block";    
                         });
 
                     });
