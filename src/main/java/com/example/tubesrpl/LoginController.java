@@ -76,16 +76,4 @@ public class LoginController {
     public String homeAdmin() {
         return "Admin/homeAdmin";
     }
-
-    @GetMapping("/profile")
-    public String profile(Model model, HttpSession session) {
-        /* User user = (User) session.getAttribute("user");
-
-        if (user == null) {
-            return "redirect:/login"; // kalau belum login
-        }
-
-        model.addAttribute("user", user); */
-        return "profile-page";
-    }
 }
