@@ -37,25 +37,16 @@
     <main>
         <section class="profile-card">
 
-            <div class="profile-avatar"> <!--th:src="@{${user.fotoProfil}}"-->
-                <img id="profile-img" src="" alt="profile picture">
+            <div class="profile-avatar"> 
+                <img id="profile-img" th:src="${user.fotoProfil != null} 
+                                ? @{/uploads/profile/{f}(f=${user.fotoProfil})} 
+                                : @{/images/default_profile.png}" 
+                                alt="profile picture">
                 <input id="file-input" type="file" accept="image/*" style="display:none" />
                 <button id="pfp-btn" type="file">
-                    <img src="images/Edit.svg" alt="">
+                    <img id="editsvg" src="images/Edit.svg" alt="">
                     Change Profile Picture
                 </button>
-
-                <script>
-                    const image = document.querySelector('#profile-img');
-                    const fileInput = document.querySelector('#file-input');
-                    const button = document.querySelector('#pfp-btn');
-
-                    button.addEventListener("click", () => fileInput.click());
-
-                    fileInput.addEventListener("change", () => {
-                        image.src = URL.createObjectURL(fileInput.files[0]);
-                    });
-                </script>
             </div>
 
             <div class="divider"></div>
@@ -63,22 +54,22 @@
             <div class="profile-info">
                 <div class="info-row">
                     <span class="label">NAME</span> <!--th:text="${user.nama}"-->
-                    <span id="nama">Dogman Man of Dogs</span>
+                    <span id="nama" th:text="${user.nama}">Dogman Man of Dogs</span>
                 </div>
 
                 <div class="info-row">
                     <span class="label">EMAIL</span> <!--th:text="${user.email}"-->
-                    <span id="email">dogman@lecturer.ac.id</span>
+                    <span id="email" th:text="${user.email}">dogman@lecturer.ac.id</span>
                 </div>
 
                 <div class="info-row">
                     <span class="label">ROLE</span> <!--th:text="${user.role}"-->
-                    <span id="role">Lecturer</span>
+                    <span id="role" th:text="${user.role}">Lecturer</span>
                 </div>
 
                 <div class="info-row">
                     <span class="label">NPM</span> <!--th:text="${user.npm}"-->
-                    <span id="npm">610309210192</span>
+                    <span id="npm" th:text="${user.npm}">610309210192</span>
                 </div>
 
                 <div id="password-hid">
@@ -116,33 +107,91 @@
                         </button>
                     </div>
                 </div>
-
-                <script>
-                    document.addEventListener("DOMContentLoaded", () => {
-
-                        const viewBlock = document.getElementById("password-hid");
-                        console.log(viewBlock);
-                        const editBlock = document.getElementById("password-edit");
-                        console.log(editBlock);
-                        const showEditBtn = document.getElementById("edit-btn");
-                        console.log(showEditBtn);
-                        const cancelBtn = document.getElementById("cancel-btn");
-                        console.log(cancelBtn);
-                        showEditBtn.addEventListener("click", () => {
-                            viewBlock.style.display = "none";     
-                            editBlock.style.display = "block";    
-                        });
- 
-                        cancelBtn.addEventListener("click", () => {
-                            editBlock.style.display = "none";     
-                            viewBlock.style.display = "block";    
-                        });
-
-                    });
-                </script>
             </div>
         </section>
     </main>
+    <script>
+        // ========== PROFILE PICTURE UPLOAD ==========
+        const image = document.querySelector('#profile-img');
+        const fileInput = document.querySelector('#file-input');
+        const button = document.querySelector('#pfp-btn');
+
+        button.addEventListener("click", () => fileInput.click());
+
+        fileInput.addEventListener("change", async () => {
+            image.src = URL.createObjectURL(fileInput.files[0]);
+
+            const formData = new FormData();
+            formData.append("file", fileInput.files[0]);
+
+            const res = await fetch("/api/profile/upload-photo", {
+                method: "POST",
+                body: formData
+            });
+
+            if (res.ok) {
+                alert("Profile picture updated!");
+            } else {
+                alert("Failed to upload image");
+            }
+        });
+
+        // ========== PASSWORD EDIT TOGGLE ==========
+        document.addEventListener("DOMContentLoaded", () => {
+
+            const viewBlock = document.getElementById("password-hid");
+            const editBlock = document.getElementById("password-edit");
+
+            const showEditBtn = document.getElementById("edit-btn");
+            const cancelBtn = document.getElementById("cancel-btn");
+            const saveBtn = document.getElementById("save-btn");
+
+            // Show inputs
+            showEditBtn.addEventListener("click", () => {
+                viewBlock.style.display = "none";
+                editBlock.style.display = "block";
+            });
+
+            // Hide inputs
+            cancelBtn.addEventListener("click", () => {
+                editBlock.style.display = "none";
+                viewBlock.style.display = "block";
+            });
+
+            // ========== SAVE PASSWORD ==========
+            saveBtn.addEventListener("click", async () => {
+                const oldPass = document.getElementById("old-password").value;
+                const newPass = document.getElementById("new-password").value;
+                const confirmPass = document.getElementById("confirm-password").value;
+
+                if (newPass !== confirmPass) {
+                    alert("New passwords do not match!");
+                    return;
+                }
+
+                const body = {
+                    oldPassword: oldPass,
+                    newPassword: newPass
+                };
+
+                const res = await fetch("/api/profile/change-password", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(body)
+                });
+
+                if (res.ok) {
+                    alert("Password updated!");
+                    editBlock.style.display = "none";
+                    viewBlock.style.display = "block";
+                } else {
+                    const msg = await res.text();
+                    alert("Error: " + msg);
+                }
+            });
+        });
+    </script>
+
 </body>
 
 </html>
