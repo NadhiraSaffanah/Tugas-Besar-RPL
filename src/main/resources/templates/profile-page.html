@@ -39,6 +39,23 @@
 
             <div class="profile-avatar"> <!--th:src="@{${user.fotoProfil}}"-->
                 <img id="profile-img" src="" alt="profile picture">
+                <input id="file-input" type="file" accept="image/*" style="display:none" />
+                <button id="edit-btn" type="file">
+                    <img src="images/Edit.svg" alt="">
+                    Change Profile Picture
+                </button>
+
+                <script>
+                    const image = document.querySelector('#profile-img');
+                    const fileInput = document.querySelector('#file-input');
+                    const button = document.querySelector('#edit-btn');
+
+                    button.addEventListener("click", () => fileInput.click());
+
+                    fileInput.addEventListener("change", () => {
+                        image.src = URL.createObjectURL(fileInput.files[0]);
+                    });
+                </script>
             </div>
 
             <div class="divider"></div>
@@ -64,23 +81,66 @@
                     <span id="npm">610309210192</span>
                 </div>
 
-                <div class="password-row">
-                    <span class="label">PASSWORD</span>
-                    <span>********</span>
+                <div id="password-hid">
+                    <div class="password-row">
+                        <span class="label">PASSWORD</span>
+                        <span id="passPlaceholder">********</span>
+                    </div>
 
-                    <div class="editPassword">
-                        <input type="password" id="old-password" placeholder="Enter old password">
-                        <input type="password" id="new-password" placeholder="Enter new password">
-                        <input type="password" id="confirm-password" placeholder="Retype new password">
+                    <div id="password-buttons">
+                        <button id="edit-btn">
+                            <img src="images/Edit.svg" alt="">
+                            Change Password
+                        </button>
                     </div>
                 </div>
 
-                <button id="edit-btn">
-                    <img src="images/Edit.svg" alt="">
-                    Edit
-                </button>
-            </div>
+                <div id="password-edit" style="display: none;">
+                    <div class="password-row">
+                        <span class="label">PASSWORD</span>
+                        <div class="editPassword">
+                            <input type="password" id="old-password" placeholder="Enter old password">
+                            <input type="password" id="new-password" placeholder="Enter new password">
+                            <input type="password" id="confirm-password" placeholder="Retype new password">
+                        </div>
+                    </div>
 
+                    <div id="password-buttons">
+                        <button id="cancel-btn">
+                            Cancel
+                        </button>
+
+                        <button id="save-btn">
+                            <img src="images/Edit.svg" alt="">
+                            Save Password
+                        </button>
+                    </div>
+                </div>
+
+                <script>
+                    document.addEventListener("DOMContentLoaded", () => {
+
+                        const viewBlock = document.getElementById("password-hid");
+                        const editBlock = document.getElementById("password-edit");
+
+                        const showEditBtn = document.getElementById("edit-btn");
+                        const cancelBtn = document.getElementById("cancel-btn");
+
+                        // Show the 3 inputs + save/cancel
+                        showEditBtn.addEventListener("click", () => {
+                            viewBlock.style.display = "none";     // hide view mode
+                            editBlock.style.display = "block";    // show edit mode
+                        });
+
+                        // Hide the 3 inputs + go back to placeholder
+                        cancelBtn.addEventListener("click", () => {
+                            editBlock.style.display = "none";    // hide edit mode
+                            viewBlock.style.display = "block";   // show view mode
+                        });
+
+                    });
+                </script>
+            </div>
         </section>
     </main>
 </body>

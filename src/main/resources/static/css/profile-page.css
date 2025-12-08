@@ -120,8 +120,8 @@ nav img {
 
 main {
     display: flex;
-    justify-content: center;
-    padding-top: 4em;
+    justify-content: center; 
+    align-items: center;
 }
 
 .profile-card {
@@ -132,23 +132,33 @@ main {
     padding: 4em;
     display: flex;
     align-items: center; 
+    justify-content: center;
     gap: 3em;
     box-shadow: 0 4px 15px rgba(0,0,0,0.12);
 }
 
+.profile-avatar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1em;
+
+}
 /* Avatar */
-.profile-avatar img {
+.profile-avatar #profile-img {
     width: 170px;
     height: 170px;
     border-radius: 50%;
     object-fit: cover;
+    background-color: #D4C9F1;
 }
 
 /* Divider line */
 .divider {
     width: 2px;
     height: 55vh;
-    background: #c5c5c5;
+    background: var(--secondary-color);
 }
 
 /* Right info section */
@@ -164,29 +174,28 @@ main {
     gap: 1em;
     font-size: 1rem;
     letter-spacing: 0.4px;
+    width: 450px;
 }
 
 .label {
     font-weight: 600;
-    color: #444;
+    color: var(--text-color);
 }
 
 .info-row span:last-child {
     font-weight: 400;
-    color: #222;
+    color: var(--text-color);
 }
 
 /* Edit button */
-#edit-btn {
-    margin-top: 2em;
-    align-self: flex-end;
+#edit-btn { 
+    justify-content: flex-end;
     background: var(--secondary-color);
     color: white;
     border: none;
     padding: 0.7em 2em;
-    border-radius: 12px;
-    font-size: 1rem;
-    font-weight: 500;
+    border-radius: 25px;
+    font-size: 12px; 
     display: flex;
     gap: 0.5em;
     align-items: center;
@@ -194,8 +203,45 @@ main {
 }
 
 #edit-btn img {
-    width: 18px;
-    height: 18px;
+    width: 15px;
+    height: 15px;
+    border-radius: 0%;
+}
+
+#save-btn { 
+    justify-content: flex-end;
+    background: var(--secondary-color);
+    color: white;
+    border: none;
+    padding: 0.7em 2em;
+    border-radius: 25px;
+    font-size: 12px; 
+    display: flex;
+    gap: 0.5em;
+    align-items: center;
+    cursor: pointer;
+}
+
+#password-buttons {
+    justify-content: flex-end;
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+    margin-top: 1em;
+}
+
+#cancel-btn {
+    align-self: flex-end;
+    background: var(--background-color);
+    color: var(--text-color);
+    border: none;
+    padding: 0.7em 2em;
+    border-radius: 25px;
+    font-size: 12px; 
+    display: flex;
+    gap: 0.5em;
+    align-items: center;
+    cursor: pointer;
 }
 
 .password-row {
@@ -204,10 +250,14 @@ main {
     gap: 3em;
 }
 
-.editPassword {
+.password-row #passPlaceholder {
+    display: flex;
+}
+
+.editPassword { 
     display: flex;
     flex-direction: column;
-    width: 280px;
+    width: 450px;
     gap: 10px;
 }
 
