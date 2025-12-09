@@ -38,7 +38,7 @@ public class MatkulRepository {
         return jdbcTemplate.query(sql, matkulRowMapper, userId);
     }
 
-    public List<Matkul> findAllBySemester(Long idSemester){ //ini homepage masi pake by semester
+    public List<Matkul> findAllBySemester(Long idSemester){ //homepage admin masi pake by semester
         String sql = """
             SELECT 
                 m.id, 
