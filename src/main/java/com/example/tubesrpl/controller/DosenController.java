@@ -45,9 +45,12 @@ public class DosenController {
     public String dosenHome(HttpSession session, Model model) { 
         User user = (User) session.getAttribute("user");
         if (user == null) return "redirect:/login";
-        model.addAttribute("dosen", user);
+        model.addAttribute("user", user); //ini diganti user biar sama kaya templatenya
         
-        return "dosen/homeDosen";
+        List<Tubes> tubes = tubesRepository.findAllByUserId((long) user.getId()); //NEW buat list ongoing
+        model.addAttribute("tubeslist", tubes); //sementara ambil semester 1 doang
+
+        return "Dosen/homedosen";
     }
 
     @GetMapping("/dosen/profile")
