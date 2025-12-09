@@ -182,6 +182,7 @@ CREATE TABLE tubes (
 	matkul_id BIGINT NOT NULL REFERENCES matkul(id) ON DELETE CASCADE
 );
 
+-- NOTE: ini ada beberapa tubes yang matkul_idnya sama, harusnya getMatkul, getTubes, dkk mempertimbangkan semester yang lagi ongoing/ngganya
 INSERT INTO tubes (nama_tubes, deskripsi, jml_kelompok, matkul_id) VALUES 
 ('Tubes 1 - Algoritma', 'Implementasi struktur data dasar', 8, 1),
 ('Tubes 2 - Algoritma', 'Penerapan linked list dan stack', 6, 1),
