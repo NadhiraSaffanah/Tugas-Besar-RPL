@@ -75,10 +75,13 @@
                 <a th:each="m : ${matkulList}" href="#" class="course-link">
                     <div class="course-card">
                         <div class="card-color"></div>
-                        <h4>
-                            <span th:text="${m.namaMatkul}">Nama Matkul</span> 
-                            (<span th:text="${m.kelasMatkul}">A</span>)
-                        </h4>
+                        <div class="card-name">
+                            <h4>
+                                <span th:text="${m.namaMatkul}">Nama Matkul</span> 
+                                (<span th:text="${m.kelasMatkul}">A</span>)
+                            </h4>
+                            <img src="/images/ellipsis.svg" alt="menu">
+                        </div>
                     </div>
                 </a>
             </div>

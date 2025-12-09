@@ -214,6 +214,7 @@ main {
     border: 1px solid var(--text-color);
     background-color: #FFFFFF;
     overflow: hidden;
+    margin: 0.5em;
 }
 
 .card-color {
@@ -238,7 +239,6 @@ main {
 }
 
 .course-card h4 {
-    margin: 0.5em;
     color: var(--text-color);
 }
 
@@ -278,6 +278,22 @@ main {
     justify-self: center;
     height: 90%;
     border-radius: 0.5em 0.5em 0 0;
+}
+
+.card-name {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    padding: 10px;
+}
+
+.card-name h4 {
+    width: 100%;
+}
+
+.card-name img {
+    height: 1em;
 }
 
 .form-popup {

@@ -73,10 +73,13 @@
                 <a th:href="@{'/admin/semesters/'+${s.id}+'/courses'}" class="course-link" th:each="s : ${semesterList}">
                     <div class="course-card">
                         <div class="card-color"></div>
-                        <h4>
-                            <span th:text="${s.jenis}">Ganjil</span> 
-                            <span th:text="${s.startDate.getYear() + '/' + s.endDate.getYear()}">2023/2024</span>
-                        </h4>
+                        <div class="card-name">
+                            <h4>
+                                <span th:text="${s.jenis}">Ganjil</span> 
+                                <span th:text="${s.startDate.getYear() + '/' + s.endDate.getYear()}">2023/2024</span>
+                            </h4>
+                            <img src="/images/ellipsis.svg" alt="menu">
+                        </div>
                     </div>
                 </a>
             </div>
