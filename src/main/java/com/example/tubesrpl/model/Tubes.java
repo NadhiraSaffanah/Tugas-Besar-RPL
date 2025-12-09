@@ -19,6 +19,7 @@ public class Tubes {
     // yg bisa null
     private String namaTubes;
     private String matkul;
+    private String kelas; // butuh krn 1 matkul punya beberapa kelas
     private String deskripsi;
     private int jmlKelompok;
 }

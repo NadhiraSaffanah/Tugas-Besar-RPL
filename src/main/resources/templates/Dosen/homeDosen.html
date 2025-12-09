@@ -24,7 +24,7 @@
                 </li>
                 <li>
                     <div>
-                        <a href="/profile">  <!-- ini versi backendDosen -->
+                        <a href="/dosen/profile">  <!-- ini diganti sesuai mapping DosenController-->
                             <!-- profil ngambil dari user fotoProfil, kalo ga ada pake default-profile.png --nanti perlu disesuain sm profile yang jadi-->
                             <img 
                             class="profile-pic" 
@@ -53,10 +53,10 @@
             <div id="course-wrapper"> <!-- ini sesuai homepage_all -->
                 <div class="course-cardMHS" th:each="t : ${tubeslist}">
                     <div class="date">
-                        <img th:src="@{images/calendar.svg}" alt="calender icon">
+                        <img th:src="@{/images/calendar.svg}" alt="calender icon">
                         <p th:text="${#temporals.format(t.endDate, 'dd MMMM yyyy')}">01 January 2025</p>
                     </div>
-                    <h3 th:text="${t.nama}"> - <span th:text="${t.matkul}"></span></h3>    
+                    <h3 th:text="${t.namaTubes} + ' - ' + ${t.matkul} + ' (' + ${t.kelas} + ')'"></h3>  
                 </div>
             </div>       
         </section>
