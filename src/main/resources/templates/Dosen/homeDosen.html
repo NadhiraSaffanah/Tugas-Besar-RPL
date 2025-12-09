@@ -4,9 +4,9 @@
 <head xmlns:th="http://www.thymeleaf.org"> 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Homepage Dosen</title>
+    <title>Homepage Dosen</title> 
     <link rel="stylesheet" th:href="@{/css/home-page.css}">
-    <script src="" defer></script>
+    <script src="@{/}" defer></script>
 </head>
 
 <body>
@@ -14,8 +14,8 @@
         <nav>
             <ul id="nav-left">
                 <li><img th:src="@{/images/Logo.png}" alt="book icon"></li>
-                <li><a th:href="@{'/'+${user.role}+'/home'}">Home</li>
-                <li><a th:href="@{'/'+${user.role}+'/course'}">Course</a></li>
+                <li><a th:href="@{/dosen/home}">Home</li>
+                <li><a th:href="@{/dosen/course}">Course</a></li>
             </ul>
             <ul id="nav-right">
                 <li>
@@ -24,8 +24,12 @@
                 </li>
                 <li>
                     <div>
-                        <a href="profile-page.html">
-                            <img th:src="" alt="profile picture">
+                        <a href="/profile">  <!-- ini versi backendDosen -->
+                            <!-- profil ngambil dari user fotoProfil, kalo ga ada pake default-profile.png --nanti perlu disesuain sm profile yang jadi-->
+                            <img 
+                            class="profile-pic" 
+                            th:src="${user.fotoProfil == null} ? @{/images/default-profile.jpg} : @{'/images/' + user.fotoProfil}" 
+                            alt="profile picture">
                         </a>
                     </div>
                 </li>
@@ -39,14 +43,14 @@
         <section id="image-container">
             <img th:src="@{/images/homepage-img.png}" alt="">
             <div id="info-wrapper">
-                <img src="@{/images/book.svg"} alt="">
+                <img th:src="@{/images/book.svg}" alt="">
                 <p>Tubes <br>UNPAR</p>
             </div>
         </section>
 
         <section id="on-going-course">
             <h1>On Going</h1>
-            <div id="course-wrapper">
+            <div id="course-wrapper"> <!-- ini sesuai homepage_all -->
                 <div class="course-cardMHS" th:each="t : ${tubeslist}">
                     <div class="date">
                         <img th:src="@{images/calendar.svg}" alt="calender icon">
