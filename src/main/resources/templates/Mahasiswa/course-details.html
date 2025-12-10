@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" th:href="@{/css/tubesPageStyleMhs.css}" type="text/css">
+</head>
+<body>
+    <!--Navigation Bar-->
+    <div class="container">
+        <header>
+        <nav>
+            <ul id="nav-left">
+                <li><img th:src="@{/images/book.png}" alt="book icon"></li>
+                <li><a th:href="@{/mahasiswa/home}">Home</a></li>
+                <li><a th:href="@{/mahasiswa/course}">Course</a></li>
+            </ul>
+            <ul id="nav-right">
+                <li>
+                    <span th:text="${mahasiswa.nama}">Nama Mahasiswa</span> 
+                    <span th:text="${mahasiswa.email}">email</span>
+                </li>
+                <li>
+                    <div>
+                        <a th:href="@{/mahasiswa/profile}">
+                             <img th:src="@{/images/default-profile.png}" alt="profile">
+                        </a>
+                    </div>    
+                </li>
+                <li><img th:src="@{/images/bell.png}" alt="notif"></li>
+                <li><a th:href="@{/logout}"><img th:src="@{/images/logout.png}" alt="logout"></a></li>
+            </ul>
+        </nav>
+    </header>
+
+        <!--Konten utama, halaman tengah-->
+        <main class="main-content">
+            <!--Nav Page-->
+            <nav class="course-tabs">
+                <button class="tab-button" name="Grading" th:href="@{/mahasiswa/course/nav/grading(id=${selectedMatkulId})}">Grading</button>
+                <button class="tab-button" name="Participants" th:href="@{/mahasiswa/course/nav/participant(id=${selectedMatkulId})}">Participant</button>
+                <button class="tab-button" name="Group" th:href="@{/mahasiswa/course/nav/group(id=${selectedMatkulId})}">Groups</button>
+            </nav>
+
+            <section class="tubes-info-container">
+                <div class="tubes-main-info">
+                    <!--Judul Tugas Besar-->
+                    <h2 class="tubes-title" name="judul-tubes" th:text="${tubes != null ? tubes.namaTubes : 'Project'}">Project</h2>
+                    <span th:text="${header.get('nama_matkul')}">Nama Matkul</span>
+
+                    <!--Tanggal Tugas Besar-->
+                    <div class="date-info">
+                        <!--Start Date-->
+                        <div>
+                            <span class="label-date">Start date</span>
+                            <h5 th:text="${#temporals.format(header.get('start_date'), 'EEEE, d MMMM yyyy')}">Date</h5>
+                        </div>
+
+                        <!--End Date-->
+                        <div>
+                            <span class="label-date">End date</span>
+                            <h5 th:text="${#temporals.format(header.get('end_date'), 'EEEE, d MMMM yyyy')}">Date</h5>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div th:if="${tubes == null}" class="empty-state">
+                <h2>Currently there is no Tugas Besar yet, woohoo!</h2>
+            </div>
+
+
+            <div th:if="${tubes} != null">
+                <!--BOX TOP-->
+                <section id="top-box">
+
+                    <!--DESC-BOX-->
+                    <section class="desc-box">
+                        <h3>Description</h3>
+                        <p th:text="${tubes.deskripsi}">Deskripsi Tubes</p>
+                    </section>
+
+                    <!--FINALSCORE-BOX-->
+                    <section class="finalScore-box">
+                        <!-- <h3>Final Score</h3>
+                        <p class="score" name="final-score" th:text="${}">78</p> belom bikin backend -->
+
+                        <div class="finalScore-box">
+                            <h3>Final Score</h3>
+                            <p class="score" name="final-score">78</p>
+                        </div>
+                    </section>
+                </section>
+
+                <!--BOX BOTTOM-->
+                <section id="bottom-box">
+
+                    <!--PHASEPREV-BOX-->
+                    <section class="tubes-phasePrev">
+                        <div class="phasePrev-box">
+                            <div class="box-header">
+                                <h3>Phase</h3>
+                                <button class="view-deets-button">View Details</button>
+                            </div>
+
+                            <!--Tabel Tahap Penilaian-->
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Phase</th>
+                                        <th>Description</th>
+                                        <th>Schedule</th>
+                                        <th>Status</th>
+                                        <th>Comment</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>SRS</td>
+                                        <td>Wednesay, 15 Nov 2029</td>
+                                        <td>Graded</td>
+                                        <td><button class="view-button"><i class="fas fa-eye"></i> View</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>ERD</td>
+                                        <td>Saturday, 18 Nov 2029</td>
+                                        <td>Not Graded</td>
+                                        <td><button class="view-button"><i class="fas fa-eye"></i> View</button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                    <!--GROUP-BOX-->
+                    <section class="tubes-group">
+                        <div class="group-box">
+                            <div class="box-header">
+                                <h3>Group</h3>
+
+                                <div class="right-side">
+
+                                    <div th:if="${}"> <!--kalo ga locked-->
+                                        <span class="status-tag-locked">Not Locked</span>
+                                        <a th:href="@{}">
+                                            <img th:src="@{/images/view-details.svg}" alt="view details">
+                                        </a>
+                                    </div>
+
+                                    <div th:if="${}"> <!--kalo locked-->
+                                        <span class="status-tag-locked">Locked</span>
+                                        <a th:href="@{}">
+                                            <img th:src="@{/images/view-details.svg}" alt="view details">
+                                        </a>
+                                    </div>
+                                </div>
+                            </div> 
+                            <div class="group-name" name="group-name" th:text="${tubes.group}"> nama Group </div>
+                        </div>
+                    </section>
+                </section>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
