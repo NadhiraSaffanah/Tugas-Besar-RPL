@@ -1,0 +1,234 @@
+:root {
+    --text-color: #535F24;
+    --secondary-color: #ACBD6F;
+    --background-color: #FDFAE7;
+    --button-color: #8FA053;
+    --input-background: #FFFFFF;
+    --input-border: #D8D8D8;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: var(--background-color);
+    display: grid;
+    height: 100vh;
+    grid-template-areas: 
+        "header"
+        "main";
+    grid-template-rows: auto 1fr;
+}
+
+body::-webkit-scrollbar {
+    display: none;
+}
+
+header {
+    position: sticky;
+    top: 0;
+    z-index: 99;
+    grid-area: header;
+    width: 100%;
+    background-color: var(--secondary-color);
+    padding: 0.5em 0;
+    color: #FFFFFF;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.1em;
+}
+
+nav ul {
+    list-style-type: none;
+    display: flex;
+    align-items: center;
+    gap: 1.5em;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #FFFFFF;
+}
+
+nav img {
+    width: 2.5em;
+    filter: brightness(0) invert(1);
+}
+
+#nav-left {
+    width: 20%;
+    margin-left: 2em;
+}
+
+#nav-left img {
+    transform: scale(1.5);
+}
+
+#nav-left li:nth-child(2) {
+    background-color: var(--button-color);
+}
+
+#nav-left li:nth-child(2),
+#nav-left li:nth-child(3) {
+    padding: 0.5em;
+}
+
+#nav-left li:nth-child(2):hover,
+#nav-left li:nth-child(3):hover {
+    cursor: pointer;
+    background-color: var(--button-color);
+}
+
+#nav-right {
+    margin-right: 2em;
+    cursor: pointer;
+}
+
+#nav-right li:first-child {
+    display: flex;
+    flex-direction: column;
+    text-align: right;
+    font-size: small;
+    justify-content: end;
+}
+
+#nav-right div {
+    width: 3.5em;
+    height: 3.5em;
+    background-color: rgb(198, 172, 209);
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+#nav-right div img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: none;
+}
+
+#nav-right li:hover {
+    background-color: var(--button-color);
+}
+
+/* MAIN CONTENT */
+main {
+    grid-area: main;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    gap: 2em;
+}
+
+#image-container {
+    margin-top: 3%;
+    width: 80%;
+    height: 35%;
+    border-radius: 0.5em;
+    position: relative;
+    overflow: hidden;   
+}
+
+#image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 0.5em;
+    display: block;
+}
+
+/* Overlay warna */
+#image-container::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(to right, #FFFFFF 21%, #AAAAAA 69%, #737373 100%);
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+/* BOOK ICON */
+#info-wrapper {
+    position: absolute;
+    top: 4em;            
+    right: 5em;
+    z-index: 99;
+    display: flex;
+    align-items: center;
+    gap: 1em;
+}
+
+#info-wrapper img {
+    width: 40%;
+    height: 40%;
+    object-fit: contain;
+}
+
+/* TEKS TUBES UNPAR */
+#info-wrapper p {
+    color: white;
+    font-size: 3em;
+    font-weight: 500;
+}
+
+#on-going-course {
+    padding: 1.5em;
+    width: 80%;
+    height: 40%;
+    border: 1px solid#535F24;
+    border-radius: 0.5em;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    overflow-x: auto;
+}
+
+#on-going-course h1 {
+    color: #535F24;
+    width: 100%;
+    height: 5vh;
+}
+
+#course-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    padding-top: 1em;
+    overflow-x: auto;
+}
+
+.course-card {
+    height: 60%;
+    display: flex;
+    padding: 1em;
+    background-color: #FEFFFA;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--input-border);
+    border-radius: 0.5em;
+    gap: 0.5em;
+}
+
+.date {
+    font-size: 0.9em;
+    color: #95A751;
+    display: flex;
+    align-items: center;
+    gap: 1em;
+}

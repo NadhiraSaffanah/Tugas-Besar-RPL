@@ -1,0 +1,503 @@
+:root {
+    --text-color: #535F24;
+    --secondary-color: #ACBD6F;
+    --background-color: #FDFAE7;
+    --button-color: #8FA053;
+    --input-background: #FFFFFF;
+    --input-border: #D8D8D8;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: var(--background-color);
+    display: grid;
+    height: 100vh;
+    grid-template-areas: 
+        "header"
+        "main";
+    grid-template-rows: auto 1fr;
+    overflow-x: hidden;
+}
+
+body::-webkit-scrollbar {
+    display: none;
+}
+
+header {
+    position: sticky;
+    top: 0;
+    z-index: 99;
+    grid-area: header;
+    width: 100%;
+    background-color: var(--secondary-color);
+    padding: 0.5em 0;
+    color: var(--input-background);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.1em;
+}
+
+nav ul {
+    list-style-type: none;
+    display: flex;
+    align-items: center;
+    gap: 1.5em;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: var(--input-background);
+}
+
+nav img {
+    width: 2.5em;
+    filter: brightness(0) invert(1);
+}
+
+#nav-left {
+    width: 20%;
+    margin-left: 2em;
+}
+
+#nav-left img {
+    transform: scale(1.5);
+}
+
+#nav-left li:nth-child(3) {
+    background-color: var(--button-color);
+}
+
+#nav-left li:nth-child(2),
+#nav-left li:nth-child(3) {
+    padding: 0.5em;
+}
+
+#nav-left li:nth-child(2):hover,
+#nav-left li:nth-child(3):hover {
+    cursor: pointer;
+    background-color: var(--button-color);
+}
+
+#nav-right {
+    margin-right: 2em;
+    cursor: pointer;
+}
+
+#nav-right li:first-child {
+    display: flex;
+    flex-direction: column;
+    text-align: right;
+    font-size: small;
+    justify-content: end;
+}
+
+#nav-right div {
+    width: 3.5em;
+    height: 3.5em;
+    background-color: rgb(198, 172, 209);
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+#nav-right div img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: none;
+}
+
+#nav-right li:hover {
+    background-color: var(--button-color);
+}
+
+/* MAIN CONTENT */
+main {
+    grid-area: main;
+    width: 90%;
+    min-height: 80vh; 
+    justify-self: center;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 2em;
+    color: var(--text-color);
+    padding-bottom: 2em;
+}
+
+#course-nav {
+    margin-top: 2em;
+    width: 30%;
+    height: 6%;
+    border-radius: 0.3em;
+    background-color: var(--button-color);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 1em;
+}
+
+#course-nav a {
+    padding: 0.4em;
+    text-decoration: none;
+    color: var(--input-background);
+}
+
+#course-nav a:hover {
+    background-color: var(--secondary-color);
+    transition: 0.5s;
+}
+
+#project {
+    padding: 1em;
+    width: 100%;
+    height: 20%;
+    border-radius: 0.5em;
+    border: 1px solid var(--text-color);
+    background-color: var(--input-background);
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+#project-date {
+    display: flex;
+    gap: 3em;
+}
+
+#project-date p {
+    color: var(--secondary-color);
+}
+
+#desc-group-container {
+    width: 100%;
+    display: flex;
+    gap: 2em;
+    align-items: stretch; 
+    margin-bottom: 2em;
+}
+
+.desc-group {
+    padding: 1.5em;
+    flex: 1; 
+    
+    border-radius: 0.5em;
+    border: 1px solid var(--text-color);
+    background-color: var(--input-background);
+    
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+.desc-group-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.desc-group-header img {
+    cursor: pointer;
+}
+
+.desc-group-body {
+    display: flex;
+    gap: 0.5em;
+}
+
+.grading-body-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+#grading {
+    padding: 1.5em;
+    width: 100%;
+    min-height: 300px; 
+    height: auto;      /* Biar tingginya ngikutin isi kartu */
+    border-radius: 0.5em;
+    border: 1px solid var(--text-color);
+    background-color: var(--input-background);
+    display: flex;
+    flex-direction: column;
+    gap: 1em; 
+}
+
+
+/* JIKA ADA GRADING PHASE */
+#grading-wrapper {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap; 
+    gap: 1.5em;    
+    padding: 0.5em; 
+    overflow-x: auto; 
+}
+
+.grading-card {
+    padding: 1em; 
+    width: 300px; 
+    min-width: 250px;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    border-radius: 0.5em;
+    border: 1px solid var(--text-color);
+    background-color: var(--input-background);
+    gap: 0.8em;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.grading-body {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+}
+
+.grading-card button {
+    padding: 0.2em;
+    border-radius: 0.5em;
+    border: 1px solid var(--text-color);
+    background-color: var(--input-background);
+    cursor: pointer;
+}
+
+
+/* POP UP EDIT DETAILS */
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+    display: none;
+    z-index: 2;
+}
+
+#course-edit-details {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); 
+    z-index: 100;
+    
+    display: none; 
+    justify-content: center;
+    align-items: center;
+}
+
+#back-icon {
+    height: 80%;
+    cursor: pointer;
+}
+
+#back-icon img {
+    width: 3em;
+    align-items: start;
+    filter: brightness(0) invert(1);
+}
+
+#edit-course {
+    color: var(--text-color);
+    width: 50%;
+    height: 80%;
+    padding: 1em;
+    border-radius: 0.5em;
+    border: 1px solid var(--text-color);
+    background-color: var(--input-background);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+}
+
+#editCourseForm {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+}
+
+#editCourseForm input {
+    padding: 0.5em;
+    border-radius: 0.2em;
+    border: 2px solid var(--input-border);
+    background-color: var(--input-background);
+}
+
+#editCourseForm textarea {
+    padding: 0.5em;
+}
+
+#editCourseForm input[type='submit'] {
+    margin-top: 0.5em;
+    width: 30%;
+    color: var(--input-background);
+    align-self: center;
+    background-color: var(--button-color);
+    cursor: pointer;
+}
+
+#editCourseForm input[type='submit']:hover {
+    color: #000000;
+    background-color: #c6e74f;
+    transition: 0.5s;
+}
+
+
+/* POPUP CREATE SUCCESS */
+#popup-success {
+    margin-top: 0.5em;
+    padding: 1em;
+    width: 40%;
+    height: 17%;
+    color: var(--input-background);
+    background-color: var(--button-color);
+    position: absolute;
+    top: 50;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 99;
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+#popup-success p {
+    font-size: large;
+}
+
+#popup-success img {
+    padding: 0.5em;
+    height: 40%;
+    align-self: end;
+    cursor: pointer;
+    background-color: #8FA053;
+}
+
+
+/* POPUP SHOW RUBRIC */
+#popup-show-rubric {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000; 
+    
+    width: 90%;
+    max-width: 600px; 
+    background-color: #FFFFFF; 
+    padding: 2em;
+    border-radius: 12px; /* Sudut membulat */
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2); 
+    
+    display: none;
+    flex-direction: column;
+}
+
+#popup-show-rubric div {
+    padding: 0.5em;
+    height: 50%;
+    border-radius: 0.5em;
+    background-color: var(--input-background);
+}
+
+#popup-show-rubric p {
+    color: #000;
+    font-size: large;
+}
+
+#popup-show-rubric button {
+    width: 30%;
+    padding: 0.3em;
+    border: none;
+    border-radius: 0.5em;
+    align-self: self-end;
+    background-color: var(--input-background);
+    cursor: pointer;
+}
+
+/* buat kalo belum ada tubes */
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    
+    flex-grow: 1; 
+    min-height: 40vh; 
+    
+    border: 2px dashed #ccc;
+    border-radius: 10px;
+    margin-top: 20px;
+    color: #888;
+}
+
+.empty-state h2 {
+    margin-bottom: 15px;
+    font-weight: normal;
+}
+
+.btn-create {
+    background-color: var(--button-color);
+    color: white;
+    padding: 12px 24px;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 1.1em;
+    transition: 0.3s;
+}
+
+.btn-create:hover {
+    background-color: var(--secondary-color);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+#course-create-details {
+    grid-area: main;
+    margin-top: 2em;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    position: fixed; /* Fixed biar overlay */
+    top: 0;
+    left: 0;
+    z-index: 100; /* Di atas overlay */
+    display: none;
+    justify-content: center;
+}
+
+/* Styling content create sama kayak edit */
+#create-course {
+    color: var(--text-color);
+    width: 50%;
+    background-color: var(--input-background);
+    padding: 2em;
+    border-radius: 0.5em;
+    border: 1px solid var(--text-color);
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+/* Input styling samain aja */
+#createCourseForm input, #createCourseForm textarea {
+    padding: 0.8em;
+    border-radius: 0.3em;
+    border: 1px solid var(--input-border);
+    width: 100%;
+}

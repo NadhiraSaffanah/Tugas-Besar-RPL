@@ -1,0 +1,259 @@
+:root {
+    --text-color: #535F24;
+    --secondary-color: #ACBD6F;
+    --background-color: #FDFAE7;
+    --button-color: #8FA053;
+    --input-background: #FFFFFF;
+    --input-border: #D8D8D8;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: var(--background-color);
+    display: grid;
+    height: 100vh;
+    grid-template-areas: 
+        "header"
+        "main";
+    grid-template-rows: auto 1fr;
+}
+
+body::-webkit-scrollbar {
+    display: none;
+}
+
+header {
+    position: sticky;
+    top: 0;
+    z-index: 99;
+    grid-area: header;
+    width: 100%;
+    background-color: var(--secondary-color);
+    padding: 0.5em 0;
+    color: var(--input-background);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.1em;
+}
+
+nav ul {
+    list-style-type: none;
+    display: flex;
+    align-items: center;
+    gap: 1.5em;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: var(--input-background);
+}
+
+nav img {
+    width: 2.5em;
+    filter: brightness(0) invert(1);
+}
+
+#nav-left {
+    width: 20%;
+    margin-left: 2em;
+}
+
+#nav-left img {
+    transform: scale(1.5);
+}
+
+#nav-left li:nth-child(3) {
+    background-color: var(--button-color);
+}
+
+#nav-left li:nth-child(2),
+#nav-left li:nth-child(3) {
+    padding: 0.5em;
+}
+
+#nav-left li:nth-child(2):hover,
+#nav-left li:nth-child(3):hover {
+    cursor: pointer;
+    background-color: var(--button-color);
+}
+
+#nav-right {
+    margin-right: 2em;
+    cursor: pointer;
+}
+
+#nav-right li:first-child {
+    display: flex;
+    flex-direction: column;
+    text-align: right;
+    font-size: small;
+    justify-content: end;
+}
+
+#nav-right div {
+    width: 3.5em;
+    height: 3.5em;
+    background-color: rgb(198, 172, 209);
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+#nav-right div img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: none;
+}
+
+#nav-right li:hover {
+    background-color: var(--button-color);
+}
+
+/* MAIN CONTENT */
+main {
+    margin-top: 2em;
+    grid-area: main;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 2em;
+}
+
+#back-icon {
+    height: 80%;
+    cursor: pointer;
+}
+
+#back-icon img {
+    width: 3em;
+    align-items: start;
+}
+
+
+/* ADD GROUP */
+#group-add {
+    color: var(--text-color);
+    width: 50%;
+    height: 80%;
+    padding: 1em;
+    border-radius: 0.5em;
+    border: 1px solid var(--text-color);
+    background-color: var(--input-background);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+}
+
+#addGroupForm {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+}
+
+#addGroupForm label {
+    font-size: 1.5em;
+    font-weight: 500;
+}
+
+#addGroupForm input {
+    padding: 0.5em;
+}
+
+
+/* TABEL */
+#table-container {
+    border: var(--text-color);
+    overflow-y: scroll;
+    height: 10rem;
+}
+
+#table-container table {
+    padding: 0 0.5em;
+    
+    align-items: center;
+    color: var(--text-color);
+}
+
+#table-container tbody td {
+    text-align: center;
+    padding: 0.2em;
+}
+
+#table-container tr td:last-of-type {
+    width: 100%;
+    text-align: end;
+}
+
+#table-container tr td button {
+    border: none;
+    font-size: large;
+    cursor: pointer;
+    background-color: var(--input-background);
+}
+
+
+/* IMAGE */
+#table-container tr td:nth-of-type(1) {
+    border: #535F24;
+    width: 2em;
+    height: 2em;
+    text-align: end;
+}
+
+
+/* BUTTON SUBMIT FORM */
+#addBtn {
+    color: var(--input-background);
+    border: none;
+    border-radius: 0.2em;
+    background-color: var(--button-color);
+}
+
+#addBtn:hover {
+    color: var(--input-background);
+    background-color: var(--secondary-color);
+    cursor: pointer;
+}
+
+/* POPUP CREATE SUCCESS */
+#popup-success {
+    margin-top: 1em;
+    padding: 1em;
+    width: 40%;
+    height: 17%;
+    color: var(--input-background);
+    background-color: var(--button-color);
+    position: absolute;
+    top: 0;
+    z-index: 99;
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 1em;
+}
+
+#popup-success p {
+    font-size: large;
+}
+
+#popup-success img {
+    padding: 0.5em;
+    height: 40%;
+    align-self: end;
+    cursor: pointer;
+    background-color: #8FA053;
+}
