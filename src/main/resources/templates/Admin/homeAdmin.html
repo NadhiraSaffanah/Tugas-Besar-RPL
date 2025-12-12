@@ -44,17 +44,25 @@
             </div>
         </section>
 
-        <section id="on-going-course">
-            <h1>On Going</h1>
-            <div id="course-wrapper">
-                <div class="course-cardMHS" th:each="t : ${tubeslist}">
-                    <div class="date">
-                        <img src="images/calendar.svg" alt="calender icon">
-                        <p th:text="${#temporals.format(t.endDate, 'dd MMMM yyyy')}">01 January 2025</p>
-                    </div>
-                    <h3 th:text="${t.nama}"> - <span th:text="${t.matkul}"></span></h3>    
-                </div>
-            </div>       
+        <section class="dropdown-box" data-dropdown>
+            <div class="dropdown-header" data-dropdown-trigger>
+                <span>Make Account</span>
+                <img src="images/Help circle.png" alt="?">
+            </div>
+            <div class="dropdown-content">
+                <p>Create admin, assistant, or student accounts easily.</p> 
+            </div>
+        </section>
+
+
+        <section class="dropdown-box" data-dropdown>
+            <div class="dropdown-header" data-dropdown-trigger>
+                <span>Manage Course</span>
+                <img src="images/Help circle.png" alt="?">
+            </div>
+            <div class="dropdown-content">
+                <p>Edit, remove, or add new courses.</p> 
+            </div>
         </section>
     </main>
 </body>
