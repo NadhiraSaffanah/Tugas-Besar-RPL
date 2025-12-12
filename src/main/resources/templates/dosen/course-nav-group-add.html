@@ -23,7 +23,9 @@
                 <li>
                     <div>
                         <a th:href="@{/dosen/profile}">
-                            <img src="" alt="profile picture">
+                            <img th:src="@{${#strings.isEmpty(user.fotoProfil) ? '/images/default-profile.jpg' : user.fotoProfil}}" 
+                                alt="profile picture" 
+                                style="width: 100%; height: 100%; object-fit: cover;">
                         </a>
                     </div>    
                 </li>
@@ -35,14 +37,16 @@
 
     <main>
         <div id="back-icon">
-            <a th:href="@{/dosen/course/nav/group}"><img th:src="@{/images/back.svg}" alt="back icon"></a>
+            <a th:href="@{/dosen/course/nav/group(id=${tubesId})}">
+                <img th:src="@{/images/back.svg}" alt="back icon">
+            </a>
         </div>
         <section id="group-add">
             <h1>Add Group</h1>
             <p>Manajemen Proyek</p>
             
             <form id="addGroupForm" action="">
-                <label for="group-name">Group Name</label>    
+                <label for="group-name">Group Name</label>
                 <input type="text" name="group-name" id="group-name" placeholder="Masukan deskripsi">
                 <h2>Members</h2>
                 <p>Search Student</p>

@@ -1,9 +1,11 @@
 package com.example.tubesrpl.controller;
 
+import com.example.tubesrpl.model.Kelompok;
 import com.example.tubesrpl.model.Matkul;
 import com.example.tubesrpl.model.TahapTubes;
 import com.example.tubesrpl.model.Tubes;
 import com.example.tubesrpl.model.User;
+import com.example.tubesrpl.repository.KelompokRepository;
 import com.example.tubesrpl.repository.MatkulRepository; 
 import com.example.tubesrpl.repository.TahapRepository;
 import com.example.tubesrpl.repository.TubesRepository;
@@ -23,6 +25,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -36,10 +39,13 @@ public class DosenController {
     private MatkulRepository matkulRepository;
 
     @Autowired
-    private TubesRepository tubesRepository; // BARU
+    private TubesRepository tubesRepository;
 
     @Autowired
-    private TahapRepository tahapRepository; // BARU
+    private TahapRepository tahapRepository;
+
+    @Autowired
+    private KelompokRepository kelompokRepository;
 
     @GetMapping("/dosen/home")
     public String dosenHome(HttpSession session, Model model) { 
@@ -73,11 +79,11 @@ public class DosenController {
             return "redirect:/login";
         }
 
-        // Ambil Data Matkul milik Dosen tersebut
+        // ambil data matkul milik Dosen tersebut
         List<Matkul> courses = matkulRepository.findAllByUserId(user.getId());
 
-        model.addAttribute("dosen", user);      // Di HTML dipanggil ${dosen.nama}
-        model.addAttribute("listCourses", courses); // Di HTML dipanggil ${listCourses}
+        model.addAttribute("user", user);
+        model.addAttribute("listCourses", courses);
 
         return "dosen/course-home";
     }
@@ -133,8 +139,49 @@ public class DosenController {
     // ROUTING UNTUK COURSE NAVBAR 
     // ROUTING UNTUK COURSE GRADING
     @GetMapping("/dosen/course/nav/grading")
-    public String courseNavGrading() {
+    public String courseNavGrading(@RequestParam(name = "id") Long tubesId, HttpSession session, Model model) {
+        
+        User user = (User) session.getAttribute("user");
+        
+        if (user == null || !"dosen".equalsIgnoreCase(user.getRole())) {
+            return "redirect:/login";
+        }
+        
+        model.addAttribute("user", user); 
+
+        Optional<Tubes> tubesOpt = tubesRepository.findById(tubesId);
+        if (tubesOpt.isPresent()) {
+            Tubes tubes = tubesOpt.get();
+            model.addAttribute("matkulId", tubes.getIdMatkul()); // Simpan matkulId ke model supaya bisa dipakai di tombol "Back"
+        }
+
+        List<TahapTubes> listTahap = tahapRepository.findAllByTubesId(tubesId);
+        
+        model.addAttribute("listTahap", listTahap);
+        model.addAttribute("tubesId", tubesId);
+        
         return "dosen/course-nav-grading";
+    }
+
+    // API UNTUK CREATE PHASE (AJAX)
+    @PostMapping("/dosen/course/grading/phase/create-api")
+    @ResponseBody
+    public ResponseEntity<String> createPhaseApi(
+            @RequestParam Long tubesId,
+            @RequestParam String namaTahap,
+            @RequestParam String deskripsi,
+            @RequestParam String rubrik,
+            @RequestParam String tanggalAkhir) { // String dari input type="date"
+        try {
+            // Parse String date ke LocalDate
+            LocalDate date = LocalDate.parse(tanggalAkhir);
+            
+            tahapRepository.createTahap(namaTahap, deskripsi, rubrik, date, tubesId);
+            return ResponseEntity.ok("Success");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error: " + e.getMessage());
+        }
     }
 
     @GetMapping("/dosen/course/nav/grading/add")
@@ -142,19 +189,16 @@ public class DosenController {
         return "dosen/course-nav-grading-add";
     }
 
-    // ROUTING GRADING PHASE   --> BARU DITAMBAHIN
     @GetMapping("/dosen/course/nav/grading/phase")
     public String gradingPhase() {
         return "dosen/course-nav-grading-phase";
     }
 
-    // --> BARU DITAMBAHIN
     @GetMapping("/dosen/course/nav/grading/phase/details")
     public String gradingPhaseDetails() {
         return "dosen/course-nav-grading-phase-details";
     }
 
-    // --> BARU DITAMBAHIN
     @GetMapping("/dosen/course/nav/grading/phase/details/edit")
     public String gradingPhaseDetailsEdit() {
         return "dosen/course-nav-grading-phase-details-edit";
@@ -163,28 +207,91 @@ public class DosenController {
 
     // ROUTING UNTUK COURSE PARTICIPANT
     @GetMapping("/dosen/course/nav/participant")
-    public String courseNavParticipant() {
+    public String courseNavParticipant(@RequestParam(name = "id") Long tubesId, Model model, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user == null) return "redirect:/login";
+        model.addAttribute("user", user);
+        
+        // ambil id matkul dari Tubes, ini buat back aja sih
+        Long matkulId = null;
+        Optional<Tubes> tubesOpt = tubesRepository.findById(tubesId);
+        if (tubesOpt.isPresent()) {
+            matkulId = tubesOpt.get().getIdMatkul();
+            model.addAttribute("matkulId", matkulId);
+        }
+
+        // ambil list participant dari db
+        if (matkulId != null) {
+            List<User> participants = matkulRepository.findParticipantsByMatkulId(matkulId);
+            model.addAttribute("participantList", participants);
+        }
+
+        model.addAttribute("tubesId", tubesId);
         return "dosen/course-nav-participant";
     }
 
     // ROUTING UNTUK COURSE GROUP
     @GetMapping("/dosen/course/nav/group")
-    public String courseNavGroup() {
+    public String courseNavGroup(@RequestParam(name = "id") Long tubesId, Model model, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+
+        if (user == null || !"dosen".equalsIgnoreCase(user.getRole())) {
+            return "redirect:/login";
+        }
+
+        model.addAttribute("user", user); 
+        model.addAttribute("tubesId", tubesId); 
+
         return "dosen/course-nav-group";
     }
 
     @GetMapping("/dosen/course/nav/group/view")
-    public String courseNavGroupView() {
+    public String courseNavGroupView(@RequestParam(name = "id") Long tubesId, Model model, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user == null) return "redirect:/login";
+
+        // Ambil info tubes & matkul (buat navbar & lock status)
+        Optional<Tubes> tubesOpt = tubesRepository.findById(tubesId);
+        if (tubesOpt.isPresent()) {
+            Tubes tubes = tubesOpt.get();
+            model.addAttribute("tubes", tubes);
+            model.addAttribute("matkulId", tubes.getIdMatkul());
+        }
+
+        List<Kelompok> listKelompok = kelompokRepository.findAllByTubesId(tubesId);
+        model.addAttribute("listKelompok", listKelompok); 
+
+        model.addAttribute("user", user);
+        model.addAttribute("tubesId", tubesId);
+        
         return "dosen/course-nav-group-view";
     }
 
     @GetMapping("/dosen/course/nav/group/add")
-    public String courseNavGroupAdd() {
+    public String courseNavGroupAdd(@RequestParam(name = "id") Long tubesId, Model model, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+
+        if (user == null || !"dosen".equalsIgnoreCase(user.getRole())) {
+            return "redirect:/login";
+        }
+
+        model.addAttribute("user", user); 
+        model.addAttribute("tubesId", tubesId);
+
         return "dosen/course-nav-group-add";
     }
 
     @GetMapping("/dosen/course/nav/group/edit")
-    public String courseNavGroupEdit() {
+    public String courseNavGroupEdit(@RequestParam(name = "id") Long tubesId, Model model, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+
+        if (user == null || !"dosen".equalsIgnoreCase(user.getRole())) {
+            return "redirect:/login";
+        }
+
+        model.addAttribute("user", user); 
+        model.addAttribute("tubesId", tubesId);
+
         return "dosen/course-nav-group-edit";
     }
 
@@ -215,6 +322,19 @@ public class DosenController {
                                                   @RequestParam int jmlKelompok) { 
         try {
             tubesRepository.createTubes(namaTubes, deskripsi, jmlKelompok, matkulId);
+            return ResponseEntity.ok("Success");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error");
+        }
+    }
+
+    // Endpoint API untuk Toggle Lock 
+    @PostMapping("/dosen/course/nav/group/toggle-lock")
+    @ResponseBody
+    public ResponseEntity<String> toggleLock(@RequestParam Long tubesId, @RequestParam boolean lockStatus) {
+        try {
+            tubesRepository.updateLockStatus(tubesId, lockStatus);
             return ResponseEntity.ok("Success");
         } catch (Exception e) {
             e.printStackTrace();

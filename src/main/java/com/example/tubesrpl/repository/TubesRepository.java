@@ -30,6 +30,7 @@ public class TubesRepository {
         tubes.setKelas(rs.getString("kelas_matkul"));
         tubes.setStartDate(rs.getDate("start_date").toLocalDate());
         tubes.setEndDate(rs.getDate("end_date").toLocalDate()); //convert sql.Date jadi LocalDate
+        tubes.setLocked(rs.getBoolean("is_locked"));
         
         return tubes;
     };
@@ -65,6 +66,7 @@ public class TubesRepository {
                 t.deskripsi,
                 t.jml_kelompok,
                 t.matkul_id,
+                t.is_locked,
                 m.nama_matkul,
                 m.kelas_matkul,
                 s.start_date,
@@ -88,6 +90,7 @@ public class TubesRepository {
                 t.deskripsi,
                 t.jml_kelompok,
                 t.matkul_id,
+                t.is_locked,
                 m.nama_matkul,
                 m.kelas_matkul,
                 s.start_date,
@@ -103,6 +106,30 @@ public class TubesRepository {
         return jdbcTemplate.query(sql, tubesRowMapper, matkulId).stream().findFirst();
     }
 
+    public Optional<Tubes> findById(Long id) {
+        String sql = """
+            SELECT 
+                t.id AS tubes_id,
+                t.nama_tubes,
+                t.deskripsi,
+                t.jml_kelompok,
+                t.matkul_id,
+                m.nama_matkul,
+                t.is_locked,
+                m.kelas_matkul,
+                s.start_date,
+                s.end_date
+            FROM tubes t
+            JOIN matkul m ON t.matkul_id = m.id
+            JOIN matkul_semester ms ON m.id = ms.matkul_id
+            JOIN semester s ON ms.semester_id = s.id
+            WHERE t.id = ?
+        """;
+        
+        // Menggunakan stream().findFirst() untuk mengembalikan Optional
+        return jdbcTemplate.query(sql, tubesRowMapper, id).stream().findFirst();
+    }
+
     // BARU, buat bikin tubes
     public void createTubes(String namaTubes, String deskripsi, int jmlKelompok, Long matkulId) {
         String sql = "INSERT INTO tubes (nama_tubes, deskripsi, jml_kelompok, matkul_id) VALUES (?, ?, ?, ?)";
@@ -113,6 +140,12 @@ public class TubesRepository {
     public void updateTubes(Long id, String namaTubes, String deskripsi, int jmlKelompok) {
         String sql = "UPDATE tubes SET nama_tubes = ?, deskripsi = ?, jml_kelompok = ? WHERE id = ?";
         jdbcTemplate.update(sql, namaTubes, deskripsi, jmlKelompok, id);
+    }
+
+    // BARU (buat lock/unlock kelompok)
+    public void updateLockStatus(Long tubesId, boolean isLocked) {
+        String sql = "UPDATE tubes SET is_locked = ? WHERE id = ?";
+        jdbcTemplate.update(sql, isLocked, tubesId);
     }
 }
 

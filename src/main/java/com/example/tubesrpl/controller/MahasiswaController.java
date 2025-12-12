@@ -1,4 +1,4 @@
-package com.example.tubesrpl;
+package com.example.tubesrpl.controller; // Pastikan package sesuai
 
 import java.util.List;
 
@@ -10,46 +10,45 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import com.example.tubesrpl.model.Phase;
+import com.example.tubesrpl.model.TahapTubes; // GANTI Phase jadi TahapTubes
 import com.example.tubesrpl.model.Tubes;
 import com.example.tubesrpl.model.User;
+import com.example.tubesrpl.repository.TahapRepository; // GANTI PhaseRepository jadi TahapRepository
 import com.example.tubesrpl.repository.TubesRepository;
 
 import jakarta.servlet.http.HttpSession;
-import com.example.tubesrpl.repository.PhaseRepository;
-
-import com.example.tubesrpl.data.Phase;
-import com.example.tubesrpl.data.Tubes;
-import com.example.tubesrpl.repository.TubesRepository;
-
 import lombok.extern.slf4j.Slf4j;
-
-import com.example.tubesrpl.repository.PhaseRepository;
 
 @Slf4j
 @Controller
 @SessionAttributes("user")
 @RequestMapping("/mahasiswa")
 public class MahasiswaController {
+
     @Autowired 
     private TubesRepository tubesRepository;
 
     @Autowired
-    private PhaseRepository phaseRepository;
+    private TahapRepository tahapRepository; // Rename
 
-    @ModelAttribute("user") //supaya ga nerima parameter HttpSesison berkali kali
+    @ModelAttribute("user") 
     public User userSession(HttpSession session) {
         return (User) session.getAttribute("user");
     }
 
     @GetMapping("/home-mahasiswa")
     public String homeMhsView(Model model){
-        System.out.println(phaseRepository);
-        List<Tubes> tubes = tubesRepository.findAllBySemester((long) 1);
-        List<Phase> phase = phaseRepository.findAllBySemester((long) 1);
+        // Sementara hardcode semester 1
+        Long semesterId = 1L;
+
+        List<Tubes> tubes = tubesRepository.findAllBySemester(semesterId);
+        
+        // Sekarang pakai TahapRepository
+        List<TahapTubes> phases = tahapRepository.findAllBySemester(semesterId);
        
-        model.addAttribute("tubeslist", tubes); //sementara ambil semester 1 doang
-        model.addAttribute("phaselist", phase);
+        model.addAttribute("tubeslist", tubes); 
+        model.addAttribute("phaselist", phases);
+        
         return "Mahasiswa/homeMhs";
     }
 }

@@ -22,4 +22,5 @@ public class Tubes {
     private String kelas; // butuh krn 1 matkul punya beberapa kelas
     private String deskripsi;
     private int jmlKelompok;
+    private boolean isLocked;
 }

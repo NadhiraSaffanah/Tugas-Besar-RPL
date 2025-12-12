@@ -1,11 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tugas Besar</title>
-    <link rel="stylesheet" th:href="@{/css/dosen/course-nav-group-edit.css}">
-    <script src="" defer></script>
+    <title>View Group</title>
+    <link rel="stylesheet" th:href="@{/css/dosen/course-nav-group-view.css}">
 </head>
 <body>
     <header>
@@ -17,67 +16,83 @@
             </ul>
             <ul id="nav-right">
                 <li>
-                    <span>Nama</span> 
-                    <span>61823010xx@unpar.ac.id</span>
+                    <span th:text="${user.nama}">Nama</span> 
+                    <span th:text="${user.email}">email@unpar.ac.id</span>
                 </li>
                 <li>
                     <div>
                         <a th:href="@{/dosen/profile}">
-                            <img src="" alt="profile picture">
+                            <img th:src="@{${#strings.isEmpty(user.fotoProfil) ? '/images/default-profile.jpg' : user.fotoProfil}}" 
+                                alt="profile picture" 
+                                style="width: 100%; height: 100%; object-fit: cover;">
                         </a>
                     </div>    
                 </li>
                 <li><img th:src="@{/images/bell.png}" alt="notification icon"></li>
-                <li><img th:src="@{/images/logout.png}" alt="logout icon"></li>
+                <li><a th:href="@{/logout}"><img th:src="@{/images/logout.png}" alt="logout icon"></a></li>
             </ul>
         </nav>
     </header>
 
     <main>
-        <div id="back-icon">
-            <a th:href="@{/dosen/course/nav/group}"><img th:src="@{/images/back.svg}" alt="back icon"></a>
-        </div>
-        <section id="group-add">
-            <h1>Edit Group</h1>
-            <p>Manajemen Proyek</p>
-            
-            <form id="addGroupForm" action="">
-                <label for="group-name">Group Name</label>    
-                <input type="text" name="group-name" id="group-name" placeholder="Group A">
-                <h2>Members</h2>
-                <p>Search Student</p>
-                <hr>
-                <div id="table-container">
-                    <table>
-                        <thead>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>pic<img src="" alt=""></td>
-                                <td>61822010@student</td>
-                                <td><button>X</button></td>
-                            </tr>
-                            <tr>
-                                <td>pic<img src="" alt=""></td>
-                                <td>61822010@student</td>
-                                <td><button>X</button></td>
-                            </tr>
-                            <tr>
-                                <td>pic<img src="" alt=""></td>
-                                <td>61822010@student</td>
-                                <td><button>X</button></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <input id="addBtn" type="submit" value="Add">
-            </form>
-            
+        <section id="course-nav">
+            <a th:href="@{/dosen/course/nav/grading(id=${tubesId})}"><p>Grading</p></a>
+            <a th:href="@{/dosen/course/nav/participant(id=${tubesId})}"><p>Participant</p></a>
+            <a th:href="@{/dosen/course/nav/group(id=${tubesId})}"><p>Group</p></a>
         </section>
 
-        <section id="popup-success">
-            <p>Project successfully created!</p>
-            <img th:src="@{/images/close.svg}" alt="close button">
+        <section id="view-group-container">
+            
+            <div class="container-header">
+                <a th:href="@{/dosen/course/nav/group(id=${tubesId})}" id="back-btn">
+                    <img th:src="@{/images/back.svg}" alt="back icon">
+                </a>
+                <h2>Group List</h2>
+            </div>
+
+            <div id="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Group</th>
+                            <th>Members</th>
+                            <th>Group Members</th>
+                            </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Group <span style="font-weight:bold;">A</span></td>
+                            <td>4</td>
+                            <td class="member-list">
+                                <div>61822010@student</div>
+                                <div>61822011@student</div>
+                            </td>
+                            </tr>
+                        <tr>
+                            <td>Group <span style="font-weight:bold;">B</span></td>
+                            <td>3</td>
+                            <td class="member-list">
+                                <div>61822012@student</div>
+                                <div>61822013@student</div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="container-footer">
+                
+                <button class="footer-btn">
+                    Show Group Members
+                </button>
+
+                <div class="footer-btn" id="lock-button">
+                    <img th:src="@{/images/lock-group.svg}" alt="lock icon">
+                    <p style="margin:0;">Unlock</p>
+                </div>
+
+            </div>
+
         </section>
     </main>
 </body>

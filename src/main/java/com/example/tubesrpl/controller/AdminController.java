@@ -1,4 +1,4 @@
-package com.example.tubesrpl;
+package com.example.tubesrpl.controller;
 
 import java.util.List;
 

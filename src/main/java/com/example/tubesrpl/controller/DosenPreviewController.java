@@ -14,5 +14,3 @@
 //         return "dosen/" + page; 
 //     }
 // }
-
-// INI CUMA BUAT PREVIEW HTML NYA

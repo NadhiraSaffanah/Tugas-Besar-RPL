@@ -10,7 +10,7 @@ description = "Sistem manajemen tugas besar untuk dosen dan mahasiswa."
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
+        languageVersion = JavaLanguageVersion.of(17)
     }
 }
 
@@ -36,7 +36,6 @@ dependencies {
     // TESTING
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     
-    // --- PENYELAMAT: Dependency Wajib buat Gradle 8+ & JUnit 5 ---
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 

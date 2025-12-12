@@ -225,6 +225,8 @@ INSERT INTO kelompok (nama_kelompok, jml_anggota, tubes_id) VALUES
 ('Kelompok A', 6, 8),
 ('Kelompok B', 6, 8);
 
+ALTER TABLE tubes ADD COLUMN is_locked BOOLEAN DEFAULT FALSE; -- baru buat lock
+
 -- ======================================
 -- TAHAP TUBES
 -- ======================================
