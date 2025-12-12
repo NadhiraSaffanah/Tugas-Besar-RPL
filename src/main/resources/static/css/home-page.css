@@ -22,7 +22,6 @@ body {
         "header"
         "main";
     grid-template-rows: auto 1fr;
-    overflow-x: hidden;
 }
 
 body::-webkit-scrollbar {
@@ -37,7 +36,7 @@ header {
     width: 100%;
     background-color: var(--secondary-color);
     padding: 0.5em 0;
-    color: var(--input-background);
+    color: #FFFFFF;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -57,7 +56,7 @@ nav ul {
 
 nav ul li a {
     text-decoration: none;
-    color: var(--input-background);
+    color: #FFFFFF;
 }
 
 nav img {
@@ -72,10 +71,6 @@ nav img {
 
 #nav-left img {
     transform: scale(1);
-}
-
-#nav-left li:nth-child(3) {
-    background-color: var(--button-color);
 }
 
 #nav-left li:nth-child(2),
@@ -121,37 +116,36 @@ nav img {
     background-color: var(--button-color);
 }
 
-/* ===================== Main Layout ===================== */
+/* MAIN CONTENT */
 main {
     grid-area: main;
-    width: 90%;
-    min-height: 80vh; 
-    justify-self: center;
+    height: 100%;
+    width: 100%;
     display: flex;
     flex-direction: column;
+    justify-content: start;
     align-items: center;
     gap: 2em;
-    color: var(--text-color);
-    margin-top: 6em;
 }
 
-/* ===================== Foto Section ===================== */
 #image-container {
-    width: 85%;
-    height: 32vh;
-    border-radius: 1em;
+    margin-top: 3%;
+    width: 80%;
+    height: 35%;
+    border-radius: 0.5em;
     position: relative;
-    overflow: hidden;
+    overflow: hidden;   
 }
 
 #image-container img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border-radius: inherit;
+    border-radius: 0.5em;
     display: block;
 }
 
+/* Overlay warna */
 #image-container::after {
     content: "";
     position: absolute;
@@ -160,20 +154,20 @@ main {
     width: 100%;
     height: 100%;
     border-radius: inherit;
+    background: linear-gradient(to right, #FFFFFF 21%, #AAAAAA 69%, #737373 100%);
+    opacity: 0.5;
     pointer-events: none;
-    background: linear-gradient(to left, rgba(65, 65, 65, 0.75) 0%, rgba(120, 120, 120, 0.55) 40%, rgba(200, 200, 200, 0.10) 100%);
 }
 
-/* Text + Icon Overlay */
+/* BOOK ICON */
 #info-wrapper {
     position: absolute;
-    top: 4em;
-    right: 4.5em;
+    top: 4em;            
+    right: 5em;
+    z-index: 99;
     display: flex;
     align-items: center;
     gap: 1em;
-    transform: scale(1.1);
-    z-index: 99;
 }
 
 #info-wrapper img {
@@ -182,11 +176,11 @@ main {
     object-fit: contain;
 }
 
+/* TEKS TUBES UNPAR */
 #info-wrapper p {
-    color: #FFFFFF;
-    font-size: 3.2em;
-    font-weight: 550;
-    letter-spacing: 0px;
+    color: white;
+    font-size: 3em;
+    font-weight: 500;
 }
 
 /* ===================== On-going Course Section ===================== */
@@ -194,7 +188,7 @@ main {
     padding: 1.5em;
     width: 80%;
     height: 40%;
-    border: 1px solid var(--text-color);
+    border: 1px solid#535F24;
     border-radius: 0.5em;
     display: flex;
     flex-direction: column;
@@ -214,6 +208,18 @@ main {
     gap: 1em;
     padding-top: 1em;
     overflow-x: auto;
+}
+
+.course-card {
+    height: 60%;
+    display: flex;
+    padding: 1em;
+    background-color: #FEFFFA;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--input-border);
+    border-radius: 0.5em;
+    gap: 0.5em;
 }
 
 .date {

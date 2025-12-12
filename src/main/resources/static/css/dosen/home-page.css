@@ -73,10 +73,6 @@ nav img {
     transform: scale(1.5);
 }
 
-#nav-left li:nth-child(2) {
-    background-color: var(--button-color);
-}
-
 #nav-left li:nth-child(2),
 #nav-left li:nth-child(3) {
     padding: 0.5em;
