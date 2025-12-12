@@ -22,42 +22,43 @@ CREATE TABLE users (
     role VARCHAR(20) NOT NULL CHECK (role IN ('mahasiswa','dosen', 'admin')),
     npm VARCHAR(10) UNIQUE,
     no_induk VARCHAR(10) UNIQUE,
-    foto_profil VARCHAR(10) UNIQUE
+    foto_profil VARCHAR(255), 
+	status_aktif VARCHAR(20) NOT NULL CHECK (status_aktif IN ('Aktif', 'non-Aktif'))
 );
 
-INSERT INTO users (nama, email, password_hash, role, npm, no_induk, foto_profil) VALUES
+INSERT INTO users (nama, email, password_hash, role, npm, no_induk, foto_profil, status_aktif) VALUES
 --DOSEN
-('Dr. Andi Pratama', 'andi.pratama@kampus.edu', 'hashedpass', 'dosen', NULL, 'D001', NULL),
-('Dr. Siti Lestari', 'siti.lestari@kampus.edu', 'hashedpass', 'dosen', NULL, 'D002', NULL),
-('Prof. Budi Santoso', 'budi.santoso@kampus.edu', 'hashedpass', 'dosen', NULL, 'D003', NULL),
-('Dr. Rina Kumala', 'rina.kumala@kampus.edu', 'hashedpass', 'dosen', NULL, 'D004', NULL),
-('Dr. Joko Setiawan', 'joko.setiawan@kampus.edu', 'hashedpass', 'dosen', NULL, 'D005', NULL),
+('Dr. Andi Pratama', 'andi.pratama@kampus.edu', 'hashedpass', 'dosen', NULL, 'D001', NULL, 'Aktif'),
+('Dr. Siti Lestari', 'siti.lestari@kampus.edu', 'hashedpass', 'dosen', NULL, 'D002', NULL, 'Aktif'),
+('Prof. Budi Santoso', 'budi.santoso@kampus.edu', 'hashedpass', 'dosen', NULL, 'D003', NULL, 'Aktif'),
+('Dr. Rina Kumala', 'rina.kumala@kampus.edu', 'hashedpass', 'dosen', NULL, 'D004', NULL, 'Aktif'),
+('Dr. Joko Setiawan', 'joko.setiawan@kampus.edu', 'hashedpass', 'dosen', NULL, 'D005', NULL, 'Aktif'),
 --MAHASISWA 
-('Nadhira Saffanah', 'nadhira01@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230001', NULL, NULL),
-('Rizki Ramadhan', 'rizki.ramadhan@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230002', NULL, NULL),
-('Aulia Rahmadani', 'aulia.rahma@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230003', NULL, NULL),
-('Fadhil Akbar', 'fadhil.akbar@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230004', NULL, NULL),
-('Salsabila Putri', 'salsa.putri@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230005', NULL, NULL),
-('Irfan Maulana', 'irfan.maulana@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230006', NULL, NULL),
-('Dinda Maharani', 'dinda.maharani@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230007', NULL, NULL),
-('Rafi Hidayat', 'rafi.hidayat@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230008', NULL, NULL),
-('Aisyah Aulia', 'aisyah.aulia@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230009', NULL, NULL),
-('Bagas Saputra', 'bagas.saputra@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230010', NULL, NULL),
-('Putri Amelia', 'putri.amelia@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230011', NULL, NULL),
-('Raka Pratama', 'raka.pratama@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230012', NULL, NULL),
-('Aldeano Prakoso', 'aldeano.prakoso@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230013', NULL, NULL),
-('Tasya Nurhaliza', 'tasya.nurhaliza@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230014', NULL, NULL),
-('Rahmat Hidayat', 'rahmat.hidayat@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230015', NULL, NULL),
-('Melati Ayuning', 'melati.ayuning@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230016', NULL, NULL),
-('Dwiki Aditya', 'dwiki.aditya@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230017', NULL, NULL),
-('Nurul Fadilah', 'nurul.fadilah@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230018', NULL, NULL),
-('Gilang Pratama', 'gilang.pratama@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230019', NULL, NULL),
-('Rani Putri', 'rani.putri@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230020', NULL, NULL),
-('Kevin Saputra', 'kevin.saputra@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230021', NULL, NULL),
-('Fauzan Hidayat', 'fauzan.hidayat@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230022', NULL, NULL),
-('Dewi Lestari', 'dewi.lestari@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230023', NULL, NULL),
-('Ardiansyah Putra', 'ardiansyah.putra@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230024', NULL, NULL),
-('Siti Nurjanah', 'siti.nurjanah@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230025', NULL, NULL);
+('Nadhira Saffanah', 'nadhira01@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230001', NULL, NULL, 'Aktif'),
+('Rizki Ramadhan', 'rizki.ramadhan@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230002', NULL, NULL, 'Aktif'),
+('Aulia Rahmadani', 'aulia.rahma@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230003', NULL, NULL, 'Aktif'),
+('Fadhil Akbar', 'fadhil.akbar@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230004', NULL, NULL, 'Aktif'),
+('Salsabila Putri', 'salsa.putri@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230005', NULL, NULL, 'Aktif'),
+('Irfan Maulana', 'irfan.maulana@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230006', NULL, NULL, 'Aktif'),
+('Dinda Maharani', 'dinda.maharani@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230007', NULL, NULL, 'Aktif'),
+('Rafi Hidayat', 'rafi.hidayat@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230008', NULL, NULL, 'Aktif'),
+('Aisyah Aulia', 'aisyah.aulia@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230009', NULL, NULL, 'Aktif'),
+('Bagas Saputra', 'bagas.saputra@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230010', NULL, NULL, 'Aktif'),
+('Putri Amelia', 'putri.amelia@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230011', NULL, NULL, 'Aktif'),
+('Raka Pratama', 'raka.pratama@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230012', NULL, NULL, 'Aktif'),
+('Aldeano Prakoso', 'aldeano.prakoso@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230013', NULL, NULL, 'Aktif'),
+('Tasya Nurhaliza', 'tasya.nurhaliza@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230014', NULL, NULL, 'Aktif'),
+('Rahmat Hidayat', 'rahmat.hidayat@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230015', NULL, NULL, 'Aktif'),
+('Melati Ayuning', 'melati.ayuning@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230016', NULL, NULL, 'Aktif'),
+('Dwiki Aditya', 'dwiki.aditya@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230017', NULL, NULL, 'Aktif'),
+('Nurul Fadilah', 'nurul.fadilah@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230018', NULL, NULL, 'Aktif'),
+('Gilang Pratama', 'gilang.pratama@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230019', NULL, NULL, 'Aktif'),
+('Rani Putri', 'rani.putri@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230020', NULL, NULL, 'Aktif'),
+('Kevin Saputra', 'kevin.saputra@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230021', NULL, NULL, 'Aktif'),
+('Fauzan Hidayat', 'fauzan.hidayat@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230022', NULL, NULL, 'Aktif'),
+('Dewi Lestari', 'dewi.lestari@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230023', NULL, NULL, 'Aktif'),
+('Ardiansyah Putra', 'ardiansyah.putra@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230024', NULL, NULL, 'Aktif'),
+('Siti Nurjanah', 'siti.nurjanah@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230025', NULL, NULL, 'Aktif');
 
 
 -- =======================
@@ -88,14 +89,15 @@ CREATE TABLE semester (
     id BIGSERIAL PRIMARY KEY,
     start_date DATE NOT NULL,
     end_date DATE NOT NULL,
-	jenis_semester VARCHAR(20) NOT NULL CHECK (jenis_semester IN ('ganjil','genap'))
+	jenis_semester VARCHAR(20) NOT NULL CHECK (jenis_semester IN ('ganjil','genap')),
+	status_aktif VARCHAR(20) NOT NULL CHECK (status_aktif IN ('Aktif', 'non-Aktif'))
 );
 
-INSERT INTO semester (start_date, end_date, jenis_semester) VALUES 
-('2023-08-01', '2023-12-31', 'ganjil'),
-('2024-02-01', '2024-06-30', 'genap'),
-('2024-08-01', '2024-12-31', 'ganjil'),
-('2025-02-01', '2025-06-30', 'genap');
+INSERT INTO semester (start_date, end_date, jenis_semester, status_aktif) VALUES 
+('2023-08-01', '2023-12-31', 'ganjil', 'Aktif'),
+('2024-02-01', '2024-06-30', 'genap', 'Aktif'),
+('2024-08-01', '2024-12-31', 'ganjil', 'Aktif'),
+('2025-02-01', '2025-06-30', 'genap', 'Aktif');
 
 -- ==============================================
 -- MATKUL-SEMESTER (many-to-many matkul-semester)
@@ -197,7 +199,8 @@ CREATE TABLE kelompok (
 	id BIGSERIAL PRIMARY KEY,
     nama_kelompok VARCHAR(100) NOT NULL,
 	jml_anggota BIGINT,
-	tubes_id BIGINT NOT NULL REFERENCES tubes(id) ON DELETE CASCADE
+	tubes_id BIGINT NOT NULL REFERENCES tubes(id) ON DELETE CASCADE,
+	UNIQUE (nama_kelompok, tubes_id)
 );
 
 INSERT INTO kelompok (nama_kelompok, jml_anggota, tubes_id) VALUES 
@@ -226,51 +229,46 @@ CREATE TABLE tahap_tubes (
 	deskripsi VARCHAR(255),
 	rubrik_penilaian VARCHAR(255), 
 	tanggal_akhir DATE NOT NULL, 
-	status_penilaian VARCHAR(20) NOT NULL CHECK (status_penilaian IN ('Graded', 'Not Graded')),
-	tubes_id BIGINT NOT NULL REFERENCES tubes(id) ON DELETE CASCADE
+	status_penilaian VARCHAR(20) NOT NULL CHECK (status_penilaian IN ('Graded', 'Not Graded')) DEFAULT 'Not Graded',   -- default value
+	tubes_id BIGINT NOT NULL REFERENCES tubes(id) ON DELETE CASCADE,
+	status_visibility_nilai VARCHAR(20) NOT NULL CHECK (status_visibility_nilai IN ('Hide', 'Unhide')) DEFAULT 'Unhide'          -- default value
 );
 
-INSERT INTO tahap_tubes (nama_tahap, deskripsi, rubrik_penilaian, tanggal_akhir, status_penilaian, tubes_id) VALUES 
+INSERT INTO tahap_tubes (nama_tahap, deskripsi, rubrik_penilaian, tanggal_akhir, tubes_id) VALUES 
 ('Tahap 1 - Proposal', 
  'Pengumpulan ide dan rancangan awal.', 
  'Penilaian berdasarkan kelengkapan proposal dan kejelasan ide.', 
  '2025-03-10', 
- 'Not Graded', 
  1),
 
 ('Tahap 2 - Desain Sistem', 
  'Pembuatan diagram class, flow, dan arsitektur.', 
  'Penilaian berdasarkan ketepatan desain dan kesesuaian requirement.', 
  '2025-03-20', 
- 'Not Graded', 
  1),
 
 ('Tahap 3 - Implementasi', 
  'Pengembangan kode sesuai desain yang telah disetujui.', 
  'Penilaian berdasarkan kualitas kode dan pemenuhan fitur.', 
  '2025-04-05', 
- 'Not Graded', 
  1),
 
  ('Tahap 1 - Proposal', 
  'Pengumpulan ide dan rancangan awal.', 
  'Penilaian berdasarkan kelengkapan proposal dan kejelasan ide.', 
  '2025-05-10', 
- 'Not Graded', 
  2),
 
 ('Tahap 2 - Desain Sistem', 
  'Pembuatan diagram class, flow, dan arsitektur.', 
  'Penilaian berdasarkan ketepatan desain dan kesesuaian requirement.', 
- '2025-05-20', 
- 'Not Graded', 
+ '2025-05-20',  
  2),
 
 ('Tahap 3 - Implementasi', 
  'Pengembangan kode sesuai desain yang telah disetujui.', 
  'Penilaian berdasarkan kualitas kode dan pemenuhan fitur.', 
- '2025-06-05', 
- 'Not Graded', 
+ '2025-06-05',  
  2);
 
 -- ======================================
@@ -319,7 +317,7 @@ INSERT INTO anggota_kelompok VALUES
 -- ======================================
 CREATE TABLE penilaian (
 	nilai NUMERIC(5,2),
-	komentar VARCHAR(255),
+	komentar VARCHAR(255) DEFAULT '',
 	tahap_id BIGINT NOT NULL REFERENCES tahap_tubes(id) ON DELETE CASCADE,
     user_id BIGINT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
     PRIMARY KEY (user_id, tahap_id)
@@ -366,3 +364,15 @@ INSERT INTO penilaian (nilai, komentar, tahap_id, user_id) VALUES
 (89.50, 'Clear delivery', 4, 9),
 (94.00, 'Great job', 4, 11),
 (85.25, 'Nice slides', 4, 12);
+
+-- ======================================
+-- NOTIFIKASI
+-- ======================================
+CREATE TABLE notifikasi (
+    id BIGSERIAL PRIMARY KEY,
+    user_id BIGINT REFERENCES users(id) ON DELETE CASCADE,
+    tipe VARCHAR(50),
+    konten TEXT,
+    is_read BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT NOW()
+);

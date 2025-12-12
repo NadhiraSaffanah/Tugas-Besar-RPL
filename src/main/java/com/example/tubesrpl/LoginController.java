@@ -34,23 +34,27 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public String processLogin(@RequestParam String email, @RequestParam String password, HttpSession session, Model model){
+    public String processLogin(@RequestParam String email, @RequestParam String password, HttpSession session,
+            Model model) {
         // ngecek email nya ada di db ga
         Optional<User> userOpt = userRepository.findByEmail(email);
 
-        if(userOpt.isPresent()){
+        if (userOpt.isPresent()) {
             User user = userOpt.get();
 
             // Cek Password (ingat, ini masih plain text)
             if (user.getPassword().equals(password)) {
-                
+
                 session.setAttribute("user", user);
 
                 // Redirect sesuai Role
                 switch (user.getRole()) {
-                    case "mahasiswa": return "redirect:/home-mahasiswa";
-                    case "dosen": return "redirect:/home-dosen";
-                    case "admin": return "redirect:/home-admin";
+                    case "mahasiswa":
+                        return "redirect:/home-mahasiswa";
+                    case "dosen":
+                        return "redirect:/home-dosen";
+                    case "admin":
+                        return "redirect:/home-admin";
                     default:
                         model.addAttribute("error", "Role tidak ada");
                         return "login";
@@ -62,9 +66,8 @@ public class LoginController {
         return "login";
     }
 
-    // ini sepertinya bakal pindah ke controller masing-masing
-    // @GetMapping("/home-mahasiswa")
-    // public String homeMhs() { return "Mahasiswa/homeMhs"; }
+    @GetMapping("/home-mahasiswa")
+    public String homeMhs() { return "Mahasiswa/homeMhs"; }
     
     // @GetMapping("/home-dosen")
     // public String homeDosen() { return "Dosen/homeDosen"; }
