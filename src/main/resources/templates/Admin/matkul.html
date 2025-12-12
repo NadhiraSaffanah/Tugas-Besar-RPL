@@ -96,18 +96,16 @@
                     </div>
                     <div class="popup-body">
                         <input type="file" id="csv-file-input" accept=".csv" class="add-file-btn">
-                        <div class="manual-input-section">
-                            <div class="input-row">
-                                <div class="input-group">
-                                    <label for="">Nama Matkul</label>
-                                    <input type="text" id="namaMatkul" name="namaMatkul" placeholder="Nama Matkul" class="manual-input">
-                                </div>
-                                <div class="input-group">
-                                    <label for="kelasMatkul">Kelas</label>
-                                    <input type="text" id="kelasMatkul" name="kelasMatkul" placeholder="Kelas" class="manual-input">
-                                </div>
-                                <button type="button" id="add-manual-btn" class="add-manual-btn">Add</button>
+                        <div class="input-section">
+                            <div class="input-group">
+                                <label for="">Nama Matkul</label>
+                                <input type="text" id="namaMatkul" name="namaMatkul" placeholder="Nama Matkul" class="manual-input">
                             </div>
+                            <div class="input-group">
+                                <label for="kelasMatkul">Kelas</label>
+                                <input type="text" id="kelasMatkul" name="kelasMatkul" placeholder="Kelas" class="manual-input">
+                            </div>
+                            <button type="button" id="add-manual-btn" class="add-manual-btn">Add</button>
                         </div>
             
                         <div id="course-list" class="course-list">
@@ -115,10 +113,13 @@
                         </div>
                    
                     </div>
-                    <button type="button" id="add-course-btn" class="submit-btn"><b>Add Course</b></button>
+                    <button type="button" id="submit-course-btn" class="submit-btn"><b>Add Course</b></button>
                 </div>
             </div>
-
+            <!-- ambil idSemester dari url buat dikirim ke js -->
+            <script th:inline="javascript">
+                window.idSemester = /*[[${idSemester}]]*/ null;
+            </script> 
         </section>
     </main>
 </body>

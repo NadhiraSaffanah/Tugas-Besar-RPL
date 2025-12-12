@@ -2,30 +2,32 @@ let courseList = []; // menyimpan list kelas yang akan ditambahkan
 
 //buat buka tutup popup bikin semester
 function openForm() {
+    courseList = []; // Reset waktu dibuka
     document.getElementById("courseForm").style.display = "flex";
-    courseList = []; // Reset list when opening
+    document.getElementById("csv-file-input").value = ""; //double reset file input
+    
     updateCourseListDisplay();
 }
 
 function closeForm() {
+    courseList = []; // Reset waktu ditutup
     document.getElementById("courseForm").style.display = "none";
-    courseList = []; // Reset list when closing
     document.getElementById("course-list").innerHTML = "";
-    document.getElementById("nama_matkul_manual").value = "";
-    document.getElementById("kelas_matkul_manual").value = "";
-    document.getElementById("add-with-file-btn").value = "";
+    document.getElementById("namaMatkul").value = "";
+    document.getElementById("kelasMatkul").value = "";
+    document.getElementById("csv-file-input").value = "";
 }
 
 // mekanisme add course kalau manual
 function addManualCourse() {
-    const namaMatkul = document.getElementById("nama_matkul_manual").value.trim();
-    const kelasMatkul = document.getElementById("kelas_matkul_manual").value.trim();
+    const namaMatkul = document.getElementById("namaMatkul").value.trim();
+    const kelasMatkul = document.getElementById("kelasMatkul").value.trim();
     
     if (namaMatkul && kelasMatkul) {
         addCourseToList(namaMatkul, kelasMatkul);
-        document.getElementById("nama_matkul_manual").value = "";
-        document.getElementById("kelas_matkul_manual").value = "";
-        document.getElementById("nama_matkul_manual").focus(); // Focus back to first input
+        document.getElementById("namaMatkul").value = "";
+        document.getElementById("kelasMatkul").value = "";
+        document.getElementById("namaMatkul").focus(); // Focus back to first input
     } else {
         alert('Please fill in both Nama Matkul and Class fields');
     }
@@ -48,17 +50,7 @@ document.getElementById("csv-file-input")?.addEventListener("change", function(e
     }
 });
 
-// Trigger file input when "Add with file" is clicked
-document.getElementById("add-with-file-btn")?.addEventListener("click", function() {
-    document.getElementById("csv-file-input").click();
-});
-
-// Also trigger when clicking the file upload label
-document.querySelector(".file-upload-label")?.addEventListener("click", function(e) {
-    e.preventDefault();
-    document.getElementById("csv-file-input").click();
-});
-
+//parse csv file untuk ambil data nama matkul dan kelas matkul, harus memiliki header nama_matkul dan kelas_matkul
 function parseCSV(csv) {
     const lines = csv.split(/\r?\n/).filter(line => line.trim());
     if (lines.length < 2) {
@@ -79,7 +71,7 @@ function parseCSV(csv) {
         return;
     }
     
-    // Parse data rows
+    // Parse per row data
     for (let i = 1; i < lines.length; i++) {
         if (lines[i].trim()) {
             const values = parseCSVLine(lines[i]);
@@ -116,6 +108,7 @@ function parseCSVLine(line) {
     return result;
 }
 
+//fungsi menambah course ke list dengan penanganan duplikat
 function addCourseToList(namaMatkul, kelasMatkul) {
     // Check if course already exists
     const exists = courseList.some(c => 
@@ -133,6 +126,7 @@ function removeCourseFromList(index) {
     updateCourseListDisplay();
 }
 
+//update tampilan list pada popup
 function updateCourseListDisplay() {
     const listContainer = document.getElementById("course-list");
     listContainer.innerHTML = "";
@@ -148,35 +142,36 @@ function updateCourseListDisplay() {
     });
 }
 
-// Handle form submission
-document.getElementById("add-course-btn")?.addEventListener("click", function() {
+// menangani submit 
+document.getElementById("submit-course-btn")?.addEventListener("click", function() {
     if (courseList.length === 0) {
         alert('Please add at least one course');
         return;
     }
     
-    // Get semester ID from the page
-    const idSemester = /*[[${idSemester}]]*/ null;
+    // ambil idSemester dari window object (defined di matkul.html)
+    const idSemester = window.idSemester;
     
     if (!idSemester) {
         alert('Semester ID not found');
         return;
     }
     
-    // Create form data
+    // buat form data untuk dikirim ke server
     const formData = new FormData();
     formData.append('idSemester', idSemester);
     courseList.forEach((course) => {
         formData.append('courses', course.namaMatkul + ',' + course.kelasMatkul);
     });
     
-    // Send to server
+    // kirim ke server dengan post
     fetch('/admin/courses/create', {
         method: 'POST',
         body: formData
     })
     .then(response => {
         if (response.ok || response.redirected) {
+            closeForm(); //tutup popup sebelum reload
             window.location.reload(); // Refresh page
         } else {
             alert('Error creating courses');
@@ -184,6 +179,6 @@ document.getElementById("add-course-btn")?.addEventListener("click", function() 
     })
     .catch(error => {
         console.error('Error:', error);
-        alert('Error creating courses');
+        alert('Error creating courses: ' + error.message);
     });
 });

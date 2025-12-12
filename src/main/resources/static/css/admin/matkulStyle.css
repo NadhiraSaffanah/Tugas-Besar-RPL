@@ -431,16 +431,12 @@ main {
     flex-direction: column;
 }
 
-.manual-input-section {
-    display: flex;
-    flex-direction: column;
-    gap: 1em;
-}
 
-.input-row {
+.input-section {
     display: flex;
-    gap: 0.5em;
+    flex-direction: row;
     align-items: flex-end;
+    gap: 1.5em;
 }
 
 .input-group {
@@ -464,6 +460,8 @@ main {
     font-size: 1em;
 }
 
+
+/* add manually button */
 .add-manual-btn {
     padding: 0.7em 1.5em;
     background-color: var(--button-color);
@@ -480,6 +478,7 @@ main {
     background-color: #7a8a45;
 }
 
+/* add with file button */
 .add-file-btn {
     background-color: var(--button-color);
     color: white;
@@ -492,7 +491,8 @@ main {
     border-radius: 0.3em;
 }
 
-.add-file-btn:hover {
+/* submit button popup */
+.submit-btn:hover {
     background-color: #7a8a45;
 }
 
