@@ -23,7 +23,10 @@
                 <li>
                     <div>
                         <a th:href="@{/dosen/profile}">
-                             <img th:src="@{/images/default-profile.png}" alt="profile">
+                            <img 
+                            class="profile-pic" 
+                            th:src="${dosen.fotoProfil == null} ? @{/images/default-profile.jpg} : @{'/images/' + user.fotoProfil}" 
+                            alt="profile picture">
                         </a>
                     </div>    
                 </li>
