@@ -1,9 +1,5 @@
-<<<<<<<< HEAD:src/main/java/com/example/tubesrpl/model/User.java
-package com.example.tubesrpl.model;
-========
-package com.example.tubesrpl.data;
->>>>>>>> 0c42af0fe33aba64ab4f3f6b7958c9765af4fb54:src/main/java/com/example/tubesrpl/data/User.java
 
+package com.example.tubesrpl.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor; // buat mapping kolom postgre

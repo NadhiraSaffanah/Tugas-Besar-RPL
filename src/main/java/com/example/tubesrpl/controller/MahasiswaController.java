@@ -14,6 +14,7 @@ import com.example.tubesrpl.data.User;
 import com.example.tubesrpl.model.Matkul;
 import com.example.tubesrpl.model.TahapTubes;
 import com.example.tubesrpl.model.Tubes;
+import com.example.tubesrpl.data.Tubes;
 import com.example.tubesrpl.repository.MatkulRepository;
 import com.example.tubesrpl.repository.TahapRepository;
 import com.example.tubesrpl.repository.TubesRepository;
@@ -52,7 +53,7 @@ public class MahasiswaController {
     }
     
     // ROUTING UNTUK COURSE (BARU DITAMBAHIN BACKEND)
-    @GetMapping("/dosen/course")
+    @GetMapping("/mahasiswa/course")
     public String courseHome(HttpSession session, Model model) {
         User user = (User) session.getAttribute("user");
 
@@ -94,7 +95,7 @@ public class MahasiswaController {
         model.addAttribute("header", headerInfo);
 
         // ambil tubes (bisa null)
-        Optional<Tubes> tubesOpt = tubesRepository.findByMatkulId(matkulId);
+        Optional<Tubes> tubesOpt = tubesRepository.findAllByMatkulId(matkulId);
 
         if (tubesOpt.isPresent()) {
             Tubes tubes = tubesOpt.get();

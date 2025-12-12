@@ -4,13 +4,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
-
-import com.example.tubesrpl.data.Tubes;
+import com.example.tubesrpl.model.Tubes;
 
 @Repository
 public class TubesRepository {
@@ -56,8 +54,38 @@ public class TubesRepository {
         return jdbcTemplate.query(sql, tubesRowMapper, semester);
     }
 
-    public Optional<com.example.tubesrpl.model.Tubes> findByMatkulId(Long matkulId) {
+    public Optional<Tubes> findAllByMatkulId(Long matkulId) {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findByMatkulId'");
+        // throw new UnsupportedOperationException("Unimplemented method 'findByMatkulId'");
+
+        String sql = """
+            SELECT 
+                t.id AS tubes_id,
+                t.nama_tubes,
+                t.deskripsi,
+                t.jml_kelompok,
+                t.matkul_id,
+                ms.semester_id,
+                m.nama_matkul,
+                s.start_date,
+                s.end_date
+            FROM tubes t
+            JOIN matkul m ON t.matkul_id = m.id
+            JOIN matkul_semester ms ON m.id = ms.matkul_id
+            JOIN semester s ON ms.semester_id = s.id
+            WHERE t.matkul_id = ?
+            """;
+        
+        return jdbcTemplate.query(sql, tubesRowMapper, matkulId).stream().findFirst();
+    }
+
+    public void createTubes(String namaTubes, String deskripsi, int jmlKelompok, Long matkulId) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'createTubes'");
+    }
+
+    public void updateTubes(Long id, String namaTubes, String deskripsi, int jmlKelompok) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'updateTubes'");
     }
 }
