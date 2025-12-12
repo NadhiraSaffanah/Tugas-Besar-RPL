@@ -98,14 +98,14 @@ CREATE TABLE semester (
     start_date DATE NOT NULL,
     end_date DATE NOT NULL,
 	jenis_semester VARCHAR(20) NOT NULL CHECK (jenis_semester IN ('ganjil','genap')),
-	status_aktif VARCHAR(20) NOT NULL CHECK (status_aktif IN ('Aktif', 'non-Aktif'))
+	isActive BOOLEAN NOT NULL
 );
 
-INSERT INTO semester (start_date, end_date, jenis_semester, status_aktif) VALUES 
-('2023-08-01', '2023-12-31', 'ganjil', 'Aktif'),
-('2024-02-01', '2024-06-30', 'genap', 'Aktif'),
-('2024-08-01', '2024-12-31', 'ganjil', 'Aktif'),
-('2025-02-01', '2025-06-30', 'genap', 'Aktif');
+INSERT INTO semester (start_date, end_date, jenis_semester, isActive) VALUES 
+('2023-08-01', '2023-12-31', 'ganjil', 'TRUE'),
+('2024-02-01', '2024-06-30', 'genap', 'TRUE'),
+('2024-08-01', '2024-12-31', 'ganjil', 'TRUE'),
+('2025-02-01', '2025-06-30', 'genap', 'TRUE');
 
 -- ==============================================
 -- MATKUL-SEMESTER (many-to-many matkul-semester)
