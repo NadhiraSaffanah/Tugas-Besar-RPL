@@ -1,14 +1,15 @@
-package com.example.tubesrpl;
+package com.example.tubesrpl.repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+
+import com.example.tubesrpl.data.Tubes;
 
 @Repository
 public class TubesRepository {

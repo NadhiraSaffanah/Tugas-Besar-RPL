@@ -4,7 +4,7 @@
 <head xmlns:th="http://www.thymeleaf.org">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Homepage Tugas Besar</title>
+    <title>Homepage Mahasiswa</title>
     <link rel="stylesheet" th:href="@{/css/home-page.css}">
     <script src="" defer></script>
 </head>
@@ -14,7 +14,7 @@
         <nav>
             <ul id="nav-left">
                 <li><img src="/images/book.png" alt="book icon"></li>
-                <li><a href="home-page.html">Home</a></li>
+                <li><a href="home-mahasiswa">Home</a></li>
                 <li><a href="course-home.html">Course</a></li>
             </ul>
             <ul id="nav-right">
@@ -47,6 +47,7 @@
         <section id="bellowIMG">
             <section id="on-going-courseMHS">
                 <h1>On Going</h1>
+
                 <div id="course-wrapperMHS">
                     <div class="course-cardMHS" th:each="t : ${tubeslist}">
                         <div class="date">
@@ -62,33 +63,20 @@
                 <h1>Timeline</h1>
 
                 <div id="timeline-wrapper">
-                    <div class="timeline-card">
+                    <div class="timeline-card" th:each="p : ${phaselist}">
+
                         <div class="date">
                             <img src="images/calendar.svg" alt="calendar icon">
-                            <p>Wednesday, 15 Nov 2029</p>
+                            <p th:text="${#temporals.format(p.endDate, 'dd MMMM yyyy')}">01 January 2025</p>
                         </div>
-
                         <div class="timeline-content">
-                            <img src="images/file.svg" alt="file icon">
-                            <p>SRS - Rekayasa Perangkat Lunak</p>
+                            <img src="images/Inbox.svg" alt="file icon">
+                            <p th:text="${p.nama} + ' - ' + ${p.matkul}">SRS - Rekayasa Perangkat Lunak</p>
                         </div>
 
                         <button class="detail-button">View Detail</button>
                     </div>
 
-                    <div class="timeline-card">
-                        <div class="date">
-                            <img src="images/calendar.svg" alt="calendar icon">
-                            <p>Monday, 20 Nov 2029</p>
-                        </div>
-
-                        <div class="timeline-content">
-                            <img src="images/file.svg" alt="file icon">
-                            <p>Laporan Bab 1</p>
-                        </div>
-
-                        <button class="detail-button">View Detail</button>
-                    </div>
                 </div>
             </section>
         </section>
