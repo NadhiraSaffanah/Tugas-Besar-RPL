@@ -384,7 +384,7 @@ main {
     flex-direction: column;
     gap: 1em;
     max-height: 35vh;
-    overflow-y: auto;
+    overflow: hidden;
 }
 
 /* Title styling konsisten */
@@ -400,6 +400,9 @@ main {
     display: flex;
     flex-direction: column;
     gap: 1em;
+    overflow-y: auto;
+    padding-right: 0.5em;
+    max-height: 26vh;
 }
 
 .course-cardMHS {
@@ -413,13 +416,13 @@ main {
 }
 
 /* Scrollbar clean */
-#on-going-courseMHS::-webkit-scrollbar,
-#timeline-section::-webkit-scrollbar {
+#course-wrapperMHS::-webkit-scrollbar,
+#timeline-wrapper::-webkit-scrollbar {
     width: 6px;
 }
 
-#on-going-courseMHS::-webkit-scrollbar-thumb,
-#timeline-section::-webkit-scrollbar-thumb {
+#course-wrapperMHS::-webkit-scrollbar-thumb,
+#timeline-wrapper::-webkit-scrollbar-thumb {
     background: #b8c28b;
     border-radius: 10px;
 }
