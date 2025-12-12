@@ -87,7 +87,11 @@ public class DosenController {
     public String courseDetails(@RequestParam(name = "id") Long matkulId, HttpSession session, Model model) {
 
         User user = (User) session.getAttribute("user");
-        if (user == null) return "redirect:/login";
+
+        // BARU, kalau bukan dosen redirect ke login
+        if (user == null || !"dosen".equalsIgnoreCase(user.getRole())) {
+            return "redirect:/login";
+        }
 
         // ambil info header (selalu ada walaupun misal belum ada tubesnya)
         // Isinya: nama_matkul, start_date, end_date
