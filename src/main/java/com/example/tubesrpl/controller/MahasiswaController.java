@@ -72,7 +72,7 @@ public class MahasiswaController {
     
     // BARU
     @GetMapping("mahasiswa/course/details")
-    public String courseDetails(@RequestParam(name = "id") Long matkulId, HttpSession session, Model model) {
+    public String courseDetails(@RequestParam(name = "id", required = false) Long matkulId, HttpSession session, Model model) {
 
         User user = (User) session.getAttribute("user");
         if (user == null) return "redirect:/login";

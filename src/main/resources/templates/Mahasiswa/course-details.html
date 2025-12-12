@@ -38,15 +38,15 @@
         <main class="main-content">
             <!--Nav Page-->
             <nav class="course-tabs">
-                <button class="tab-button" name="Grading" th:href="@{/mahasiswa/course/nav/grading(id=${selectedMatkulId})}">Grading</button>
-                <button class="tab-button" name="Participants" th:href="@{/mahasiswa/course/nav/participant(id=${selectedMatkulId})}">Participant</button>
-                <button class="tab-button" name="Group" th:href="@{/mahasiswa/course/nav/group(id=${selectedMatkulId})}">Groups</button>
+                <a th:href="@{/mahasiswa/course/nav/grading(id=${selectedMatkulId})}" class="tab-button" name="Grading">Grading</a>
+                <a th:href="@{/mahasiswa/course/nav/participant(id=${selectedMatkulId})}" class="tab-button" name="Participants">Participant</a>
+                <a th:href="@{/mahasiswa/course/nav/group(id=${selectedMatkulId})}" class="tab-button" name="Group">Groups</a>
             </nav>
 
             <section class="tubes-info-container">
                 <div class="tubes-main-info">
                     <!--Judul Tugas Besar-->
-                    <h2 class="tubes-title" name="judul-tubes" th:text="${tubes != null ? tubes.namaTubes : 'Project'}">Project</h2>
+                    <h2 class="tubes-title" name="judul-tubes" th:text="${tubes.namaTubes}">Project</h2>
                     <span th:text="${header.get('nama_matkul')}">Nama Matkul</span>
 
                     <!--Tanggal Tugas Besar-->
@@ -117,19 +117,24 @@
                                 </thead>
 
                                 <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>SRS</td>
-                                        <td>Wednesay, 15 Nov 2029</td>
-                                        <td>Graded</td>
-                                        <td><button class="view-button"><i class="fas fa-eye"></i> View</button></td>
+                                    <tr th:each="tahap, iterStat : ${listTahap}">
+                                        <td th:text="${iterStat.index + 1}">1</td> 
+                                        
+                                        <td th:text="${tahap.namaTahap}">SRS</td> 
+                                        
+                                        <td th:text="${#temporals.format(tahap.deadline, 'EEEE, d MMM yyyy HH:mm')}">Wednesay, 15 Nov 2029</td>
+                                        
+                                        <td th:text="${#temporals.createNow().isAfter(tahap.deadline)} ? 'Closed' : 'Open'">Status</td>
+                                        
+                                        <td>
+                                            <a th:href="@{/mahasiswa/course/tahap/detail(tahapId=${tahap.id}, matkulId=${selectedMatkulId})}" class="view-button">
+                                                <i class="fas fa-eye"></i> View
+                                            </a>
+                                        </td>
                                     </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>ERD</td>
-                                        <td>Saturday, 18 Nov 2029</td>
-                                        <td>Not Graded</td>
-                                        <td><button class="view-button"><i class="fas fa-eye"></i> View</button></td>
+                                    
+                                    <tr th:if="${#lists.isEmpty(listTahap)}">
+                                        <td colspan="5" style="text-align: center;">Currently there is no grading phase.</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -141,25 +146,24 @@
                         <div class="group-box">
                             <div class="box-header">
                                 <h3>Group</h3>
-
                                 <div class="right-side">
 
-                                    <div th:if="${}"> <!--kalo ga locked-->
-                                        <span class="status-tag-locked">Not Locked</span>
-                                        <a th:href="@{}">
+                                    <div th:if="${!isGroupLocked}">
+                                        <span class="status-tag-unlocked">Not Locked</span>
+                                        <a th:href="@{/mahasiswa/course/group/view(id=${selectedMatkulId})}" title="View Group">
                                             <img th:src="@{/images/view-details.svg}" alt="view details">
                                         </a>
                                     </div>
 
-                                    <div th:if="${}"> <!--kalo locked-->
+                                    <div th:if="${isGroupLocked}">
                                         <span class="status-tag-locked">Locked</span>
-                                        <a th:href="@{}">
+                                        <a th:href="@{/mahasiswa/course/group/view(id=${selectedMatkulId})}" title="View Group">
                                             <img th:src="@{/images/view-details.svg}" alt="view details">
                                         </a>
                                     </div>
                                 </div>
-                            </div> 
-                            <div class="group-name" name="group-name" th:text="${tubes.group}"> nama Group </div>
+                            </div>
+                            <div class="group-name" name="group-name" th:text="${tubes.groupName}"> nama Group </div>
                         </div>
                     </section>
                 </section>
