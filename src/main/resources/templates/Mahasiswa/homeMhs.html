@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head xmlns:th="http://www.thymeleaf.org">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homepage</title>
+    <link rel="stylesheet" th:href="@{/css/home-page.css}">
+    <script src="" defer></script>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <ul id="nav-left">
+                <li><img src="/images/book.png" alt="book icon"></li>
+                <li><a href="home-page.html">Home</a></li>
+                <li><a href="course-home.html">Course</a></li>
+            </ul>
+            <ul id="nav-right">
+                <li>
+                    <span>Nama</span>
+                    <span>61823010xx@unpar.ac.id</span>
+                </li>
+                <li>
+                    <div>
+                        <a href="/profile">
+                            <img src="" alt="profile picture">
+                        </a>
+                    </div>
+                </li>
+                <li><img src="images/bell.png" alt="notification icon"></li>
+                <li><img src="images/logout.png" alt="logout icon"></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="image-container">
+            <img src="images/homepage-img.png" alt="">
+            <div id="info-wrapper">
+                <img src="images/book.svg" alt="">
+                <p>Tubes <br>UNPAR</p>
+            </div>
+        </section>
+
+        <section id="bellowIMG">
+            <section id="on-going-courseMHS">
+                <h1>On Going</h1>
+                <div id="course-wrapperMHS">
+                    <div class="course-cardMHS" th:each="t : ${tubeslist}">
+                        <div class="date">
+                            <img src="images/calendar.svg" alt="calender icon">
+                            <p th:text="${#temporals.format(t.endDate, 'dd MMMM yyyy')}">01 January 2025</p>
+                        </div>
+                        <h3 th:text="${t.nama}"> - <span th:text="${t.matkul}"></span></h3>
+                    </div>
+                </div>
+            </section>
+
+            <section id="timeline-section">
+                <h1>Timeline</h1>
+
+                <div id="timeline-wrapper">
+                    <div class="timeline-card">
+                        <div class="date">
+                            <img src="images/calendar.svg" alt="calendar icon">
+                            <p>Wednesday, 15 Nov 2029</p>
+                        </div>
+
+                        <div class="timeline-content">
+                            <img src="images/file.svg" alt="file icon">
+                            <p>SRS - Rekayasa Perangkat Lunak</p>
+                        </div>
+
+                        <button class="detail-button">View Detail</button>
+                    </div>
+
+                    <div class="timeline-card">
+                        <div class="date">
+                            <img src="images/calendar.svg" alt="calendar icon">
+                            <p>Monday, 20 Nov 2029</p>
+                        </div>
+
+                        <div class="timeline-content">
+                            <img src="images/file.svg" alt="file icon">
+                            <p>Laporan Bab 1</p>
+                        </div>
+
+                        <button class="detail-button">View Detail</button>
+                    </div>
+                </div>
+            </section>
+        </section>
+    </main>
+</body>
+
+</html>
