@@ -1,3 +1,5 @@
+
+
 -- =======================
 -- DROP TABLES (RESET SAFE)
 -- =======================
@@ -11,6 +13,7 @@ DROP TABLE IF EXISTS tahap_tubes CASCADE;
 DROP TABLE IF EXISTS user_matkul CASCADE;
 DROP TABLE IF EXISTS users CASCADE;
 DROP TABLE IF EXISTS anggota_kelompok CASCADE;
+DROP TABLE IF EXISTS notifikasi CASCADE;
 
 -- =======================
 -- USERS
@@ -24,45 +27,45 @@ CREATE TABLE users (
     npm VARCHAR(10) UNIQUE,
     no_induk VARCHAR(10) UNIQUE,
     foto_profil VARCHAR(255), 
-	isActive BOOLEAN NOT NULL -- diganti jadi boolean
+	isActive BOOLEAN NOT NULL -- diganti ja
 );
 
-INSERT INTO users (nama, email, password_hash, role, npm, no_induk, foto_profil, status_aktif) VALUES
+INSERT INTO users (nama, email, password_hash, role, npm, no_induk, foto_profil, isActive) VALUES
 --DOSEN
-('Dr. Andi Pratama', 'andi.pratama@kampus.edu', 'hashedpass', 'dosen', NULL, 'D001', NULL, 'Aktif'),
-('Dr. Siti Lestari', 'siti.lestari@kampus.edu', 'hashedpass', 'dosen', NULL, 'D002', NULL, 'Aktif'),
-('Prof. Budi Santoso', 'budi.santoso@kampus.edu', 'hashedpass', 'dosen', NULL, 'D003', NULL, 'Aktif'),
-('Dr. Rina Kumala', 'rina.kumala@kampus.edu', 'hashedpass', 'dosen', NULL, 'D004', NULL, 'Aktif'),
-('Dr. Joko Setiawan', 'joko.setiawan@kampus.edu', 'hashedpass', 'dosen', NULL, 'D005', NULL, 'Aktif'),
+('Dr. Andi Pratama', 'andi.pratama@kampus.edu', 'hashedpass', 'dosen', NULL, 'D001', NULL, TRUE),
+('Dr. Siti Lestari', 'siti.lestari@kampus.edu', 'hashedpass', 'dosen', NULL, 'D002', NULL, TRUE),
+('Prof. Budi Santoso', 'budi.santoso@kampus.edu', 'hashedpass', 'dosen', NULL, 'D003', NULL, TRUE),
+('Dr. Rina Kumala', 'rina.kumala@kampus.edu', 'hashedpass', 'dosen', NULL, 'D004', NULL, TRUE),
+('Dr. Joko Setiawan', 'joko.setiawan@kampus.edu', 'hashedpass', 'dosen', NULL, 'D005', NULL, TRUE),
 --MAHASISWA 
-('Nadhira Saffanah', 'nadhira01@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230001', NULL, NULL, 'Aktif'),
-('Rizki Ramadhan', 'rizki.ramadhan@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230002', NULL, NULL, 'Aktif'),
-('Aulia Rahmadani', 'aulia.rahma@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230003', NULL, NULL, 'Aktif'),
-('Fadhil Akbar', 'fadhil.akbar@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230004', NULL, NULL, 'Aktif'),
-('Salsabila Putri', 'salsa.putri@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230005', NULL, NULL, 'Aktif'),
-('Irfan Maulana', 'irfan.maulana@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230006', NULL, NULL, 'Aktif'),
-('Dinda Maharani', 'dinda.maharani@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230007', NULL, NULL, 'Aktif'),
-('Rafi Hidayat', 'rafi.hidayat@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230008', NULL, NULL, 'Aktif'),
-('Aisyah Aulia', 'aisyah.aulia@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230009', NULL, NULL, 'Aktif'),
-('Bagas Saputra', 'bagas.saputra@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230010', NULL, NULL, 'Aktif'),
-('Putri Amelia', 'putri.amelia@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230011', NULL, NULL, 'Aktif'),
-('Raka Pratama', 'raka.pratama@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230012', NULL, NULL, 'Aktif'),
-('Aldeano Prakoso', 'aldeano.prakoso@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230013', NULL, NULL, 'Aktif'),
-('Tasya Nurhaliza', 'tasya.nurhaliza@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230014', NULL, NULL, 'Aktif'),
-('Rahmat Hidayat', 'rahmat.hidayat@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230015', NULL, NULL, 'Aktif'),
-('Melati Ayuning', 'melati.ayuning@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230016', NULL, NULL, 'Aktif'),
-('Dwiki Aditya', 'dwiki.aditya@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230017', NULL, NULL, 'Aktif'),
-('Nurul Fadilah', 'nurul.fadilah@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230018', NULL, NULL, 'Aktif'),
-('Gilang Pratama', 'gilang.pratama@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230019', NULL, NULL, 'Aktif'),
-('Rani Putri', 'rani.putri@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230020', NULL, NULL, 'Aktif'),
-('Kevin Saputra', 'kevin.saputra@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230021', NULL, NULL, 'Aktif'),
-('Fauzan Hidayat', 'fauzan.hidayat@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230022', NULL, NULL, 'Aktif'),
-('Dewi Lestari', 'dewi.lestari@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230023', NULL, NULL, 'Aktif'),
-('Ardiansyah Putra', 'ardiansyah.putra@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230024', NULL, NULL, 'Aktif'),
-('Siti Nurjanah', 'siti.nurjanah@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230025', NULL, NULL, 'Aktif'),
+('Nadhira Saffanah', 'nadhira01@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230001', NULL, NULL, TRUE),
+('Rizki Ramadhan', 'rizki.ramadhan@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230002', NULL, NULL, TRUE),
+('Aulia Rahmadani', 'aulia.rahma@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230003', NULL, NULL, TRUE),
+('Fadhil Akbar', 'fadhil.akbar@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230004', NULL, NULL, TRUE),
+('Salsabila Putri', 'salsa.putri@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230005', NULL, NULL, TRUE),
+('Irfan Maulana', 'irfan.maulana@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230006', NULL, NULL, TRUE),
+('Dinda Maharani', 'dinda.maharani@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230007', NULL, NULL, TRUE),
+('Rafi Hidayat', 'rafi.hidayat@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230008', NULL, NULL, TRUE),
+('Aisyah Aulia', 'aisyah.aulia@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230009', NULL, NULL, TRUE),
+('Bagas Saputra', 'bagas.saputra@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230010', NULL, NULL, TRUE),
+('Putri Amelia', 'putri.amelia@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230011', NULL, NULL, TRUE),
+('Raka Pratama', 'raka.pratama@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230012', NULL, NULL, TRUE),
+('Aldeano Prakoso', 'aldeano.prakoso@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230013', NULL, NULL, TRUE),
+('Tasya Nurhaliza', 'tasya.nurhaliza@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230014', NULL, NULL, TRUE),
+('Rahmat Hidayat', 'rahmat.hidayat@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230015', NULL, NULL, TRUE),
+('Melati Ayuning', 'melati.ayuning@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230016', NULL, NULL, TRUE),
+('Dwiki Aditya', 'dwiki.aditya@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230017', NULL, NULL, TRUE),
+('Nurul Fadilah', 'nurul.fadilah@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230018', NULL, NULL, TRUE),
+('Gilang Pratama', 'gilang.pratama@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230019', NULL, NULL, TRUE),
+('Rani Putri', 'rani.putri@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230020', NULL, NULL, TRUE),
+('Kevin Saputra', 'kevin.saputra@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230021', NULL, NULL, TRUE),
+('Fauzan Hidayat', 'fauzan.hidayat@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230022', NULL, NULL, TRUE),
+('Dewi Lestari', 'dewi.lestari@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230023', NULL, NULL, TRUE),
+('Ardiansyah Putra', 'ardiansyah.putra@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230024', NULL, NULL, TRUE),
+('Siti Nurjanah', 'siti.nurjanah@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230025', NULL, NULL, TRUE),
 
 --ADMIN
-('Dogman', 'dogman@admin.edu', 'hashedpass', 'admin', NULL, NULL, NULL, 'Aktif'); 
+('Dogman', 'dogman@admin.edu', 'hashedpass', 'admin', NULL, NULL, NULL, TRUE); 
 
 
 -- =======================
@@ -75,17 +78,17 @@ CREATE TABLE matkul (
 	isActive BOOLEAN NOT NULL 
 );
 
-INSERT INTO matkul (nama_matkul, kelas_matkul) VALUES
-('Algoritma dan Struktur Data', 'A'),
-('Algoritma dan Struktur Data', 'B'),
-('Basis Data', 'A'),
-('Basis Data', 'C'),
-('Pemrograman Berorientasi Objek', 'A'),
-('Pemrograman Berorientasi Objek', 'B'),
-('Jaringan Komputer', 'A'),
-('Sistem Operasi', 'A'),
-('Sistem Operasi', 'B'),
-('Rekayasa Perangkat Lunak', 'A');
+INSERT INTO matkul (nama_matkul, kelas_matkul, isActive) VALUES
+('Algoritma dan Struktur Data', 'A', TRUE),
+('Algoritma dan Struktur Data', 'B', TRUE),
+('Basis Data', 'A', TRUE),
+('Basis Data', 'C', TRUE),
+('Pemrograman Berorientasi Objek', 'A', TRUE),
+('Pemrograman Berorientasi Objek', 'B', TRUE),
+('Jaringan Komputer', 'A', TRUE),
+('Sistem Operasi', 'A', TRUE),
+('Sistem Operasi', 'B', TRUE),
+('Rekayasa Perangkat Lunak', 'A', TRUE);
 
 -- =======================
 -- SEMESTER 
@@ -95,7 +98,7 @@ CREATE TABLE semester (
     start_date DATE NOT NULL,
     end_date DATE NOT NULL,
 	jenis_semester VARCHAR(20) NOT NULL CHECK (jenis_semester IN ('ganjil','genap')),
-	isActive BOOLEAN NOT NULL 
+	status_aktif VARCHAR(20) NOT NULL CHECK (status_aktif IN ('Aktif', 'non-Aktif'))
 );
 
 INSERT INTO semester (start_date, end_date, jenis_semester, status_aktif) VALUES 
@@ -180,8 +183,7 @@ CREATE TABLE tubes (
     nama_tubes VARCHAR(100) NOT NULL,
     deskripsi VARCHAR(255),
 	jml_kelompok BIGINT,
-	matkul_id BIGINT NOT NULL REFERENCES matkul(id) ON DELETE CASCADE,
-	isActive BOOLEAN NOT NULL 
+	matkul_id BIGINT NOT NULL REFERENCES matkul(id) ON DELETE CASCADE
 );
 
 INSERT INTO tubes (nama_tubes, deskripsi, jml_kelompok, matkul_id) VALUES 
@@ -206,8 +208,7 @@ CREATE TABLE kelompok (
     nama_kelompok VARCHAR(100) NOT NULL,
 	jml_anggota BIGINT,
 	tubes_id BIGINT NOT NULL REFERENCES tubes(id) ON DELETE CASCADE,
-	UNIQUE (nama_kelompok, tubes_id),
-	isActive BOOLEAN NOT NULL 
+	UNIQUE (nama_kelompok, tubes_id)
 );
 
 INSERT INTO kelompok (nama_kelompok, jml_anggota, tubes_id) VALUES 
@@ -238,46 +239,57 @@ CREATE TABLE tahap_tubes (
 	tanggal_akhir DATE NOT NULL, 
 	status_penilaian VARCHAR(20) NOT NULL CHECK (status_penilaian IN ('Graded', 'Not Graded')) DEFAULT 'Not Graded',   -- default value
 	tubes_id BIGINT NOT NULL REFERENCES tubes(id) ON DELETE CASCADE,
-	status_visibility_nilai VARCHAR(20) NOT NULL CHECK (status_visibility_nilai IN ('Hide', 'Unhide')) DEFAULT 'Unhide', -- default value
-	isActive BOOLEAN NOT NULL 
+	status_visibility_nilai VARCHAR(20) NOT NULL CHECK (status_visibility_nilai IN ('Hide', 'Unhide')) DEFAULT 'Unhide'          -- default value
 );
 
-INSERT INTO tahap_tubes (nama_tahap, deskripsi, rubrik_penilaian, tanggal_akhir, tubes_id) VALUES 
+INSERT INTO tahap_tubes (nama_tahap, deskripsi, rubrik_penilaian, tanggal_akhir, status_penilaian, tubes_id, status_visibility_nilai) VALUES 
 ('Tahap 1 - Proposal', 
  'Pengumpulan ide dan rancangan awal.', 
  'Penilaian berdasarkan kelengkapan proposal dan kejelasan ide.', 
  '2025-03-10', 
- 1),
+ 'Not Graded',
+ 1,
+ 'Unhide'),
 
 ('Tahap 2 - Desain Sistem', 
  'Pembuatan diagram class, flow, dan arsitektur.', 
  'Penilaian berdasarkan ketepatan desain dan kesesuaian requirement.', 
  '2025-03-20', 
- 1),
+ 'Not Graded',
+ 1,
+ 'Unhide'),
 
 ('Tahap 3 - Implementasi', 
  'Pengembangan kode sesuai desain yang telah disetujui.', 
  'Penilaian berdasarkan kualitas kode dan pemenuhan fitur.', 
  '2025-04-05', 
- 1),
+ 'Not Graded',
+ 1,
+ 'Unhide'),
 
  ('Tahap 1 - Proposal', 
  'Pengumpulan ide dan rancangan awal.', 
  'Penilaian berdasarkan kelengkapan proposal dan kejelasan ide.', 
  '2025-05-10', 
- 2),
+ 'Not Graded',
+ 2,
+ 'Unhide'),
 
 ('Tahap 2 - Desain Sistem', 
  'Pembuatan diagram class, flow, dan arsitektur.', 
  'Penilaian berdasarkan ketepatan desain dan kesesuaian requirement.', 
  '2025-05-20',  
- 2),
+ 'Not Graded',
+ 2,
+ 'Unhide'),
 
 ('Tahap 3 - Implementasi', 
  'Pengembangan kode sesuai desain yang telah disetujui.', 
  'Penilaian berdasarkan kualitas kode dan pemenuhan fitur.', 
  '2025-06-05',  
- 2);
+ 'Not Graded',
+ 2,
+ 'Unhide');
 
 -- ======================================
 -- ANGGOTA-KELOMPOK
