@@ -23,8 +23,11 @@
                 </li>
                 <li>
                     <div>
-                        <a href="profile-page.html">
-                            <img src="" alt="profile picture">
+                        <a href="/profile">
+                            <img th:src="${user.fotoProfil != null} 
+                            ? @{/uploads/profile/{f}(f=${user.fotoProfil})} 
+                            : @{/images/default_profile.png}" 
+                            alt="profile picture">
                         </a>
                     </div>
                 </li>
@@ -38,10 +41,14 @@
         <section class="profile-card">
 
             <div class="profile-avatar"> 
-                <img id="profile-img" th:src="${user.fotoProfil != null} 
+                <img id="profile-img" 
+                     th:src="${user.fotoProfil != null} 
                                 ? @{/uploads/profile/{f}(f=${user.fotoProfil})} 
                                 : @{/images/default_profile.png}" 
-                                alt="profile picture">
+                     th:attr="data-original-src=${user.fotoProfil != null} 
+                                ? @{/uploads/profile/{f}(f=${user.fotoProfil})} 
+                                : @{/images/default_profile.png}"
+                     alt="profile picture">
                 <input id="file-input" type="file" accept="image/*" style="display:none" />
                 <button id="pfp-btn" type="file">
                     <img id="editsvg" src="images/Edit.svg" alt="">
@@ -119,6 +126,7 @@
         button.addEventListener("click", () => fileInput.click());
 
         fileInput.addEventListener("change", async () => {
+            // Show preview immediately
             image.src = URL.createObjectURL(fileInput.files[0]);
 
             const formData = new FormData();
@@ -130,9 +138,14 @@
             });
 
             if (res.ok) {
-                alert("Profile picture updated!");
+                // Reload the page to get the updated image from database
+                window.location.reload();
             } else {
-                alert("Failed to upload image");
+                const errorMsg = await res.text();
+                alert("Failed to upload image: " + errorMsg);
+                // Revert to original image on error
+                const originalSrc = image.getAttribute("data-original-src") || "/images/default_profile.png";
+                image.src = originalSrc;
             }
         });
 
@@ -171,7 +184,8 @@
 
                 const body = {
                     oldPassword: oldPass,
-                    newPassword: newPass
+                    newPassword: newPass,
+                    confirmPassword: confirmPass
                 };
 
                 const res = await fetch("/api/profile/change-password", {
