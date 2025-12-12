@@ -10,10 +10,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.tubesrpl.data.User;
 import com.example.tubesrpl.model.Matkul;
 import com.example.tubesrpl.model.TahapTubes;
 import com.example.tubesrpl.model.Tubes;
-import com.example.tubesrpl.model.User;
 import com.example.tubesrpl.repository.MatkulRepository;
 import com.example.tubesrpl.repository.TahapRepository;
 import com.example.tubesrpl.repository.TubesRepository;
