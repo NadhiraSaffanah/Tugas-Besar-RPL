@@ -32,7 +32,18 @@ public class SemesterRepository {
         String sql = """
             SELECT id, start_date, end_date, jenis_semester
             FROM semester
+            WHERE isActive = TRUE
         """;
         return jdbcTemplate.query(sql, semesterRowMapper);
+    }
+
+    public void createSemester(java.time.LocalDate startDate, java.time.LocalDate endDate, String jenisSemester) {
+        String sql = "INSERT INTO semester (start_date, end_date, jenis_semester, isActive) VALUES (?, ?, ?, TRUE)";
+        jdbcTemplate.update(sql, startDate, endDate, jenisSemester);
+    }
+
+    public void deleteSemester(Long id) {
+        String sql = "UPDATE semester SET isActive = FALSE WHERE id = ?";
+        jdbcTemplate.update(sql, id);
     }
 }

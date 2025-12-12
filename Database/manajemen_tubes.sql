@@ -102,10 +102,10 @@ CREATE TABLE semester (
 );
 
 INSERT INTO semester (start_date, end_date, jenis_semester, isActive) VALUES 
-('2023-08-01', '2023-12-31', 'ganjil', 'TRUE'),
-('2024-02-01', '2024-06-30', 'genap', 'TRUE'),
-('2024-08-01', '2024-12-31', 'ganjil', 'TRUE'),
-('2025-02-01', '2025-06-30', 'genap', 'TRUE');
+('2023-08-01', '2023-12-31', 'ganjil', TRUE),
+('2024-02-01', '2024-06-30', 'genap', TRUE),
+('2024-08-01', '2024-12-31', 'ganjil', TRUE),
+('2025-02-01', '2025-06-30', 'genap', TRUE);
 
 -- ==============================================
 -- MATKUL-SEMESTER (many-to-many matkul-semester)

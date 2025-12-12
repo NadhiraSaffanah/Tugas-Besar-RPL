@@ -32,7 +32,7 @@ public class MatkulRepository {
             SELECT m.id, m.nama_matkul, m.kelas_matkul 
             FROM matkul m 
             JOIN user_matkul um ON m.id = um.matkul_id 
-            WHERE um.user_id = ?
+            WHERE um.user_id = ? AND m.isActive = TRUE
         """;
         
         return jdbcTemplate.query(sql, matkulRowMapper, userId);
@@ -46,7 +46,7 @@ public class MatkulRepository {
                 kelas_matkul
             FROM matkul m
             JOIN matkul_semester ms ON m.id = ms.matkul_id
-            WHERE ms.semester_id = ?
+            WHERE ms.semester_id = ? AND m.isActive = TRUE
         """;
         
         return jdbcTemplate.query(sql, matkulRowMapper, idSemester);   
@@ -85,5 +85,11 @@ public class MatkulRepository {
         """;
         
         jdbcTemplate.update(sql, matkulId, semesterId);
+    }
+
+    // Soft delete matkul (set isActive = FALSE)
+    public void deleteMatkul(Long id) {
+        String sql = "UPDATE matkul SET isActive = FALSE WHERE id = ?";
+        jdbcTemplate.update(sql, id);
     }
 }
