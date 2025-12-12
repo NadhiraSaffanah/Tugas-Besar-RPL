@@ -11,24 +11,24 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', 'Inter', sans-serif;
-    letter-spacing: 0.2px;
-    font-weight: 350;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 body {
-    background-color: #FAF6D9;
+    background-color: var(--background-color);
     display: grid;
     height: 100vh;
-    grid-template-areas: "header" "main";
+    grid-template-areas: 
+        "header"
+        "main";
     grid-template-rows: auto 1fr;
+    overflow-x: hidden;
 }
 
 body::-webkit-scrollbar {
     display: none;
 }
 
-/* ===================== Header + Navigation ===================== */
 header {
     position: sticky;
     top: 0;
@@ -37,7 +37,7 @@ header {
     width: 100%;
     background-color: var(--secondary-color);
     padding: 0.5em 0;
-    color: #FFFFFF;
+    color: var(--input-background);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -49,32 +49,33 @@ nav {
 }
 
 nav ul {
-    list-style: none;
+    list-style-type: none;
     display: flex;
     align-items: center;
     gap: 1.5em;
 }
 
-nav a {
+nav ul li a {
     text-decoration: none;
-    color: #FFFFFF;
-    font-size: 1.05em;
-    font-weight: 500;
+    color: var(--input-background);
 }
 
 nav img {
-    width: 2.2em;
+    width: 2.5em;
     filter: brightness(0) invert(1);
 }
 
-/* Left Nav */
 #nav-left {
     width: 20%;
     margin-left: 2em;
 }
 
 #nav-left img {
-    transform: scale(1.5);
+    transform: scale(1);
+}
+
+#nav-left li:nth-child(3) {
+    background-color: var(--button-color);
 }
 
 #nav-left li:nth-child(2),
@@ -82,12 +83,12 @@ nav img {
     padding: 0.5em;
 }
 
-#nav-left li:nth-child(2),
+#nav-left li:nth-child(2):hover,
 #nav-left li:nth-child(3):hover {
     cursor: pointer;
+    background-color: var(--button-color);
 }
 
-/* Right Nav */
 #nav-right {
     margin-right: 2em;
     cursor: pointer;
@@ -104,7 +105,7 @@ nav img {
 #nav-right div {
     width: 3.5em;
     height: 3.5em;
-    background: #D4C9F1;
+    background-color: rgb(198, 172, 209);
     border-radius: 50%;
     overflow: hidden;
 }
@@ -116,20 +117,26 @@ nav img {
     filter: none;
 }
 
+#nav-right li:hover {
+    background-color: var(--button-color);
+}
+
 /* ===================== Main Layout ===================== */
 main {
     grid-area: main;
-    width: 100%;
+    width: 90%;
+    min-height: 80vh; 
+    justify-self: center;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1.5em;
-    padding-bottom: 2em;
+    gap: 2em;
+    color: var(--text-color);
+    margin-top: 6em;
 }
 
 /* ===================== Foto Section ===================== */
 #image-container {
-    margin-top: 3%;
     width: 85%;
     height: 32vh;
     border-radius: 1em;
