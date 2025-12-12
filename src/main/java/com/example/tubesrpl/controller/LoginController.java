@@ -40,16 +40,17 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public String processLogin(@RequestParam String email, @RequestParam String password, HttpSession session, Model model){
+    public String processLogin(@RequestParam String email, @RequestParam String password, HttpSession session,
+            Model model) {
         // ngecek email nya ada di db ga
         Optional<User> userOpt = userRepository.findByEmail(email);
 
-        if(userOpt.isPresent()){
+        if (userOpt.isPresent()) {
             User user = userOpt.get();
 
             // Cek Password (ingat, ini masih plain text)
             if (user.getPassword().equals(password)) {
-                
+
                 session.setAttribute("user", user);
 
                 // Redirect sesuai Role

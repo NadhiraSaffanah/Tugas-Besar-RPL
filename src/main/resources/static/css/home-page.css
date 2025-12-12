@@ -372,7 +372,7 @@ main {
     flex-direction: column;
     gap: 1em;
     max-height: 35vh;
-    overflow-y: auto;
+    overflow: hidden;
 }
 
 /* Title styling konsisten */
@@ -388,6 +388,9 @@ main {
     display: flex;
     flex-direction: column;
     gap: 1em;
+    overflow-y: auto;
+    padding-right: 0.5em;
+    max-height: 26vh;
 }
 
 .course-cardMHS {
@@ -401,64 +404,13 @@ main {
 }
 
 /* Scrollbar clean */
-#on-going-courseMHS::-webkit-scrollbar,
-#timeline-section::-webkit-scrollbar {
+#course-wrapperMHS::-webkit-scrollbar,
+#timeline-wrapper::-webkit-scrollbar {
     width: 6px;
 }
 
-#on-going-courseMHS::-webkit-scrollbar-thumb,
-#timeline-section::-webkit-scrollbar-thumb {
+#course-wrapperMHS::-webkit-scrollbar-thumb,
+#timeline-wrapper::-webkit-scrollbar-thumb {
     background: #b8c28b;
     border-radius: 10px;
-}
-
-/* Timeline content spacing fix */
-#timeline-wrapper {
-    display: flex;
-    flex-direction: column;
-    gap: 1em;
-}
-
-.timeline-card {
-    background: #FEFFFA;
-    border: 1px solid var(--input-border);
-    border-radius: 0.5em;
-    padding: 1em;
-    display: flex;
-    flex-direction: column;
-    gap: 0.7em;
-    position: relative;
-}
-
-#create-course-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-#create-course-button {
-    border: 1px solid var(--text-color);
-    background-color: #FFFFFF;
-    width: 18%;
-    height: 35%;
-    border-radius: 0.5em;
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    justify-content: start;
-    padding: 0;
-}
-
-#create-course-button h4 {
-    margin: 0.5em;
-    font-size: 1.3em;
-    color: var(--text-color);
-}
-
-#create-course-button .create-color {
-    display: flex;
-    align-items: center;
-    justify-self: center;
-    height: 90%;
-    border-radius: 0.5em 0.5em 0 0;
 }

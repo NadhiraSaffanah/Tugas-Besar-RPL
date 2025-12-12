@@ -18,6 +18,15 @@ import com.example.tubesrpl.repository.TubesRepository;
 import jakarta.servlet.http.HttpSession;
 import com.example.tubesrpl.repository.PhaseRepository;
 
+import com.example.tubesrpl.data.Phase;
+import com.example.tubesrpl.data.Tubes;
+import com.example.tubesrpl.repository.TubesRepository;
+
+import lombok.extern.slf4j.Slf4j;
+
+import com.example.tubesrpl.repository.PhaseRepository;
+
+@Slf4j
 @Controller
 @SessionAttributes("user")
 @RequestMapping("/mahasiswa")
@@ -33,7 +42,7 @@ public class MahasiswaController {
         return (User) session.getAttribute("user");
     }
 
-    @GetMapping("/home")
+    @GetMapping("/home-mahasiswa")
     public String homeMhsView(Model model){
         System.out.println(phaseRepository);
         List<Tubes> tubes = tubesRepository.findAllBySemester((long) 1);
@@ -42,10 +51,5 @@ public class MahasiswaController {
         model.addAttribute("tubeslist", tubes); //sementara ambil semester 1 doang
         model.addAttribute("phaselist", phase);
         return "Mahasiswa/homeMhs";
-    }
-
-    @GetMapping("/course")
-    public String courseMhsView(){
-        return "matkul";
     }
 }

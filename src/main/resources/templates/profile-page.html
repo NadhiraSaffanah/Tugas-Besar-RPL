@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Page</title>
+    <link rel="stylesheet" th:href="@{/css/profile-page.css}">
+</head>
+
+<body>
+    <header>
+        <nav>
+            <ul id="nav-left">
+                <li><img src="images/book.png" alt="book icon"></li>
+                <li><a href="home-page.html">Home</a></li>
+                <li><a href="course-home.html">Course</a></li>
+            </ul>
+            <ul id="nav-right">
+                <li>
+                    <span>Nama</span>
+                    <span>61823010xx@unpar.ac.id</span>
+                </li>
+                <li>
+                    <div>
+                        <a href="/profile">
+                            <img th:src="${user.fotoProfil != null} 
+                            ? @{/uploads/profile/{f}(f=${user.fotoProfil})} 
+                            : @{/images/default_profile.png}" 
+                            alt="profile picture">
+                        </a>
+                    </div>
+                </li>
+                <li><img src="images/bell.png" alt="notification icon"></li>
+                <li><img src="images/logout.png" alt="logout icon"></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="profile-card">
+
+            <div class="profile-avatar"> 
+                <img id="profile-img" 
+                     th:src="${user.fotoProfil != null} 
+                                ? @{/uploads/profile/{f}(f=${user.fotoProfil})} 
+                                : @{/images/default_profile.png}" 
+                     th:attr="data-original-src=${user.fotoProfil != null} 
+                                ? @{/uploads/profile/{f}(f=${user.fotoProfil})} 
+                                : @{/images/default_profile.png}"
+                     alt="profile picture">
+                <input id="file-input" type="file" accept="image/*" style="display:none" />
+                <button id="pfp-btn" type="file">
+                    <img id="editsvg" src="images/Edit.svg" alt="">
+                    Change Profile Picture
+                </button>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="profile-info">
+                <div class="info-row">
+                    <span class="label">NAME</span> <!--th:text="${user.nama}"-->
+                    <span id="nama" th:text="${user.nama}">Dogman Man of Dogs</span>
+                </div>
+
+                <div class="info-row">
+                    <span class="label">EMAIL</span> <!--th:text="${user.email}"-->
+                    <span id="email" th:text="${user.email}">dogman@lecturer.ac.id</span>
+                </div>
+
+                <div class="info-row">
+                    <span class="label">ROLE</span> <!--th:text="${user.role}"-->
+                    <span id="role" th:text="${user.role}">Lecturer</span>
+                </div>
+
+                <div class="info-row">
+                    <span class="label">NPM</span> <!--th:text="${user.npm}"-->
+                    <span id="npm" th:text="${user.npm}">610309210192</span>
+                </div>
+
+                <div id="password-hid">
+                    <div class="password-row">
+                        <span class="label">PASSWORD</span>
+                        <span id="passPlaceholder">********</span>
+                    </div>
+
+                    <div id="password-buttons">
+                        <button id="edit-btn">
+                            <img src="images/Edit.svg" alt="">
+                            Change Password
+                        </button>
+                    </div>
+                </div>
+
+                <div id="password-edit" style="display: none;">
+                    <div class="password-row">
+                        <span class="label">PASSWORD</span>
+                        <div class="editPassword">
+                            <input type="password" id="old-password" placeholder="Enter old password">
+                            <input type="password" id="new-password" placeholder="Enter new password">
+                            <input type="password" id="confirm-password" placeholder="Retype new password">
+                        </div>
+                    </div>
+
+                    <div id="password-buttons">
+                        <button id="cancel-btn">
+                            Cancel
+                        </button>
+
+                        <button id="save-btn">
+                            <img src="images/Edit.svg" alt="">
+                            Save Password
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <script>
+        // ========== PROFILE PICTURE UPLOAD ==========
+        const image = document.querySelector('#profile-img');
+        const fileInput = document.querySelector('#file-input');
+        const button = document.querySelector('#pfp-btn');
+
+        button.addEventListener("click", () => fileInput.click());
+
+        fileInput.addEventListener("change", async () => {
+            // Show preview immediately
+            image.src = URL.createObjectURL(fileInput.files[0]);
+
+            const formData = new FormData();
+            formData.append("file", fileInput.files[0]);
+
+            const res = await fetch("/api/profile/upload-photo", {
+                method: "POST",
+                body: formData
+            });
+
+            if (res.ok) {
+                // Reload the page to get the updated image from database
+                window.location.reload();
+            } else {
+                const errorMsg = await res.text();
+                alert("Failed to upload image: " + errorMsg);
+                // Revert to original image on error
+                const originalSrc = image.getAttribute("data-original-src") || "/images/default_profile.png";
+                image.src = originalSrc;
+            }
+        });
+
+        // ========== PASSWORD EDIT TOGGLE ==========
+        document.addEventListener("DOMContentLoaded", () => {
+
+            const viewBlock = document.getElementById("password-hid");
+            const editBlock = document.getElementById("password-edit");
+
+            const showEditBtn = document.getElementById("edit-btn");
+            const cancelBtn = document.getElementById("cancel-btn");
+            const saveBtn = document.getElementById("save-btn");
+
+            // Show inputs
+            showEditBtn.addEventListener("click", () => {
+                viewBlock.style.display = "none";
+                editBlock.style.display = "block";
+            });
+
+            // Hide inputs
+            cancelBtn.addEventListener("click", () => {
+                editBlock.style.display = "none";
+                viewBlock.style.display = "block";
+            });
+
+            // ========== SAVE PASSWORD ==========
+            saveBtn.addEventListener("click", async () => {
+                const oldPass = document.getElementById("old-password").value;
+                const newPass = document.getElementById("new-password").value;
+                const confirmPass = document.getElementById("confirm-password").value;
+
+                if (newPass !== confirmPass) {
+                    alert("New passwords do not match!");
+                    return;
+                }
+
+                const body = {
+                    oldPassword: oldPass,
+                    newPassword: newPass,
+                    confirmPassword: confirmPass
+                };
+
+                const res = await fetch("/api/profile/change-password", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(body)
+                });
+
+                if (res.ok) {
+                    alert("Password updated!");
+                    editBlock.style.display = "none";
+                    viewBlock.style.display = "block";
+                } else {
+                    const msg = await res.text();
+                    alert("Error: " + msg);
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>
