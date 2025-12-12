@@ -6,6 +6,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.http.ResponseEntity; 
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.example.tubesrpl.data.User;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -37,8 +40,7 @@ public class ProfileController {
     @PostMapping("/api/profile/upload-photo")
     @ResponseBody
     public ResponseEntity<?> uploadPhoto(@RequestParam("file") MultipartFile file, HttpSession session) {
-
-        // TODO: Save file to database / folder
+ 
         try {
             User user = (User) session.getAttribute("user");
             if (user == null) {
@@ -91,8 +93,7 @@ public class ProfileController {
     @PostMapping("/api/profile/change-password")
     @ResponseBody
     public ResponseEntity<?> changePassword(@RequestBody PasswordRequest req, HttpSession session) {
-
-        // TODO: Validate and save new password
+ 
         try {
             User user = (User) session.getAttribute("user");
             if (user == null) {
