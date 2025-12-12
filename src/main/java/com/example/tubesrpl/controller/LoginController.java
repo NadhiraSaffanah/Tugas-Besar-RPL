@@ -1,4 +1,4 @@
-package com.example.tubesrpl;
+package com.example.tubesrpl.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
