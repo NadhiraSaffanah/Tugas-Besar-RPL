@@ -182,3 +182,109 @@ document.getElementById("submit-course-btn")?.addEventListener("click", function
         alert('Error creating courses: ' + error.message);
     });
 });
+
+// Toggle dropdown menu
+function toggleMenu(event, element) {
+    event.preventDefault();
+    event.stopPropagation();
+    
+    // Close all other menus
+    document.querySelectorAll('.dropdown-menu').forEach(menu => {
+        if (menu !== element.nextElementSibling) {
+            menu.classList.remove('show');
+        }
+    });
+    
+    // Toggle current menu
+    const menu = element.nextElementSibling;
+    if (menu) {
+        menu.classList.toggle('show');
+    }
+}
+
+// Close menu when clicking outside
+document.addEventListener('click', function(event) {
+    if (!event.target.closest('.menu-container')) {
+        document.querySelectorAll('.dropdown-menu').forEach(menu => {
+            menu.classList.remove('show');
+        });
+    }
+});
+
+// Prevent link navigation when clicking menu icon
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.menu-icon').forEach(icon => {
+        icon.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        });
+    });
+    
+    document.querySelectorAll('.menu-container').forEach(container => {
+        container.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        });
+    });
+});
+
+// Delete matkul function
+function deleteMatkul(event, element) {
+    event.preventDefault();
+    event.stopPropagation();
+    
+    const idMatkul = element.getAttribute('data-matkul-id');
+    const idSemester = window.idSemester;
+    
+    if (!idMatkul) {
+        alert('Matkul ID not found');
+        return;
+    }
+    
+    if (!idSemester) {
+        alert('Semester ID not found');
+        return;
+    }
+    
+    // Confirm deletion
+    if (!confirm('Are you sure you want to delete this course? This action cannot be undone.')) {
+        return;
+    }
+    
+    // Close the menu
+    document.querySelectorAll('.dropdown-menu').forEach(menu => {
+        menu.classList.remove('show');
+    });
+    
+    // Create form data with semester ID
+    const formData = new FormData();
+    formData.append('idSemester', idSemester);
+    
+    // Send delete request
+    fetch(`/admin/courses/${idMatkul}/delete`, {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => {
+        console.log('Delete response status:', response.status);
+        console.log('Delete response ok:', response.ok);
+        console.log('Delete response redirected:', response.redirected);
+        
+        // Check if it's an error status (4xx or 5xx)
+        if (response.status >= 400) {
+            response.text().then(text => {
+                console.error('Error response body:', text.substring(0, 500));
+                alert('Error deleting course. Status: ' + response.status);
+            }).catch(() => {
+                alert('Error deleting course. Status: ' + response.status);
+            });
+        } else {
+            // Success - reload the page
+            window.location.reload();
+        }
+    })
+    .catch(error => {
+        console.error('Fetch error:', error);
+        alert('Error deleting course: ' + error.message);
+    });
+}

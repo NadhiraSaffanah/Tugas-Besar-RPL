@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tugas Besar</title>
     <link rel="stylesheet" th:href="@{/css/admin/matkulStyle.css}">
-    <script src="" defer></script>
+    <script th:src="@{/js/createSemesterAdmin.js}" defer></script>
 </head>
 <body>
     <header>
@@ -76,23 +76,19 @@
                         <div class="card-name">
                             <h4>
                                 <span th:text="${s.jenis}">Ganjil</span> 
-                                <span th:text="${s.startDate.getYear() + '/' + s.endDate.getYear()}">2023/2024</span>
+                                <span th:text="${s.startDate.getYear()}">2023</span>
                             </h4>
-                            <img src="/images/ellipsis.svg" alt="menu">
+                            <div class="menu-container">
+                                <img src="/images/ellipsis.svg" alt="menu" class="menu-icon" th:data-semester-id="${s.id}" onclick="toggleMenu(event, this)">
+                                <div class="dropdown-menu">
+                                    <button type="button" class="delete-btn" th:data-semester-id="${s.id}" onclick="deleteSemester(event, this)">Delete</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </a>
             </div>
 
-            <script> //buat buka tutup popup bikin semester
-                function openForm() {
-                    document.getElementById("semesterForm").style.display = "flex";
-                }
-
-                function closeForm() {
-                    document.getElementById("semesterForm").style.display = "none";
-                }
-            </script>
 
             <div class="popup" id="semesterForm">
                 <div class="popup-top">
@@ -113,13 +109,13 @@
                         </div>
                         <div class="input-group">
                             <label for="jenis">Type</label>
-                            <select name="jenis" class="manual-input">
+                            <select name="jenis" id="jenis" class="manual-input">
                                 <option value="ganjil">Ganjil</option>
                                 <option value="genap">Genap</option>
                             </select>
                         </div>
                     </div>
-                    <button type="submit" class="submit-btn"><b>Add Semester</b></button>
+                    <button type="button" id="submit-semester-btn" class="submit-btn"><b>Add Semester</b></button>
                 </div>
             </div>
         </section>

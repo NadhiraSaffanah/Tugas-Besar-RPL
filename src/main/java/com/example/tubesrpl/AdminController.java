@@ -33,7 +33,7 @@ public class AdminController {
 
     @ModelAttribute("user") //supaya ga nerima parameter HttpSesison berkali kali
     public User userSession(HttpSession session) {
-        return (User) session.getAttribute("user");
+        return (User) session.getAttribute("user"); //buat role base restriction
     }
     
     @GetMapping("/home")
@@ -74,5 +74,42 @@ public class AdminController {
         }
         
         return "redirect:/admin/semesters/" + idSemester + "/courses";
+    }
+
+    @PostMapping("/semesters/create")
+    public String createSemester(@RequestParam("startDate") String startDateStr,
+                                 @RequestParam("endDate") String endDateStr,
+                                 @RequestParam("jenis") String jenis) {
+        try {
+            java.time.LocalDate startDate = java.time.LocalDate.parse(startDateStr);
+            java.time.LocalDate endDate = java.time.LocalDate.parse(endDateStr);
+            semesterRepository.createSemester(startDate, endDate, jenis);
+            return "redirect:/admin/semesters";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/admin/semesters?error=true";
+        }
+    }
+
+    @PostMapping("/semesters/{idSemester}/delete")
+    public String deleteSemester(@PathVariable Long idSemester) {
+        try {
+            semesterRepository.deleteSemester(idSemester);
+            return "redirect:/admin/semesters";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/admin/semesters?error=true"; //ini blum tau mau diapain kalo error
+        }
+    }
+
+    @PostMapping("/courses/{idMatkul}/delete")
+    public String deleteMatkul(@PathVariable Long idMatkul, @RequestParam("idSemester") Long idSemester) {
+        try {
+            matkulRepository.deleteMatkul(idMatkul);
+            return "redirect:/admin/semesters/" + idSemester + "/courses";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/admin/semesters/" + idSemester + "/courses";
+        }
     }
 }

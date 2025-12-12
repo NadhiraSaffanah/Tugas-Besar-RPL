@@ -79,7 +79,12 @@
                                 <span th:text="${m.namaMatkul}">Nama Matkul</span> 
                                 (<span th:text="${m.kelasMatkul}">A</span>)
                             </h4>
-                            <img src="/images/ellipsis.svg" alt="menu">
+                            <div class="menu-container">
+                                <img src="/images/ellipsis.svg" alt="menu" class="menu-icon" th:data-matkul-id="${m.id}" onclick="toggleMenu(event, this)">
+                                <div class="dropdown-menu">
+                                    <button type="button" class="delete-btn" th:data-matkul-id="${m.id}" onclick="deleteMatkul(event, this)">Delete</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </a>
@@ -91,7 +96,7 @@
                 </div>
                 <div class="popup-bottom">
                     <div class="popup-header"> 
-                        <h1>Create Course</h1>
+                        <h1>Add Course</h1>
                         <span>Add course with file or type manually</span>
                     </div>
                     <div class="popup-body">

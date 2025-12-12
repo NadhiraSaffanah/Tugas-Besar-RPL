@@ -205,6 +205,7 @@ main {
     display: block;
 }
 
+
 .course-card {
     width: 100%;
     height: 100%;
@@ -213,8 +214,9 @@ main {
     border-radius: 0.5em;
     border: 1px solid var(--text-color);
     background-color: #FFFFFF;
-    overflow: hidden;
+    overflow: visible;
     margin: 0.5em; /* ini butuh */
+    position: relative;
 }
 
 .card-color {
@@ -247,7 +249,8 @@ main {
     width: auto;
 }
 
-/*===== NEW BUAT ADMIN =====*/
+/*======== NEW BUAT ADMIN ========*/
+/* tombol add gede berbentuk card pada list card matkul & semester */
 #create-course-button {
     display: flex;
     align-items: center;
@@ -281,24 +284,77 @@ main {
     border-radius: 0.5em 0.5em 0 0;
 }
 
+/* keterangan card */
 .card-name {
     display: flex;
     flex-direction: row;
     align-items: center;
     width: 100%;
-    padding: 10px;
+    padding: 5px;
+    position: relative;
 }
 
 .card-name h4 {
-    width: 100%;
+    flex: 1;
 }
 
-.card-name img {
+/* Menu ellipsis buat delete matkul & semester */
+.menu-container {
+    position: relative;
+    z-index: 10;
+}
+
+.menu-icon {
+    width: 1em;
     height: 1em;
+    cursor: pointer;
+    padding: 0.3em;
+    border-radius: 0.3em;
+    transition: background-color 0.2s;
+    display: block;
 }
 
-/*======= POPUP CREATE COURSE ADMIN =======*/
-/* general popup css */
+.menu-icon:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 0.3em;
+    background-color: white;
+    border: 1px solid var(--input-border);
+    border-radius: 0.3em;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    min-width: 100px;
+    z-index: 20;
+}
+
+.dropdown-menu.show {
+    display: block;
+}
+
+.dropdown-menu .delete-btn {
+    width: 100%;
+    padding: 0.7em 1em;
+    border: none;
+    background-color: white;
+    color: #d32f2f;
+    cursor: pointer;
+    text-align: left;
+    font-size: 0.9em;
+    border-radius: 0.3em;
+    transition: background-color 0.2s;
+}
+
+.dropdown-menu .delete-btn:hover {
+    background-color: #ffebee;
+}
+
+/*======= POPUP ADMIN =======*/
+/* popnya itu sendiri (general css) */
 .popup {
   display: none;
   justify-content: center;
@@ -316,7 +372,7 @@ main {
   z-index: 10;
 }
 
-.popup-top { /* tombol close */
+.popup-top { /* penempatan tombol close */
     display: flex;
     width: 100%;
     justify-content: right;
@@ -338,20 +394,7 @@ main {
     row-gap: 20px;
 }
 
-/* general css for popup forms */
-.popup form {
-    display: grid;
-    grid-template-columns: max-content max-content;
-    row-gap: 10px;
-    column-gap: 10px;
-}
-
-.popup form input {
-    background-color: var(--input-background);
-    border: 1px solid var(--input-border); 
-    border-radius: 0.5em;
-}
-
+/* buat "forms" di popup (general css) */
 .popup button {
     background-color: var(--button-color);
     color: white;
@@ -367,7 +410,32 @@ main {
     width: 100%;
 }
 
-/* khusus add course */
+
+/* container pasangan input */
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3em;
+    flex: 1;
+}
+
+/* pasangan label & input */
+.input-group label {
+    color: var(--text-color);
+    font-size: 0.9em;
+    font-weight: 500;
+}
+
+.manual-input {
+    padding: 0.7em;
+    border: 1px solid var(--input-border);
+    border-radius: 0.3em;
+    background-color: var(--input-background);
+    font-size: 1em;
+}
+
+
+/* khusus buat bagian nambah matkul */
 .course-list {
     display: flex;
     flex-direction: column;
@@ -431,33 +499,11 @@ main {
     flex-direction: column;
 }
 
-
 .input-section {
     display: flex;
     flex-direction: row;
     align-items: flex-end;
     gap: 1.5em;
-}
-
-.input-group {
-    display: flex;
-    flex-direction: column;
-    gap: 0.3em;
-    flex: 1;
-}
-
-.input-group label {
-    color: var(--text-color);
-    font-size: 0.9em;
-    font-weight: 500;
-}
-
-.manual-input {
-    padding: 0.7em;
-    border: 1px solid var(--input-border);
-    border-radius: 0.3em;
-    background-color: var(--input-background);
-    font-size: 1em;
 }
 
 
