@@ -24,7 +24,7 @@ CREATE TABLE users (
     npm VARCHAR(10) UNIQUE,
     no_induk VARCHAR(10) UNIQUE,
     foto_profil VARCHAR(255), 
-	status_aktif VARCHAR(20) NOT NULL CHECK (status_aktif IN ('Aktif', 'non-Aktif'))
+	isActive BOOLEAN NOT NULL -- diganti jadi boolean
 );
 
 INSERT INTO users (nama, email, password_hash, role, npm, no_induk, foto_profil, status_aktif) VALUES
@@ -62,7 +62,7 @@ INSERT INTO users (nama, email, password_hash, role, npm, no_induk, foto_profil,
 ('Siti Nurjanah', 'siti.nurjanah@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230025', NULL, NULL, 'Aktif'),
 
 --ADMIN
-('Dogman', 'dogman@admin.edu', 'hashedpass', 'admin', NULL, NULL, NULL); --butuh buat restriction role-based
+('Dogman', 'dogman@admin.edu', 'hashedpass', 'admin', NULL, NULL, NULL, 'Aktif'); 
 
 
 -- =======================
@@ -71,7 +71,8 @@ INSERT INTO users (nama, email, password_hash, role, npm, no_induk, foto_profil,
 CREATE TABLE matkul (
     id BIGSERIAL PRIMARY KEY,
     nama_matkul VARCHAR(100) NOT NULL,
-	kelas_matkul VARCHAR(10)
+	kelas_matkul VARCHAR(10),
+	isActive BOOLEAN NOT NULL 
 );
 
 INSERT INTO matkul (nama_matkul, kelas_matkul) VALUES
@@ -94,7 +95,7 @@ CREATE TABLE semester (
     start_date DATE NOT NULL,
     end_date DATE NOT NULL,
 	jenis_semester VARCHAR(20) NOT NULL CHECK (jenis_semester IN ('ganjil','genap')),
-	status_aktif VARCHAR(20) NOT NULL CHECK (status_aktif IN ('Aktif', 'non-Aktif'))
+	isActive BOOLEAN NOT NULL 
 );
 
 INSERT INTO semester (start_date, end_date, jenis_semester, status_aktif) VALUES 
@@ -179,10 +180,10 @@ CREATE TABLE tubes (
     nama_tubes VARCHAR(100) NOT NULL,
     deskripsi VARCHAR(255),
 	jml_kelompok BIGINT,
-	matkul_id BIGINT NOT NULL REFERENCES matkul(id) ON DELETE CASCADE
+	matkul_id BIGINT NOT NULL REFERENCES matkul(id) ON DELETE CASCADE,
+	isActive BOOLEAN NOT NULL 
 );
 
--- NOTE: ini ada beberapa tubes yang matkul_idnya sama, harusnya getMatkul, getTubes, dkk mempertimbangkan semester yang lagi ongoing/ngganya
 INSERT INTO tubes (nama_tubes, deskripsi, jml_kelompok, matkul_id) VALUES 
 ('Tubes 1 - Algoritma', 'Implementasi struktur data dasar', 8, 1),
 ('Tubes 2 - Algoritma', 'Penerapan linked list dan stack', 6, 1),
@@ -205,7 +206,8 @@ CREATE TABLE kelompok (
     nama_kelompok VARCHAR(100) NOT NULL,
 	jml_anggota BIGINT,
 	tubes_id BIGINT NOT NULL REFERENCES tubes(id) ON DELETE CASCADE,
-	UNIQUE (nama_kelompok, tubes_id)
+	UNIQUE (nama_kelompok, tubes_id),
+	isActive BOOLEAN NOT NULL 
 );
 
 INSERT INTO kelompok (nama_kelompok, jml_anggota, tubes_id) VALUES 
@@ -236,7 +238,8 @@ CREATE TABLE tahap_tubes (
 	tanggal_akhir DATE NOT NULL, 
 	status_penilaian VARCHAR(20) NOT NULL CHECK (status_penilaian IN ('Graded', 'Not Graded')) DEFAULT 'Not Graded',   -- default value
 	tubes_id BIGINT NOT NULL REFERENCES tubes(id) ON DELETE CASCADE,
-	status_visibility_nilai VARCHAR(20) NOT NULL CHECK (status_visibility_nilai IN ('Hide', 'Unhide')) DEFAULT 'Unhide'          -- default value
+	status_visibility_nilai VARCHAR(20) NOT NULL CHECK (status_visibility_nilai IN ('Hide', 'Unhide')) DEFAULT 'Unhide', -- default value
+	isActive BOOLEAN NOT NULL 
 );
 
 INSERT INTO tahap_tubes (nama_tahap, deskripsi, rubrik_penilaian, tanggal_akhir, tubes_id) VALUES 
