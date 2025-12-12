@@ -415,21 +415,3 @@ main {
     background: #b8c28b;
     border-radius: 10px;
 }
-
-/* Timeline content spacing fix */
-#timeline-wrapper {
-    display: flex;
-    flex-direction: column;
-    gap: 1em;
-}
-
-.timeline-card {
-    background: #FEFFFA;
-    border: 1px solid var(--input-border);
-    border-radius: 0.5em;
-    padding: 1em;
-    display: flex;
-    flex-direction: column;
-    gap: 0.7em;
-    position: relative;
-}
