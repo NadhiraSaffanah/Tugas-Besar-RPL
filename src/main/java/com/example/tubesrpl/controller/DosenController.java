@@ -100,7 +100,7 @@ public class DosenController {
         model.addAttribute("header", headerInfo);
 
         // ambil tubes (bisa null)
-        Optional<Tubes> tubesOpt = tubesRepository.findByMatkulId(matkulId);
+        Optional<Tubes> tubesOpt = tubesRepository.findAllByMatkulId(matkulId);
 
         if (tubesOpt.isPresent()) {
             Tubes tubes = tubesOpt.get();
@@ -132,6 +132,7 @@ public class DosenController {
         return "dosen/course-nav-grading-add";
     }
 
+
     // ROUTING GRADING PHASE   --> BARU DITAMBAHIN
     @GetMapping("/dosen/course/nav/grading/phase")
     public String gradingPhase() {
@@ -149,6 +150,7 @@ public class DosenController {
     public String gradingPhaseDetailsEdit() {
         return "dosen/course-nav-grading-phase-details-edit";
     }
+
 
 
     // ROUTING UNTUK COURSE PARTICIPANT
@@ -173,42 +175,11 @@ public class DosenController {
         return "dosen/course-nav-group-add";
     }
 
+    // --> BARU DITAMBAHIN
     @GetMapping("/dosen/course/nav/group/edit")
     public String courseNavGroupEdit() {
         return "dosen/course-nav-group-edit";
     }
 
 
-    // Endpoint API untuk handle update (pake AJAX)
-    @PostMapping("/dosen/course/update-api")
-    @ResponseBody // biar spring ga nyari file HTML, tapi return data
-    public ResponseEntity<String> updateCourseApi(@RequestParam Long id,
-                                                  @RequestParam String namaTubes,
-                                                  @RequestParam String deskripsi,
-                                                  @RequestParam int jmlKelompok) {
-        try {
-            // Panggil service/repository untuk update
-            tubesRepository.updateTubes(id, namaTubes, deskripsi, jmlKelompok);
-            return ResponseEntity.ok("Success");
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error");
-        }
-    }
-
-    // Endpoint API untuk bikin Tubes Baru
-    @PostMapping("/dosen/course/create-api")
-    @ResponseBody
-    public ResponseEntity<String> createCourseApi(@RequestParam Long matkulId,
-                                                  @RequestParam String namaTubes,
-                                                  @RequestParam String deskripsi,
-                                                  @RequestParam int jmlKelompok) { 
-        try {
-            tubesRepository.createTubes(namaTubes, deskripsi, jmlKelompok, matkulId);
-            return ResponseEntity.ok("Success");
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error");
-        }
-    }
 }

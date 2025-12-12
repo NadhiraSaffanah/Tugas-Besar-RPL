@@ -21,9 +21,9 @@ public class TubesRepository {
         public Tubes mapRow(ResultSet rs, int rowNum) throws SQLException {
             Tubes tubes = new Tubes();
             tubes.setId(rs.getLong("tubes_id"));
-            tubes.setNama(rs.getString("nama_tubes"));
+            tubes.setNamaTubes(rs.getString("nama_tubes"));
             tubes.setDeskripsi(rs.getString("deskripsi"));
-            tubes.setJml_kelompok(rs.getInt("jml_kelompok"));
+            tubes.setJmlKelompok(rs.getInt("jml_kelompok"));
             // tubes.setIdMatkul(rs.getLong("matkul_id"));
             // tubes.setIdSemester(rs.getLong("semester_id")); //mungkin kepake
             tubes.setMatkul(rs.getString("nama_matkul"));

@@ -1,4 +1,3 @@
-
 package com.example.tubesrpl.data;
 
 import lombok.AllArgsConstructor;
