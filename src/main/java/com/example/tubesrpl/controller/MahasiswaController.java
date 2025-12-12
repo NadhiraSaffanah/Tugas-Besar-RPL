@@ -48,7 +48,7 @@ public class MahasiswaController {
             return "redirect:/login";
         model.addAttribute("mahasiswa", user);
 
-        return "#";
+        return "profile-page";
     }
     
     // ROUTING UNTUK COURSE (BARU DITAMBAHIN BACKEND)
@@ -67,15 +67,16 @@ public class MahasiswaController {
         model.addAttribute("dosen", user); // Di HTML dipanggil ${dosen.nama}
         model.addAttribute("listCourses", courses); // Di HTML dipanggil ${listCourses}
 
-        return "#";
+        return "mahasiswa/course-home";
     }
     
     // BARU
     @GetMapping("mahasiswa/course/details")
-    public String courseDetails(@RequestParam(name = "id", required = false) Long matkulId, HttpSession session, Model model) {
+    public String courseDetails(@RequestParam(name = "id") Long matkulId, HttpSession session, Model model) {
 
         User user = (User) session.getAttribute("user");
-        if (user == null) return "redirect:/login";
+        if (user == null)
+            return "redirect:/login";
 
         // ambil info header (selalu ada walaupun misal belum ada tubesnya)
         // Isinya: nama_matkul, start_date, end_date
@@ -86,7 +87,7 @@ public class MahasiswaController {
             java.sql.Date sqlDate = (java.sql.Date) headerInfo.get("start_date");
             headerInfo.put("start_date", sqlDate.toLocalDate());
         }
-        
+
         if (headerInfo.get("end_date") != null) {
             java.sql.Date sqlDate = (java.sql.Date) headerInfo.get("end_date");
             headerInfo.put("end_date", sqlDate.toLocalDate());
@@ -99,7 +100,7 @@ public class MahasiswaController {
         if (tubesOpt.isPresent()) {
             Tubes tubes = tubesOpt.get();
             model.addAttribute("tubes", tubes);
-            
+
             List<TahapTubes> listTahap = tahapRepository.findAllByTubesId(tubes.getId());
             model.addAttribute("listTahap", listTahap);
         } else {
@@ -112,4 +113,17 @@ public class MahasiswaController {
 
         return "mahasiswa/course-details";
     }
+    
+
+    // ROUTING GRADING PHASE   --> BARU DITAMBAHIN
+    @GetMapping("/mahasiswa/course/nav/grading/phase")
+    public String gradingPhase() {
+        return "mahasiswa/course-nav-grading-phase";
+    }
+
+    @GetMapping("/mahasiswa/course-nav-group")
+    public String Group() {
+        return "mahasiswa/course-nav-group";
+    }
+
 }

@@ -4,35 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" th:href="@{/css/tubesPageStyleMhs.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/course-details.css}" type="text/css">
 </head>
 <body>
     <!--Navigation Bar-->
     <div class="container">
         <header>
-        <nav>
-            <ul id="nav-left">
-                <li><img th:src="@{/images/book.png}" alt="book icon"></li>
-                <li><a th:href="@{/mahasiswa/home}">Home</a></li>
-                <li><a th:href="@{/mahasiswa/course}">Course</a></li>
-            </ul>
-            <ul id="nav-right">
-                <li>
-                    <span th:text="${mahasiswa.nama}">Nama Mahasiswa</span> 
-                    <span th:text="${mahasiswa.email}">email</span>
-                </li>
-                <li>
-                    <div>
-                        <a th:href="@{/mahasiswa/profile}">
-                             <img th:src="@{/images/default-profile.png}" alt="profile">
-                        </a>
-                    </div>    
-                </li>
-                <li><img th:src="@{/images/bell.png}" alt="notif"></li>
-                <li><a th:href="@{/logout}"><img th:src="@{/images/logout.png}" alt="logout"></a></li>
-            </ul>
-        </nav>
-    </header>
+            <nav>
+                <ul id="nav-left">
+                    <li><img th:src="@{/images/book.png}" alt="book icon"></li>
+                    <li><a th:href="@{/mahasiswa/home}">Home</a></li>
+                    <li><a th:href="@{/mahasiswa/course}">Course</a></li>
+                </ul>
+                <ul id="nav-right">
+                    <li>
+                        <span th:text="${mahasiswa.nama}">Nama Mahasiswa</span> 
+                        <span th:text="${mahasiswa.email}">email</span>
+                    </li>
+                    <li>
+                        <div>
+                            <a th:href="@{/mahasiswa/profile}">
+                                <img th:src="@{/images/default-profile.png}" alt="profile">
+                            </a>
+                        </div>    
+                    </li>
+                    <li><img th:src="@{/images/bell.png}" alt="notif"></li>
+                    <li><a th:href="@{/logout}"><img th:src="@{/images/logout.png}" alt="logout"></a></li>
+                </ul>
+            </nav>
+        </header>
 
         <!--Konten utama, halaman tengah-->
         <main class="main-content">
@@ -46,7 +46,7 @@
             <section class="tubes-info-container">
                 <div class="tubes-main-info">
                     <!--Judul Tugas Besar-->
-                    <h2 class="tubes-title" name="judul-tubes" th:text="${tubes.namaTubes}">Project</h2>
+                   <h2 th:if="${tubes != null}" class="tubes-title" name="judul-tubes" th:text="${tubes.namaTubes}">Project</h2>
                     <span th:text="${header.get('nama_matkul')}">Nama Matkul</span>
 
                     <!--Tanggal Tugas Besar-->

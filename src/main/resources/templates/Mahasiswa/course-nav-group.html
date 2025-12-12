@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Home</title>
+    <link rel="stylesheet" th:href="@{/css/dosen/course-home.css}">
+</head>
+<body>
+    <header>
+            <nav>
+                <ul id="nav-left">
+                    <li><img th:src="@{/images/book.png}" alt="book icon"></li>
+                    <li><a th:href="@{/mahasiswa/home}">Home</a></li>
+                    <li><a th:href="@{/mahasiswa/course}">Course</a></li>
+                </ul>
+                <ul id="nav-right">
+                    <li>
+                        <span th:text="${mahasiswa.nama}">Nama Mahasiswa</span> 
+                        <span th:text="${mahasiswa.email}">email</span>
+                    </li>
+                    <li>
+                        <div>
+                            <a th:href="@{/mahasiswa/profile}">
+                                <img th:src="@{/images/default-profile.png}" alt="profile">
+                            </a>
+                        </div>    
+                    </li>
+                    <li><img th:src="@{/images/bell.png}" alt="notif"></li>
+                    <li><a th:href="@{/logout}"><img th:src="@{/images/logout.png}" alt="logout"></a></li>
+                </ul>
+            </nav>
+        </header>
+
+    <main>
+        <section id="course-nav">
+            <a th:href="@{/dosen/course/nav/grading}"><p>Grading</p></a>
+            <a th:href="@{/dosen/course/nav/participant}"><p>Participant</p></a>
+            <a th:href="@{/dosen/course/nav/group}"><p>Group</p></a>
+        </section>
+
+        <div id="lock-button">
+                <img th:src="@{/images/lock-group.svg}" alt="lock group icon">
+                <p>Unlock</p>
+        </div>
+        
+        <section id="group-list">
+            <div id="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Choices</th>
+                            <th>Group</th>
+                            <th>Members</th>
+                            <th>Group <br>Members</th>
+                            <th><button>Show Group<br>Members</button></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Group <span>A</span></td>
+                            <td>7</td>
+                            <div></div>
+                            <!-- TAMPILKAN SAAT TOMBOL SHOW MEMBER DITEKAN-->
+                            <td class="member-card">
+                                <div>61822010@student</div>
+                                <div>61822010@student</div>
+                                <div>61822010@student</div>
+                                <div>61822010@student</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Group <span>A</span></td>
+                            <td>7</td>
+                            <td class="member-card">
+                                <div>61822010@student</div>
+                                <div>61822010@student</div>
+                                <div>61822010@student</div>
+                                <div>61822010@student</div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        
+    </main>
+</body>
+</html>
