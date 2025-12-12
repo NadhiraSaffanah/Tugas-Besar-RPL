@@ -64,4 +64,26 @@ public class MatkulRepository {
         
         return jdbcTemplate.queryForMap(sql, matkulId);
     }
+
+    // Create a new matkul
+    public Long createMatkul(String namaMatkul, String kelasMatkul) {
+        String sql = """
+            INSERT INTO matkul (nama_matkul, kelas_matkul, isActive)
+            VALUES (?, ?, TRUE)
+            RETURNING id
+        """;
+        
+        return jdbcTemplate.queryForObject(sql, Long.class, namaMatkul, kelasMatkul);
+    }
+
+    // Link matkul to semester
+    public void linkMatkulToSemester(Long matkulId, Long semesterId) {
+        String sql = """
+            INSERT INTO matkul_semester (matkul_id, semester_id)
+            VALUES (?, ?)
+            ON CONFLICT DO NOTHING
+        """;
+        
+        jdbcTemplate.update(sql, matkulId, semesterId);
+    }
 }

@@ -70,7 +70,7 @@ nav img {
 }
 
 #nav-left img {
-    transform: scale(1.5);
+    transform: scale(1);
 }
 
 #nav-left li:nth-child(3) {
@@ -246,110 +246,3 @@ main {
     height: 2em;
     width: auto;
 }
-
-/*===== NEW BUAT ADMIN =====*/
-#create-course-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-#create-course-button {
-    border: 1px solid var(--text-color);
-    background-color: #FFFFFF;
-    width: 18%;
-    height: 35%;
-    border-radius: 0.5em;
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    justify-content: start;
-    padding: 0;
-}
-
-#create-course-button h4 {
-    margin: 0.5em;
-    font-size: 1.3em;
-    color: var(--text-color);
-}
-
-#create-course-button .create-color {
-    display: flex;
-    align-items: center;
-    justify-self: center;
-    height: 90%;
-    border-radius: 0.5em 0.5em 0 0;
-}
-
-.card-name {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    width: 100%;
-    padding: 10px;
-}
-
-.card-name h4 {
-    width: 100%;
-}
-
-.card-name img {
-    height: 1em;
-}
-
-.form-popup {
-  display: none;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 30%;
-  border: 1px solid var(--text-color); 
-  border-radius: 0.5em;
-  padding: 20px;
-  background-color: white;
-  z-index: 10;
-  row-gap: 20px;
-}
-
-.form-popup form {
-    display: grid;
-    grid-template-columns: max-content max-content;
-    row-gap: 10px;
-    column-gap: 5px;
-}
-
-.form-popup form input {
-    background-color: var(--input-background);
-    border: 1px solid var(--input-border); 
-    border-radius: 0.5em;
-}
-
-.form-popup button {
-    background-color: var(--button-color);
-    color: white;
-    border: 0px;
-    padding: 10px;
-    grid-column: 1 / span 2;
-    margin-top: 30px;
-}
-
-.popup-top {
-    display: flex;
-    width: 100%;/*fill container equivalent*/
-    justify-content: right;
-}
-
-.popup-top input {
-    width: 1.3em;
-}
-
-.popup-bottom {
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-}
-
