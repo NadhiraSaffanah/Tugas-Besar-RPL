@@ -1,7 +1,5 @@
 package com.example.tubesrpl.model;
-// package com.example.tubesrpl.model;
 
-// package com.example.tubesrpl.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor; // buat mapping kolom postgre

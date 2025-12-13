@@ -24,6 +24,7 @@ public class TubesRepository {
             tubes.setNamaTubes(rs.getString("nama_tubes"));
             tubes.setDeskripsi(rs.getString("deskripsi"));
             tubes.setJmlKelompok(rs.getInt("jml_kelompok"));
+            tubes.setStatusKelompok(rs.getString("status_kelompok"));
             // tubes.setIdMatkul(rs.getLong("matkul_id"));
             // tubes.setIdSemester(rs.getLong("semester_id")); //mungkin kepake
             tubes.setMatkul(rs.getString("nama_matkul"));
@@ -40,6 +41,7 @@ public class TubesRepository {
                 t.nama_tubes,
                 t.deskripsi,
                 t.jml_kelompok,
+                t.status_kelompok,
                 t.matkul_id,
                 ms.semester_id,
                 m.nama_matkul,
@@ -64,6 +66,7 @@ public class TubesRepository {
                 t.nama_tubes,
                 t.deskripsi,
                 t.jml_kelompok,
+                t.status_kelompok,
                 t.matkul_id,
                 ms.semester_id,
                 m.nama_matkul,

@@ -9,16 +9,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import com.example.tubesrpl.data.User;
+import com.example.tubesrpl.model.User;
 import com.example.tubesrpl.model.Matkul;
 import com.example.tubesrpl.model.TahapTubes;
 import com.example.tubesrpl.model.Tubes;
 import com.example.tubesrpl.repository.MatkulRepository;
 import com.example.tubesrpl.repository.TahapRepository;
 import com.example.tubesrpl.repository.TubesRepository;
-
 import jakarta.servlet.http.HttpSession;
+import com.example.tubesrpl.model.Group;
+import com.example.tubesrpl.repository.GroupRepository;
 
 @Controller
 public class MahasiswaController {
@@ -31,7 +31,10 @@ public class MahasiswaController {
     @Autowired
     private TahapRepository tahapRepository; // BARU
 
-    @GetMapping()
+    @Autowired
+    private GroupRepository groupRepository;//baru 
+
+    @GetMapping("/mahasiswa/home")
     private String mahasiswaHome(HttpSession session, Model model) {
         User user = (User) session.getAttribute("user");
         if (user == null)
@@ -51,27 +54,8 @@ public class MahasiswaController {
         return "profile-page";
     }
     
-    // ROUTING UNTUK COURSE (BARU DITAMBAHIN BACKEND)
-    @GetMapping("/mahasiswa/course")
-    public String courseHome(HttpSession session, Model model) {
-        User user = (User) session.getAttribute("user");
-
-        // kalo belum login, redirect balik ke halaman login
-        if (user == null) {
-            return "redirect:/login";
-        }
-
-        // Ambil Data Matkul milik Dosen tersebut
-        List<Matkul> courses = matkulRepository.findAllByUserId(user.getId());
-
-        model.addAttribute("dosen", user); // Di HTML dipanggil ${dosen.nama}
-        model.addAttribute("listCourses", courses); // Di HTML dipanggil ${listCourses}
-
-        return "mahasiswa/course-home";
-    }
-    
     // BARU
-    @GetMapping("mahasiswa/course/details")
+    @GetMapping("/mhs/course/details")
     public String courseDetails(@RequestParam(name = "id") Long matkulId, HttpSession session, Model model) {
 
         User user = (User) session.getAttribute("user");
@@ -97,11 +81,33 @@ public class MahasiswaController {
         // ambil tubes (bisa null)
         Optional<Tubes> tubesOpt = tubesRepository.findAllByMatkulId(matkulId);
 
+        boolean isLocked = false;
+        String groupName = null;
+
         if (tubesOpt.isPresent()) {
             Tubes tubes = tubesOpt.get();
             model.addAttribute("tubes", tubes);
 
+            //ambil status kelompok (locked/unlocked) - baru 
+            String statusKelompok = tubes.getStatusKelompok();
+        
+            // Cek jika statusnya adalah 'Locked' (mengabaikan case)
+            if (statusKelompok != null && "Locked".equalsIgnoreCase(statusKelompok)) {
+                isLocked = true;
+            }
             List<TahapTubes> listTahap = tahapRepository.findAllByTubesId(tubes.getId());
+
+            //ambil kelompok berdasarkan tubes dan id user 
+            Optional<Group> groupOpt = groupRepository.findKelompokDetailByUserIdAndTubesId(
+                user.getId(), 
+                tubes.getId() // Gunakan ID Tubes yang baru saja diambil
+            );
+
+            if (groupOpt.isPresent()) {
+                Group group = groupOpt.get();
+                model.addAttribute("group", group); // Kirim objek group ke Model (opsional)
+                groupName = group.getNama_kelompok(); // Ambil nama kelompok
+            }
             model.addAttribute("listTahap", listTahap);
         } else {
             model.addAttribute("tubes", null);
@@ -110,6 +116,8 @@ public class MahasiswaController {
 
         model.addAttribute("selectedMatkulId", matkulId);
         model.addAttribute("mahasiswa", user);
+        model.addAttribute("isGroupLocked", isLocked);
+        model.addAttribute("groupName", groupName);
 
         return "mahasiswa/course-details";
     }
@@ -121,7 +129,7 @@ public class MahasiswaController {
         return "mahasiswa/course-nav-grading-phase";
     }
 
-    @GetMapping("/mahasiswa/course-nav-group")
+    @GetMapping("/mahasiswa/course/nav/group")
     public String Group() {
         return "mahasiswa/course-nav-group";
     }

@@ -15,6 +15,7 @@ public class Tubes {
     // private Long idSemester; //mungkin sekalian gitu ya biar ga manggil" terus
     private LocalDate startDate;
     private LocalDate endDate;
+    private String statusKelompok;
 
     // yg bisa null
     private String namaTubes; // ini diupdate juga biar lebih jelas (nama -> namaTubes)

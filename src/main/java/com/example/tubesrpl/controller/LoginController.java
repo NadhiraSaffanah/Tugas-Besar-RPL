@@ -1,6 +1,6 @@
 package com.example.tubesrpl.controller;
 
-import com.example.tubesrpl.data.User;
+import com.example.tubesrpl.model.User;
 import com.example.tubesrpl.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -8,10 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import com.example.tubesrpl.data.User;
 import com.example.tubesrpl.repository.UserRepository;
-
 import jakarta.servlet.http.HttpSession;
 import java.util.Optional;
 
@@ -58,7 +55,7 @@ public class LoginController {
                 // Redirect sesuai Role
                 switch (user.getRole()) {
                     case "mahasiswa":
-                        return "redirect:/home-mahasiswa";
+                        return "redirect:/mahasiswa/home";
                     case "dosen":
                         return "redirect:/home-dosen";
                     case "admin":
@@ -75,8 +72,8 @@ public class LoginController {
     }
 
     // ini masih belum dipindah ke controller masing-masing (belum ngikutin branch homepage_all)
-    @GetMapping("/home-mahasiswa")
-    public String homeMhs() { return "Mahasiswa/homeMhs"; }
+    // @GetMapping("/home-mahasiswa")
+    // public String homeMhs() { return "Mahasiswa/homeMhs"; }
     
     // @GetMapping("/home-dosen")
     // public String homeDosen() { return "Dosen/homeDosen"; }
