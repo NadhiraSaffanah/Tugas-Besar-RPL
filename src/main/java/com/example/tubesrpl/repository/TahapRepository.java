@@ -8,6 +8,8 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @Repository
 public class TahapRepository {
@@ -74,9 +76,32 @@ public class TahapRepository {
         jdbcTemplate.update(sql, nama, deskripsi, rubrik, tanggalAkhir, tubesId);
     }
 
+    public List<Map<String, Object>> findNilaiByTahapIdAndGroupId(Long tahapId, Long groupId) {
+        String sql = """
+            SELECT 
+                u.id AS user_id, 
+                u.nama, 
+                u.npm,
+                COALESCE(p.nilai, 0) AS nilai,
+                COALESCE(p.komentar, '') AS komentar
+            FROM users u
+            JOIN anggota_kelompok ak ON u.id = ak.user_id
+            LEFT JOIN penilaian p ON u.id = p.user_id AND p.tahap_id = ?
+            WHERE ak.kelompok_id = ?
+            ORDER BY u.nama ASC
+        """;
+        // Menggunakan queryForList karena kita ingin mendapatkan Map<String, Object>
+        return jdbcTemplate.queryForList(sql, tahapId, groupId);
+    }
+
     // update tahap tubes
     public void updateTahap(Long id, String namaTahap, String deskripsi, String rubrik, LocalDate tanggalAkhir) {
         String sql = "UPDATE tahap_tubes SET nama_tahap = ?, deskripsi = ?, rubrik_penilaian = ?, tanggal_akhir = ? WHERE id = ?";
         jdbcTemplate.update(sql, namaTahap, deskripsi, rubrik, tanggalAkhir, id);
+    }
+
+    public Optional<TahapTubes> findById(Long id) {
+        String sql = "SELECT * FROM tahap_tubes WHERE id = ?";
+        return jdbcTemplate.query(sql, tahapMapper, id).stream().findFirst();
     }
 }

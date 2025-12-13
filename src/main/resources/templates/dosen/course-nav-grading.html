@@ -107,7 +107,9 @@
                     <div class="card-button">
                         <button class="showRubricBtn">Show Rubric</button>
                         <button class="editPhaseBtn">Edit Phase</button>
-                        <button class="showDetailsBtn">Show Details</button>
+                        <a th:href="@{/dosen/course/nav/grading/phase/groups(tahapId=${phase.id}, tubesId=${tubesId})}">
+                            <button class="showDetailsBtn">Show Details</button>
+                        </a>
                     </div>
                 </div>
 

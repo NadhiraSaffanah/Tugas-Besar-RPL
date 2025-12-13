@@ -113,4 +113,22 @@ public class KelompokRepository {
             jdbcTemplate.batchUpdate(insertSql, batchArgs);
         }
     }
+
+    public Integer countGradedMembersByGroupAndTahap(Long kelompokId, Long tahapId) {
+        String sqlCheck = """
+            SELECT COUNT(p.user_id) 
+            FROM penilaian p 
+            
+            -- JOIN ke anggota_kelompok untuk menghubungkan Penilaian dengan Kelompok
+            JOIN anggota_kelompok ak ON p.user_id = ak.user_id 
+            
+            -- Filter berdasarkan ID Kelompok (dari tabel ak) dan ID Tahap (dari tabel p)
+            WHERE ak.kelompok_id = ? 
+            AND p.tahap_id = ?
+        """;
+        
+        // Perhatikan: sekarang kita menggunakan 'p.tahap_id' bukan 'p.tahap_tubes_id'
+        // Dan kita menggunakan 'ak.kelompok_id'
+        return jdbcTemplate.queryForObject(sqlCheck, Integer.class, kelompokId, tahapId);
+    }
 }

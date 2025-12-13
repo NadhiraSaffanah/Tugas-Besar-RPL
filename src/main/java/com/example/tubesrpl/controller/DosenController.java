@@ -6,7 +6,8 @@ import com.example.tubesrpl.model.TahapTubes;
 import com.example.tubesrpl.model.Tubes;
 import com.example.tubesrpl.model.User;
 import com.example.tubesrpl.repository.KelompokRepository;
-import com.example.tubesrpl.repository.MatkulRepository; 
+import com.example.tubesrpl.repository.MatkulRepository;
+import com.example.tubesrpl.repository.PenilaianRepository;
 import com.example.tubesrpl.repository.TahapRepository;
 import com.example.tubesrpl.repository.TubesRepository;
 // import com.example.tubesrpl.repository.UserRepository; // belum kepake
@@ -47,6 +48,9 @@ public class DosenController {
     @Autowired
     private KelompokRepository kelompokRepository;
 
+    @Autowired
+    private PenilaianRepository penilaianRepository;
+
     @GetMapping("/dosen/home")
     public String dosenHome(HttpSession session, Model model) { 
         User user = (User) session.getAttribute("user");
@@ -56,7 +60,7 @@ public class DosenController {
         List<Tubes> tubes = tubesRepository.findAllByUserId((long) user.getId()); //NEW buat list ongoing
         model.addAttribute("tubeslist", tubes); //sementara ambil semester 1 doang
 
-        return "Dosen/homedosen";
+        return "dosen/homedosen";
     }
 
     @GetMapping("/dosen/profile")
@@ -191,6 +195,79 @@ public class DosenController {
     @GetMapping("/dosen/course/nav/grading/phase")
     public String gradingPhase() {
         return "dosen/course-nav-grading-phase";
+    }
+
+    @GetMapping("/dosen/course/nav/grading/phase/groups")
+    public String gradingPhaseGroups(@RequestParam Long tahapId, @RequestParam Long tubesId, Model model, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user == null || !"dosen".equalsIgnoreCase(user.getRole())) {
+            return "redirect:/login";
+        }
+
+        Optional<TahapTubes> tahapOpt = tahapRepository.findById(tahapId);
+        if (tahapOpt.isEmpty()) return "redirect:/dosen/course/nav/grading?id=" + tubesId;
+
+        List<Kelompok> listKelompok = kelompokRepository.findAllByTubesId(tubesId);
+
+        for (Kelompok k : listKelompok) {
+            List<User> anggotas = kelompokRepository.findAnggotaByKelompokId(k.getId());
+            k.setListAnggota(anggotas);
+            Integer gradedCount = kelompokRepository.countGradedMembersByGroupAndTahap(k.getId(), tahapId);
+            k.setGradedCount(gradedCount != null ? gradedCount : 0);
+        }
+
+        model.addAttribute("tahap", tahapOpt.get());
+        model.addAttribute("listKelompok", listKelompok);
+        model.addAttribute("tubesId", tubesId);
+        model.addAttribute("tahapId", tahapId);
+        model.addAttribute("user", user);
+
+        return "dosen/course-nav-grading-phase-details";
+    }
+
+    @GetMapping("/dosen/course/nav/grading/phase/edit")
+    public String gradingPhaseDetailsEdit(@RequestParam Long tahapId, @RequestParam Long groupId, Model model, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user == null || !"dosen".equalsIgnoreCase(user.getRole())) {
+            return "redirect:/login";
+        }
+
+        Kelompok kelompok = kelompokRepository.findById(groupId);
+        
+        List<Map<String, Object>> membersWithScores = tahapRepository.findNilaiByTahapIdAndGroupId(tahapId, groupId);
+        
+        Optional<TahapTubes> tahapOpt = tahapRepository.findById(tahapId);
+        
+        model.addAttribute("tahap", tahapOpt.get()); // Tambahkan ini untuk judul di halaman edit
+        model.addAttribute("kelompok", kelompok);
+        model.addAttribute("membersWithScores", membersWithScores);
+        model.addAttribute("tahapId", tahapId);
+        model.addAttribute("groupId", groupId);
+        model.addAttribute("user", user);
+
+        return "dosen/course-nav-grading-phase-details-edit";
+    }
+
+    // ENDPOINT 3: SIMPAN NILAI (API)
+    @PostMapping("/dosen/course/grading/phase/save-score-api")
+    @ResponseBody
+    public ResponseEntity<String> saveScoreApi(
+            @RequestParam Long tahapId,
+            @RequestParam String komentar,
+            @RequestParam List<Long> userId,
+            @RequestParam List<Double> nilai) {
+        try {
+            if (userId.size() != nilai.size()) {
+                return ResponseEntity.badRequest().body("Error: Jumlah user ID dan Nilai tidak sama.");
+            }
+            
+            penilaianRepository.saveNilaiBatch(tahapId, userId, nilai, komentar);
+            
+            return ResponseEntity.ok("Success");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error: " + e.getMessage());
+        }
     }
 
     // update fase

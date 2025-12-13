@@ -1,56 +1,93 @@
-// FUNGSI UNTUK KEMBALI KE HALAMAN SEBELUMNYA
-backBtn = document.getElementById('back-icon');
+document.addEventListener('DOMContentLoaded', () => {
+    const gradeAllRadio = document.getElementById('grade-all');
+    const scoreInputMaster = document.getElementById('score');
+    const scoreInputs = document.querySelectorAll('input[name="nilai"]');
+    const gradingForm = document.getElementById('gradingForm');
+    const toggleScoreButtons = document.querySelectorAll('.editNilaiBtn');
 
-backBtn.addEventListener('click', () => {
-    window.location.href = '/dosen/course/nav/grading/phase/details';
-});
+    toggleScoreButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const td = btn.closest('.score-input-wrapper');
+            const input = td.querySelector('.editScore');
+            const displayValue = td.querySelector('p');
+            
+            const isInputHidden = input.style.display === 'none' || input.style.display === '';
 
-
-// FUNGSI UNTUK MENAMPILKAN EDIT NILAI INDIVIDUAL
-inputNilai = document.querySelectorAll('.editScore');
-editNilaiBtn = document.querySelectorAll('.editNilaiBtn');
-
-editNilaiBtn.forEach(btn => {
-    btn.addEventListener('click', () => {
-        const td = btn.closest('td');           
-        const input = td.querySelector('.editScore');
-        
-        const currentDisplay = window.getComputedStyle(input).display;
-        
-        if (currentDisplay === 'none') {
-            input.style.display = 'block';
-        } else {
-            input.style.display = 'none';
-        }
-
-        // hide nilai lama
-        const p = td.querySelector('p');
-
-        if (currentDisplay === 'none') {
-            input.style.display = 'block';
-            p.style.display = 'none';
-        } else {
-            input.style.display = 'none';
-            p.style.display = 'block';
-        }
-
+            if (isInputHidden) {
+                input.style.display = 'block';
+                displayValue.style.display = 'none';
+                input.focus();
+            } else {
+                input.style.display = 'none';
+                
+                displayValue.textContent = input.value; 
+                displayValue.style.display = 'block';
+            }
+        });
     });
-});
-
-
-// TAMPILKAN POP UP SUCCES EDITED
-popupSuccess = document.querySelector('#popup-success');
-closeButton = document.querySelector('#popup-success img');
-saveBtn = document.getElementById('save');
-
-saveBtn.addEventListener('click', () => {
-    const popUpSuccesDisplay = window.getComputedStyle(popupSuccess).display;
-
-    if (popUpSuccesDisplay === 'none') {
-        popupSuccess.style.display = 'flex';
-    }
     
-    closeButton.addEventListener('click', () => {
-        window.location.href = '/dosen/course/nav/grading/phase/details/edit';
+    if (!gradingForm || !gradeAllRadio || !scoreInputMaster) {
+        return; 
+    }
+
+    
+    gradeAllRadio.addEventListener('change', () => {
+        if (gradeAllRadio.checked) {
+            scoreInputMaster.disabled = false;
+            scoreInputMaster.focus();
+        
+            const masterValue = scoreInputMaster.value;
+            if (masterValue !== "") {
+                 scoreInputs.forEach(input => {
+                    input.value = masterValue;
+                });
+            }
+        } else {
+            scoreInputMaster.disabled = true;
+        }
+    });
+
+    scoreInputMaster.addEventListener('input', () => {
+        if (gradeAllRadio.checked) {
+            const masterValue = scoreInputMaster.value;
+            scoreInputs.forEach(input => {
+                input.value = masterValue;
+            });
+        }
+    });
+    
+    // --- LOGIKA SUBMIT FORM (AJAX & Mencegah Enter) ---
+
+    // 1. Mencegah submit form saat tombol Enter ditekan
+    gradingForm.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault(); // Mencegah form submit default
+        }
+    });
+    
+    // 2. Handle Submission hanya saat tombol Save diklik (via form submit)
+    gradingForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const formData = new FormData(gradingForm);
+        
+        try {
+            const response = await fetch('/dosen/course/grading/phase/save-score-api', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (response.ok) {
+                alert("Nilai berhasil disimpan!");
+                // Reload halaman untuk melihat perubahan
+                window.location.reload(); 
+            } else {
+                const errorBody = await response.text();
+                alert(`Gagal menyimpan nilai: ${errorBody}`);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert("Terjadi kesalahan sistem saat menyimpan nilai.");
+        }
     });
 });

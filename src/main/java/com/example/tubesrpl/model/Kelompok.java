@@ -12,4 +12,7 @@ public class Kelompok {
     private Long tubesId;       
 
     private List<User> listAnggota = new ArrayList<>(); 
+
+    // tambahan
+    private Integer gradedCount;
 }
