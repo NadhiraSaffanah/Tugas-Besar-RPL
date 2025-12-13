@@ -2,6 +2,7 @@
 -- DROP TABLES (RESET SAFE)
 -- =======================
 DROP TABLE IF EXISTS kelompok CASCADE;
+DROP TABLE IF EXISTS tubes CASCADE;
 DROP TABLE IF EXISTS matkul CASCADE;
 DROP TABLE IF EXISTS matkul_semester CASCADE;
 DROP TABLE IF EXISTS penilaian CASCADE;
@@ -58,7 +59,10 @@ INSERT INTO users (nama, email, password_hash, role, npm, no_induk, foto_profil,
 ('Fauzan Hidayat', 'fauzan.hidayat@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230022', NULL, NULL, 'Aktif'),
 ('Dewi Lestari', 'dewi.lestari@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230023', NULL, NULL, 'Aktif'),
 ('Ardiansyah Putra', 'ardiansyah.putra@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230024', NULL, NULL, 'Aktif'),
-('Siti Nurjanah', 'siti.nurjanah@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230025', NULL, NULL, 'Aktif');
+('Siti Nurjanah', 'siti.nurjanah@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230025', NULL, NULL, 'Aktif'),
+
+--ADMIN
+('Dogman', 'dogman@admin.edu', 'hashedpass', 'admin', NULL, NULL, NULL); --butuh buat restriction role-based
 
 
 -- =======================
@@ -179,19 +183,20 @@ CREATE TABLE tubes (
     status_kelompok VARCHAR(20) NOT NULL CHECK (status_kelompok IN ('Locked', 'Unlocked'))
 );
 
-INSERT INTO tubes (nama_tubes, deskripsi, jml_kelompok, matkul_id, status_kelompok) VALUES 
-('Tubes 1 - Algoritma', 'Implementasi struktur data dasar', 8, 1, 'Unlocked'),
-('Tubes 2 - Algoritma', 'Penerapan linked list dan stack', 6, 1, 'Unlocked'),
-('Tubes Basis Data', 'Perancangan ERD dan normalisasi tabel', 10, 3, 'Unlocked'),
-('Mini Project SQL', 'Membuat query CRUD dan relasi', 7, 3, 'Unlocked'),
-('Tubes PBO', 'Membuat sistem OOP dengan inheritance', 5, 5, 'Unlocked'),
-('Project Final PBO', 'Aplikasi console dengan design pattern', 6, 5, 'Unlocked'),
-('Tubes Jaringan', 'Simulasi jaringan menggunakan Cisco PT', 4, 7, 'Unlocked'),
-('Tugas Sistem Operasi', 'Simulasi penjadwalan proses', 7, 8, 'Unlocked'),
-('Project Final Sistem Operasi', 'Implementasi algoritma deadlock', 6, 8, 'Unlocked'),
-('Tubes RPL', 'Dokumentasi UML dan class diagram', 9, 10, 'Unlocked'),
-('Final Project RPL', 'Build aplikasi sederhana berbasis tim', 8, 10, 'Unlocked'),
-('Tubes Pemrograman Web', 'Website CRUD dengan routing dan template', 10, 9, 'Unlocked');
+-- NOTE: ini ada beberapa tubes yang matkul_idnya sama, harusnya getMatkul, getTubes, dkk mempertimbangkan semester yang lagi ongoing/ngganya
+INSERT INTO tubes (nama_tubes, deskripsi, jml_kelompok, matkul_id) VALUES 
+('Tubes 1 - Algoritma', 'Implementasi struktur data dasar', 8, 1),
+('Tubes 2 - Algoritma', 'Penerapan linked list dan stack', 6, 1),
+('Tubes Basis Data', 'Perancangan ERD dan normalisasi tabel', 10, 3),
+('Mini Project SQL', 'Membuat query CRUD dan relasi', 7, 3),
+('Tubes PBO', 'Membuat sistem OOP dengan inheritance', 5, 5),
+('Project Final PBO', 'Aplikasi console dengan design pattern', 6, 5),
+('Tubes Jaringan', 'Simulasi jaringan menggunakan Cisco PT', 4, 7),
+('Tugas Sistem Operasi', 'Simulasi penjadwalan proses', 7, 8),
+('Project Final Sistem Operasi', 'Implementasi algoritma deadlock', 6, 8),
+('Tubes RPL', 'Dokumentasi UML dan class diagram', 9, 10),
+('Final Project RPL', 'Build aplikasi sederhana berbasis tim', 8, 10),
+('Tubes Pemrograman Web', 'Website CRUD dengan routing dan template', 10, 9);
 
 -- ======================================
 -- KELOMPOK
@@ -220,6 +225,8 @@ INSERT INTO kelompok (nama_kelompok, jml_anggota, tubes_id) VALUES
 ('Kelompok A', 3, 7),
 ('Kelompok A', 6, 8),
 ('Kelompok B', 6, 8);
+
+ALTER TABLE tubes ADD COLUMN is_locked BOOLEAN DEFAULT FALSE; -- baru buat lock
 
 -- ======================================
 -- TAHAP TUBES

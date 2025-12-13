@@ -1,11 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tugas Besar</title>
-    <link rel="stylesheet" th:href="@{/css/dosen/course-nav-grading.css}">
-    <script src="" defer></script>
+    <title>Grading Phase</title>
+    <link rel="stylesheet" th:href="@{/css/dosen/course-nav-grading-phase.css}">
+    <script th:src="@{/js/gradingPhase.js}" defer></script>
+
+    <style>
+        #popup-add-phase {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 50%; background: #FFF; padding: 2em;
+            border-radius: 10px; z-index: 1000; display: none;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            flex-direction: column; gap: 1em;
+            border: 2px solid #535F24;
+        }
+        #overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999; }
+        
+        /* Input Form Style */
+        .form-group { margin-bottom: 1em; display: flex; flex-direction: column; gap: 0.5em; }
+        .form-group label { font-weight: bold; color: #535F24; }
+        .form-group input, .form-group textarea { padding: 0.8em; border: 1px solid #ACBD6F; border-radius: 5px; }
+        .btn-submit { background: #8FA053; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer; font-weight: bold; width: 100%; }
+        .btn-submit:hover { background: #535F24; }
+    </style>
 </head>
 <body>
     <header>
@@ -17,40 +36,170 @@
             </ul>
             <ul id="nav-right">
                 <li>
-                    <span>Nama</span> 
-                    <span>61823010xx@unpar.ac.id</span>
+                    <span th:text="${user.nama}">Nama</span> 
+                    <span th:text="${user.email}">email@unpar.ac.id</span>
                 </li>
                 <li>
                     <div>
                         <a th:href="@{/dosen/profile}">
-                            <img src="" alt="profile picture">
+                            <img th:src="@{${#strings.isEmpty(user.fotoProfil) ? '/images/default-profile.jpg' : user.fotoProfil}}" 
+                                alt="profile picture" 
+                                style="width: 100%; height: 100%; object-fit: cover;">
                         </a>
-                    </div>    
+                    </div>
                 </li>
-                <li><img th:src="@{/images/bell.png}" alt="notification icon"></li>
-                <li><img th:src="@{/images/logout.png}" alt="logout icon"></li>
+                <li><img th:src="@{/images/bell.png}"></li>
+                <li><a th:href="@{/logout}"><img th:src="@{/images/logout.png}"></a></li>
             </ul>
         </nav>
     </header>
 
     <main>
         <section id="course-nav">
-            <a th:href="@{/dosen/course/nav/grading}"><p>Grading</p></a>
-            <a th:href="@{/dosen/course/nav/participant}"><p>Participant</p></a>
-            <a th:href="@{/dosen/course/nav/group}"><p>Group</p></a>
+            <a th:href="@{/dosen/course/details(id=${matkulId})}" style="background-color: var(--secondary-color);">Grading</a>
+            <a th:href="@{/dosen/course/nav/participant(id=${tubesId})}">Participant</a>
+            <a th:href="@{/dosen/course/nav/group(id=${tubesId})}">Group</a>
         </section>
 
         <section id="grading-container">
-            <h1>Project - Rekayasa Perangkat Lunak</h1>
-            <a th:href="@{/dosen/course/nav/grading/add}">
+            <h1>Project Grading</h1>
+
+            <a id="btn-add-phase-trigger" href="#">
                 <div id="add-phase">
-                    <p>+</p>
+                    <p style="font-size: 1.5em; margin-bottom: -5px;">+</p>
                     <p>Add Phase</p>
                 </div>
             </a>
-            <p>Currently there is no grading yet!</p>
+
+            <div id="grading-card-container">
+                
+                <div th:if="${#lists.isEmpty(listTahap)}" style="text-align: center; color: #888; padding: 2em;">
+                    <p>No grading phases yet.</p>
+                </div>
+
+                <div class="grading-card" 
+                     th:each="phase : ${listTahap}"
+                     th:data-id="${phase.id}" 
+                     th:data-rubrik="${phase.rubrikPenilaian}"
+                     th:data-tanggal="${phase.tanggalAkhir}"
+                     th:data-nama="${phase.namaTahap}"
+                     th:data-desc="${phase.deskripsi}">
+                    
+                    <div class="card-header">
+                        <h2><span th:text="${phase.namaTahap}">Phase Name</span></h2>
+                        <p th:text="${phase.statusPenilaian}"
+                           th:style="${phase.statusPenilaian == 'Graded' ? 'background-color: #ACBD6F;' : 'background-color: #FF6B6B;'}">
+                           Status
+                        </p>
+                    </div>
+                    
+                    <div class="card-body">
+                        <div class="card-body-wrap">
+                            <img th:src="@{/images/calendar.svg}" alt="calendar">
+                            <h5>Deadline: <span th:text="${#temporals.format(phase.tanggalAkhir, 'dd MMM yyyy')}">Date</span></h5>
+                        </div>
+                        <div class="card-body-wrap" style="align-items: flex-start;">
+                            <img th:src="@{/images/bell.svg}" alt="desc" style="margin-top: 3px;">
+                            <h5 th:text="${phase.deskripsi}" style="white-space: pre-wrap;">Deskripsi</h5>
+                        </div>
+                    </div>
+                    
+                    <div class="card-button">
+                        <button class="showRubricBtn">Show Rubric</button>
+                        <button class="editPhaseBtn">Edit Phase</button>
+                        <a th:href="@{/dosen/course/nav/grading/phase/groups(tahapId=${phase.id}, tubesId=${tubesId})}">
+                            <button class="showDetailsBtn">Show Details</button>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
         </section>
 
+        <div id="overlay"></div>
+        <div id="popup-add-phase">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h2 style="color: #535F24; margin: 0;">Add Grading Phase</h2>
+                <img th:src="@{/images/close.svg}" id="closeAddPhase" style="width: 20px; cursor: pointer;">
+            </div>
+            <hr style="border: 0; border-top: 1px solid #ACBD6F; margin: 10px 0;">
+            
+            <form id="addPhaseForm">
+                <input type="hidden" name="tubesId" th:value="${tubesId}">
+
+                <div class="form-group">
+                    <label>Title</label>
+                    <input type="text" name="namaTahap" placeholder="e.g. Phase 1 - SRS" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea name="deskripsi" rows="3" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Assessment Rubric</label>
+                    <textarea name="rubrik" rows="3" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Deadline</label>
+                    <input type="date" name="tanggalAkhir" required>
+                </div>
+
+                <button type="submit" class="btn-submit">Create Phase</button>
+            </form>
+        </div>
+
+        <div id="popup-show-rubric" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 50%; background: #FFF; padding: 2em; border-radius: 10px; z-index: 1000; display: none; box-shadow: 0 4px 15px rgba(0,0,0,0.2); border: 2px solid #535F24;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h2 id="rubric-popup-title" style="color: #535F24; margin: 0;">Assessment Rubric</h2>
+                <img th:src="@{/images/close.svg}" id="closeShowRubric" style="width: 20px; cursor: pointer;">
+            </div>
+            <hr style="border: 0; border-top: 1px solid #ACBD6F; margin: 10px 0;">
+            
+            <div id="rubric-content-display" style="max-height: 400px; overflow-y: auto; white-space: pre-wrap;">
+                <p id="rubric-text-content" style="color: #333;">Loading...</p>
+            </div>
+        </div>
+
+        <div id="popup-edit-phase" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 50%; background: #FFF; padding: 2em; border-radius: 10px; z-index: 1000; display: none; box-shadow: 0 4px 15px rgba(0,0,0,0.2); flex-direction: column; gap: 1em; border: 2px solid #535F24;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h2 style="color: #535F24; margin: 0;">Edit Grading Phase</h2>
+                <img th:src="@{/images/close.svg}" id="closeEditPhase" style="width: 20px; cursor: pointer;">
+            </div>
+            <hr style="border: 0; border-top: 1px solid #ACBD6F; margin: 10px 0;">
+            
+            <form id="editPhaseForm">
+                <input type="hidden" name="id" id="edit-id">
+                <input type="hidden" name="tubesId" th:value="${tubesId}">
+
+                <div class="form-group">
+                    <label>Title</label>
+                    <input type="text" name="namaTahap" id="edit-namaTahap" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea name="deskripsi" id="edit-deskripsi" rows="3" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Assessment Rubric</label>
+                    <textarea name="rubrik" id="edit-rubrik" rows="3" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Deadline</label>
+                    <input type="date" name="tanggalAkhir" id="edit-tanggalAkhir" required>
+                </div>
+                
+                <div style="display: flex; gap: 10px; margin-top: 1em;">
+                    <button type="button" class="btn-submit" id="cancelEditPhase" style="background-color: #ccc; color: #333;">Cancel</button>
+                    <button type="submit" class="btn-submit">Save Changes</button>
+                </div>
+            </form>
+        </div>
     </main>
 </body>
 </html>

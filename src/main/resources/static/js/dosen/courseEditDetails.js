@@ -1,26 +1,22 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. LOGIKA EDIT PROJECT (UPDATE)
+    const overlay = document.querySelector('#overlay');
     const editButton = document.querySelector('.desc-group-header img[alt="edit icon"]'); 
     const popupEditDetails = document.querySelector('#course-edit-details');
     const closeEditIcon = document.querySelector('#closeEditIcon'); 
 
-    // Buka Popup Edit
     if (editButton) {
         editButton.addEventListener('click', () => {
             if(popupEditDetails) popupEditDetails.style.display = 'flex'; 
         });
     }
 
-    // Tutup Popup Edit
     if (closeEditIcon) {
         closeEditIcon.addEventListener('click', () => {
             if(popupEditDetails) popupEditDetails.style.display = 'none';
         });
     }
 
-    // Submit Form Edit
-    const popupSuccess = document.querySelector('#popup-success'); // Pastikan ID ini ada di HTML (atau buat baru)
-    // Kalau belum ada popup success khusus edit, bisa pakai alert atau buat div baru
+    const popupSuccess = document.querySelector('#popup-success'); 
     const formEditCourse = document.querySelector('#editCourseForm');
 
     if (formEditCourse) {
@@ -38,9 +34,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (response.ok) {
                     popupEditDetails.style.display = 'none';
-                    // Tampilkan notif sukses (bisa alert atau popup)
                     alert("Project successfully updated!"); 
-                    window.location.reload(); // Reload halaman
+                    window.location.reload(); 
                 } else {
                     alert("Gagal menyimpan data.");
                 }
@@ -51,8 +46,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-
-    // 2. LOGIKA SHOW RUBRICS
     const popUpShowRubric = document.querySelector('#popup-show-rubric');
     const closeRubricIcon = document.querySelector('#closeRubricIcon'); 
     
@@ -73,7 +66,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Tutup Popup pakai Icon X
     if (closeRubricIcon) {
         closeRubricIcon.addEventListener('click', () => {
             if(overlay) overlay.style.display = 'none';
@@ -81,8 +73,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-
-    // 3. LOGIKA CREATE PROJECT (BARU)
     const btnCreateNew = document.querySelector('.btn-create'); 
     const popupCreate = document.querySelector('#course-create-details');
     const btnCloseCreate = document.querySelector('#closeCreateIcon'); // Tombol X
@@ -90,13 +80,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const popupSuccessCreate = document.querySelector('#popup-success-create');
     const closeSuccessCreateBtn = document.querySelector('#closeSuccessCreate');
 
-    // Fungsi Tutup Popup Create
     const closeCreatePopup = () => {
         if(popupCreate) popupCreate.style.display = 'none';
         if(overlay) overlay.style.display = 'none';
     };
 
-    // Buka Popup Create
     if (btnCreateNew) {
         btnCreateNew.addEventListener('click', (e) => {
             e.preventDefault();
@@ -105,7 +93,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Tutup tombol Close (X)
     if (btnCloseCreate) {
         btnCloseCreate.addEventListener('click', closeCreatePopup);
     }
@@ -127,7 +114,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (response.ok) {
                     if(popupCreate) popupCreate.style.display = 'none';
-                    // Tampilkan notif sukses
                     if(popupSuccessCreate) {
                         popupSuccessCreate.style.display = 'block';
                         // Reload halaman otomatis
@@ -149,7 +135,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Tutup Popup Success Create Manual
     if(closeSuccessCreateBtn) {
         closeSuccessCreateBtn.addEventListener('click', () => {
             if(popupSuccessCreate) popupSuccessCreate.style.display = 'none';

@@ -18,9 +18,10 @@ public class Tubes {
     private String statusKelompok;
 
     // yg bisa null
-    private String namaTubes; // ini diupdate juga biar lebih jelas (nama -> namaTubes)
+    private String namaTubes;
     private String matkul;
+    private String kelas; // butuh krn 1 matkul punya beberapa kelas
     private String deskripsi;
-    // --- UBAH DARI jml_kelompok MENJADI jmlKelompok ---
     private int jmlKelompok;
+    private boolean isLocked;
 }

@@ -5,6 +5,7 @@
     --button-color: #8FA053;
     --input-background: #FFFFFF;
     --input-border: #D8D8D8;
+    --card-hover: #f0f4e3;
 }
 
 * {
@@ -22,12 +23,14 @@ body {
         "header"
         "main";
     grid-template-rows: auto 1fr;
+    color: var(--text-color);
 }
 
 body::-webkit-scrollbar {
     display: none;
 }
 
+/* HEADER & NAV */
 header {
     position: sticky;
     top: 0;
@@ -64,6 +67,7 @@ nav img {
     filter: brightness(0) invert(1);
 }
 
+/* NAV LEFT */
 #nav-left {
     width: 20%;
     margin-left: 2em;
@@ -73,8 +77,10 @@ nav img {
     transform: scale(1.5);
 }
 
+/* UPDATE: HAPUS BORDER RADIUS (KOTAK) */
 #nav-left li:nth-child(2) {
     background-color: var(--button-color);
+    border-radius: 0; /* KOTAK */
 }
 
 #nav-left li:nth-child(2),
@@ -86,8 +92,10 @@ nav img {
 #nav-left li:nth-child(3):hover {
     cursor: pointer;
     background-color: var(--button-color);
+    border-radius: 0; /* KOTAK PAS HOVER */
 }
 
+/* NAV RIGHT */
 #nav-right {
     margin-right: 2em;
     cursor: pointer;
@@ -116,10 +124,6 @@ nav img {
     filter: none;
 }
 
-#nav-right li:hover {
-    background-color: var(--button-color);
-}
-
 /* MAIN CONTENT */
 main {
     grid-area: main;
@@ -132,16 +136,18 @@ main {
     gap: 2em;
 }
 
+/* HERO SECTION */
 #image-container {
     margin-top: 3%;
-    width: 80%;
+    /* UPDATE: WIDTH 80% */
+    width: 80%; 
     height: 35%;
     border-radius: 0.5em;
     position: relative;
     overflow: hidden;   
 }
 
-#image-container img {
+#image-container img.hero-bg {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -149,7 +155,7 @@ main {
     display: block;
 }
 
-/* Overlay warna */
+/* Overlay */
 #image-container::after {
     content: "";
     position: absolute;
@@ -163,11 +169,12 @@ main {
     pointer-events: none;
 }
 
-/* BOOK ICON */
+/* INFO WRAPPER */
 #info-wrapper {
     position: absolute;
-    top: 4em;            
     right: 5em;
+    top: 50%;             
+    transform: translateY(-50%); /* Posisi tengah vertikal */
     z-index: 99;
     display: flex;
     align-items: center;
@@ -180,41 +187,55 @@ main {
     object-fit: contain;
 }
 
-/* TEKS TUBES UNPAR */
 #info-wrapper p {
     color: white;
     font-size: 3em;
     font-weight: 500;
 }
 
+/* ON GOING SECTION */
 #on-going-course {
     padding: 1.5em;
+    
+    /* UPDATE: LEBAR DISAMAKAN DENGAN GAMBAR (80%) */
     width: 80%;
-    height: 40%;
-    border: 1px solid#535F24;
+    
+    /* TINGGI */
+    height: 40%; 
+    
+    /* UPDATE: BOLEH SCROLL ATAS-BAWAH (AUTO), JANGAN KANAN-KIRI (HIDDEN) */
+    overflow-y: auto; 
+    overflow-x: hidden;
+    
+    border: 1px solid #535F24;
     border-radius: 0.5em;
     display: flex;
     flex-direction: column;
     gap: 1em;
-    overflow-x: auto;
+    background-color: #FEFFFA;
 }
 
 #on-going-course h1 {
     color: #535F24;
     width: 100%;
-    height: 5vh;
+    height: auto;
+    margin-bottom: 0.5em;
+    border-bottom: 2px solid var(--secondary-color);
+    padding-bottom: 0.2em;
 }
 
 #course-wrapper {
     display: flex;
     flex-direction: column;
     gap: 1em;
-    padding-top: 1em;
-    overflow-x: auto;
+    padding-top: 0.5em;
+    width: 100%;
 }
 
+/* CARD STYLE */
 .course-card {
-    height: 60%;
+    width: 100%;
+    min-height: 80px;
     display: flex;
     padding: 1em;
     background-color: #FEFFFA;
@@ -223,6 +244,13 @@ main {
     border: 1px solid var(--input-border);
     border-radius: 0.5em;
     gap: 0.5em;
+    transition: transform 0.2s;
+}
+
+.course-card:hover {
+    transform: translateX(5px);
+    border-color: var(--button-color);
+    background-color: var(--card-hover);
 }
 
 .date {
@@ -230,5 +258,15 @@ main {
     color: #95A751;
     display: flex;
     align-items: center;
-    gap: 1em;
+    gap: 0.5em;
+}
+
+.date img {
+    width: 1.2em;
+}
+
+.course-card h3, 
+.course-card span {
+    color: #535F24 !important;
+    font-weight: bold;
 }

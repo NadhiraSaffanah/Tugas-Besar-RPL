@@ -8,7 +8,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import com.example.tubesrpl.repository.UserRepository;
 import jakarta.servlet.http.HttpSession;
 import java.util.Optional;
 
@@ -54,12 +53,9 @@ public class LoginController {
 
                 // Redirect sesuai Role
                 switch (user.getRole()) {
-                    case "mahasiswa":
-                        return "redirect:/mahasiswa/home";
-                    case "dosen":
-                        return "redirect:/home-dosen";
-                    case "admin":
-                        return "redirect:/home-admin";
+                    case "mahasiswa": return "redirect:/mahasiswa/home"; //udah diubah sesuai format /role/...
+                    case "dosen": return "redirect:/dosen/home";
+                    case "admin": return "redirect:/admin/home";
                     default:
                         model.addAttribute("error", "Role tidak ada");
                         return "login";
@@ -71,9 +67,9 @@ public class LoginController {
         return "login";
     }
 
-    // ini masih belum dipindah ke controller masing-masing (belum ngikutin branch homepage_all)
-    // @GetMapping("/home-mahasiswa")
-    // public String homeMhs() { return "Mahasiswa/homeMhs"; }
+    //ini uda pada dipindah ke controller masing-masing
+    // @GetMapping("/home-mahasiswa") 
+    // public String homeMhs() { return "homeMhs"; }
     
     // @GetMapping("/home-dosen")
     // public String homeDosen() { return "Dosen/homeDosen"; }
