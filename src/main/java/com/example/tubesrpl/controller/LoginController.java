@@ -1,14 +1,14 @@
 package com.example.tubesrpl.controller;
 
+import com.example.tubesrpl.repository.UserRepository;
+import com.example.tubesrpl.model.User;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import com.example.tubesrpl.data.User;
-import com.example.tubesrpl.repository.UserRepository;
 
 import jakarta.servlet.http.HttpSession;
 import java.util.Optional;
@@ -26,6 +26,12 @@ public class LoginController {
     @GetMapping("/login")
     public String loginPage() {
         return "login";
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate(); // Hapus semua data di session (user jadi null)
+        return "redirect:/login";
     }
 
     @GetMapping("/forgot-password")
@@ -49,12 +55,9 @@ public class LoginController {
 
                 // Redirect sesuai Role
                 switch (user.getRole()) {
-                    case "mahasiswa":
-                        return "redirect:/home-mahasiswa";
-                    case "dosen":
-                        return "redirect:/home-dosen";
-                    case "admin":
-                        return "redirect:/home-admin";
+                    case "mahasiswa": return "redirect:/mahasiswa/home"; //udah diubah sesuai format /role/...
+                    case "dosen": return "redirect:/dosen/home";
+                    case "admin": return "redirect:/admin/home";
                     default:
                         model.addAttribute("error", "Role tidak ada");
                         return "login";
@@ -66,8 +69,9 @@ public class LoginController {
         return "login";
     }
 
-    @GetMapping("/home-mahasiswa")
-    public String homeMhs() { return "Mahasiswa/homeMhs"; }
+    //ini uda pada dipindah ke controller masing-masing
+    // @GetMapping("/home-mahasiswa") 
+    // public String homeMhs() { return "homeMhs"; }
     
     // @GetMapping("/home-dosen")
     // public String homeDosen() { return "Dosen/homeDosen"; }

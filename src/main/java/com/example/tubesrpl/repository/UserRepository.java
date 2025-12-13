@@ -9,7 +9,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import com.example.tubesrpl.data.User;
+import com.example.tubesrpl.model.User;
 
 @Repository
 public class UserRepository {

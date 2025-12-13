@@ -34,72 +34,67 @@
     </header>
 
     <main>
-        <section id="course-nav">
-            <a th:href="@{/dosen/course/nav/grading}"><p>Grading</p></a>
-            <a th:href="@{/dosen/course/nav/participant}"><p>Participant</p></a>
-            <a th:href="@{/dosen/course/nav/group}"><p>Group</p></a>
-        </section>
-
         <section id="phase-edit-container">
             <div id="back-icon">
-                <img th:src="@{/images/back.svg}" alt="back icon">
+                 <a th:href="@{/dosen/course/nav/grading/phase/groups(tahapId=${tahapId}, tubesId=${kelompok.tubesId})}">
+                     <img th:src="@{/images/back.svg}" alt="back icon">
+                 </a>
             </div>
 
             <div id="phase-container">
-                <h1>Phase 1 Grading Group A</h1>
+                <h1 th:text="${tahap.namaTahap} + ' ' + ${kelompok.namaKelompok}">Phase 1 Grading Group A</h1>
                 <p>Group Grading</p>
                 
-                <div id="input-header">
-                    <input type="radio" name="grade-all" id="grade-all">
-                    <label for="grade-all">Apply Grade to All</label>
-                    <input type="number" name="score" id="score" placeholder="Masukkan Nilai">
-                </div>
+                <form id="gradingForm">
+                    <input type="hidden" name="tahapId" th:value="${tahapId}">
 
-                <div id="phase-body-container">
-                    <div id="table-container">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Group Members</th>
-                                    <th>Individual</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>6182201088unpar <span>Nama</span></td>
-                                    <td>
-                                        <img class="editNilaiBtn" th:src="@{/images/edit-icon.svg}" alt="">
-                                        <p>90</p>
-                                        <input class="editScore" type="text" name="editScore">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>6182201088unpar <span>Nama</span></td>
-                                    <td>
-                                        <img class="editNilaiBtn" th:src="@{/images/edit-icon.svg}" alt="">
-                                        <p>90</p>
-                                        <input class="editScore" type="text" name="editScore" >
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <div id="input-header">
+                        <input type="radio" name="grade-all" id="grade-all">
+                        <label for="grade-all">Apply Grade to All</label>
+                        
+                        <input type="number" name="score" id="score" placeholder="Masukkan Nilai" disabled>
                     </div>
 
-                    <div id="comment-container">
-                        <h3>Comment</h3>
-                        <textarea name="comment" id="comment" placeholder="Masukkan comment"></textarea>
-                        <button id="save">Save</button>
+                    <div id="phase-body-container">
+                        <div id="table-container">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Group Members</th>
+                                        <th>Individual Score</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="member : ${membersWithScores}">
+                                        <td>
+                                            <span th:text="${member.npm}">6182201088</span> 
+                                            <span th:text="${member.nama}">Nama</span>
+                                            <input type="hidden" name="userId" th:value="${member.user_id}">
+                                        </td>
+                                        
+                                        <td class="score-input-wrapper">
+                                            <img class="editNilaiBtn" th:src="@{/images/edit-icon.svg}" alt="">
+                                            
+                                            <p th:text="${member.nilai != null ? member.nilai : 0}"></p>
+                                            
+                                            <input class="editScore" type="number" step="0.01" min="0" max="100" 
+                                                   name="nilai" 
+                                                   th:value="${member.nilai != null ? member.nilai : 0}">
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div id="comment-container">
+                            <h3>Comment</h3>
+                            <textarea name="komentar" id="comment" th:text="${membersWithScores[0].komentar}" placeholder="Masukkan comment"></textarea>
+                            <button id="save" type="submit">Save</button>
+                        </div>
                     </div>
-                </div>
+                </form>
             </div>
         <section>
-
-        <!-- POPUP SAAT EDIT SUCCESS -->
-        <section id="popup-success">
-            <p>Project successfully edited!</p>
-            <img th:src="@{/images/close.svg}" alt="close button">
-        </section>
-        
     </main>
 </body>
 </html>

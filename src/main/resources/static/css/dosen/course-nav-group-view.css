@@ -18,22 +18,17 @@ body {
     background-color: var(--background-color);
     display: grid;
     height: 100vh;
-    grid-template-areas: 
-        "header"
-        "main";
+    grid-template-areas: "header" "main";
     grid-template-rows: auto 1fr;
-    overflow-x: hidden;
+    overflow: hidden;
 }
 
-body::-webkit-scrollbar {
-    display: none;
-}
-
+/* === HEADER & NAV (UPDATED TO MATCH course-nav-group.css) === */
 header {
-    position: sticky;
+    grid-area: header;
+    position: sticky; /* Biar sticky kayak halaman sebelah */
     top: 0;
     z-index: 99;
-    grid-area: header;
     width: 100%;
     background-color: var(--secondary-color);
     padding: 0.5em 0;
@@ -65,6 +60,7 @@ nav img {
     filter: brightness(0) invert(1);
 }
 
+/* NAV LEFT */
 #nav-left {
     width: 20%;
     margin-left: 2em;
@@ -74,6 +70,7 @@ nav img {
     transform: scale(1.5);
 }
 
+/* Active State buat menu "Course" */
 #nav-left li:nth-child(3) {
     background-color: var(--button-color);
 }
@@ -89,11 +86,13 @@ nav img {
     background-color: var(--button-color);
 }
 
+/* NAV RIGHT */
 #nav-right {
     margin-right: 2em;
     cursor: pointer;
 }
 
+/* Stack Nama & Email */
 #nav-right li:first-child {
     display: flex;
     flex-direction: column;
@@ -110,18 +109,20 @@ nav img {
     overflow: hidden;
 }
 
+/* FIX: Reset filter buat foto profil biar warnanya bener */
 #nav-right div img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    filter: none;
+    filter: none; 
 }
 
 #nav-right li:hover {
     background-color: var(--button-color);
 }
 
-/* MAIN CONTENT */
+
+/* === MAIN LAYOUT === */
 main {
     grid-area: main;
     width: 90%;
@@ -129,16 +130,16 @@ main {
     justify-self: center;
     display: flex;
     flex-direction: column;
-    justify-content: left;
+    justify-content: left; 
     align-items: start;
-    gap: 0.5em;
+    gap: 2em; 
     color: var(--text-color);
 }
 
+/* === NAVBAR TABS === */
 #course-nav {
     margin-top: 2em;
     width: 30%;
-    height: 6%;
     border-radius: 0.3em;
     background-color: var(--button-color);
     display: flex;
@@ -153,6 +154,7 @@ main {
     color: var(--input-background);
 }
 
+/* Tab ke-3 (Group) Active */
 #course-nav a:nth-child(3) {
     background-color: var(--secondary-color);
 }
@@ -162,83 +164,106 @@ main {
     transition: 0.5s;
 }
 
-/* BUTTON LOCK/UNLOCK */
-#lock-button {
-    width: 12%;
-    height: 5%;
-    display: flex;
-    align-self: end;
-    justify-content: space-around;
-    align-items: center;
-    border-radius: 0.5em;
-    background-color: var(--button-color);
-    cursor: pointer;
-}
-
-#lock-button img {
-    width: 20%;
-}
-
-#lock-button p {
-    font-size: 1.5em;
-    font-weight: 500;
-    color: var(--input-background);
-}
-
-/* GROUP TABLE */
-#group-list {
+/* === CONTAINER UTAMA (VIEW GROUP) === */
+#view-group-container {
     width: 100%;
-    height: 90%;
-    max-height: 90%;
-    display: flex;
-    justify-content: center;
-}
-
-#table-container {
-    width: 100%;
-    height: 95%;
-    overflow-y: auto;
+    height: 75vh;
+    background-color: var(--input-background);
     border: 1px solid var(--text-color);
     border-radius: 0.5em;
-    background-color: var(--input-background);
+    padding: 1.5em;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
 }
 
-#table-container table {
-    text-align: center;
-    width: 100%;
-    border-collapse: collapse;
-    background-color: var(--input-background);
+/* HEADER CONTAINER (Back Button) */
+.container-header {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+    height: 3em;
+}
+#back-btn img { width: 1.5em; cursor: pointer; transition: 0.2s; }
+
+.container-header h2 { margin: 0; font-size: 1.5em; }
+
+/* TABLE WRAPPER */
+#table-wrapper {
+    flex: 1;
+    overflow-y: auto;
+    border: 1px solid #eee;
+    padding: 0.5em;
 }
 
-#table-container thead th {
+table { width: 100%; border-collapse: collapse; }
+
+thead th {
     position: sticky;
     top: 0;
-    background-color: #ffffff;
-    z-index: 2;
-    padding: 1em;
-    border-bottom: 1px solid #ddd;
-}
-
-#table-container th:last-of-type {
-    width: 20%;
-    
-}
-
-#table-container button {
-    padding: 0.5em;
-    font-weight: 500;
-    border: none;
-    border-radius: 0.5em;
     background-color: var(--input-background);
+    border-bottom: 2px solid var(--secondary-color);
+    padding: 1em;
+    text-align: left;
+    color: var(--text-color);
 }
 
-#table-container button:hover {
+tbody td {
+    padding: 1em;
+    border-bottom: 1px solid #f0f0f0;
+    vertical-align: top;
+}
+
+.member-list div { margin-bottom: 0.3em; font-size: 0.9em; color: #555; }
+
+.member-item {
+    padding: 2px 0;
+    border-bottom: 1px solid #eee;
+    font-size: 0.9em;
+}
+.hidden {
+    display: none !important;
+}
+
+/* === FOOTER (POSISI TOMBOL) === */
+.container-footer {
+    display: flex;
+    justify-content: flex-end; 
+    align-items: center;
+    gap: 1em; 
+    height: 3em;
+}
+
+.footer-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    height: 40px;
+    background-color: var(--button-color);
+    padding: 0.5em 1em;
+    border-radius: 5px;
     cursor: pointer;
-    transition: 0.5s;
+    color: white;
+    font-weight: bold;
+    border: none;
+    font-size: 1em;
+    transition: 0.3s;
+}
+
+.footer-btn:hover {
     background-color: var(--secondary-color);
 }
 
-#table-container tbody td {
-    padding: 0.8em;
-    border-bottom: 1px solid #eee;
+.footer-btn img {
+    width: 1.5em;
+    filter: brightness(0) invert(1);
+}
+
+/* custom scroll */
+#table-wrapper::-webkit-scrollbar {
+    width: 8px; 
+}
+#table-wrapper::-webkit-scrollbar-thumb {
+    background-color: var(--secondary-color); 
+    border-radius: 4px; 
 }

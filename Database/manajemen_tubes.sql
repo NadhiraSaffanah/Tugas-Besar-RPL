@@ -2,6 +2,7 @@
 -- DROP TABLES (RESET SAFE)
 -- =======================
 DROP TABLE IF EXISTS kelompok CASCADE;
+DROP TABLE IF EXISTS tubes CASCADE;
 DROP TABLE IF EXISTS matkul CASCADE;
 DROP TABLE IF EXISTS matkul_semester CASCADE;
 DROP TABLE IF EXISTS penilaian CASCADE;
@@ -58,7 +59,10 @@ INSERT INTO users (nama, email, password_hash, role, npm, no_induk, foto_profil,
 ('Fauzan Hidayat', 'fauzan.hidayat@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230022', NULL, NULL, 'Aktif'),
 ('Dewi Lestari', 'dewi.lestari@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230023', NULL, NULL, 'Aktif'),
 ('Ardiansyah Putra', 'ardiansyah.putra@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230024', NULL, NULL, 'Aktif'),
-('Siti Nurjanah', 'siti.nurjanah@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230025', NULL, NULL, 'Aktif');
+('Siti Nurjanah', 'siti.nurjanah@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230025', NULL, NULL, 'Aktif'),
+
+--ADMIN
+('Dogman', 'dogman@admin.edu', 'hashedpass', 'admin', NULL, NULL, NULL); --butuh buat restriction role-based
 
 
 -- =======================
@@ -178,6 +182,7 @@ CREATE TABLE tubes (
 	matkul_id BIGINT NOT NULL REFERENCES matkul(id) ON DELETE CASCADE
 );
 
+-- NOTE: ini ada beberapa tubes yang matkul_idnya sama, harusnya getMatkul, getTubes, dkk mempertimbangkan semester yang lagi ongoing/ngganya
 INSERT INTO tubes (nama_tubes, deskripsi, jml_kelompok, matkul_id) VALUES 
 ('Tubes 1 - Algoritma', 'Implementasi struktur data dasar', 8, 1),
 ('Tubes 2 - Algoritma', 'Penerapan linked list dan stack', 6, 1),
@@ -219,6 +224,8 @@ INSERT INTO kelompok (nama_kelompok, jml_anggota, tubes_id) VALUES
 ('Kelompok A', 3, 7),
 ('Kelompok A', 6, 8),
 ('Kelompok B', 6, 8);
+
+ALTER TABLE tubes ADD COLUMN is_locked BOOLEAN DEFAULT FALSE; -- baru buat lock
 
 -- ======================================
 -- TAHAP TUBES

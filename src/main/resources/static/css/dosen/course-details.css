@@ -125,14 +125,14 @@ nav img {
 main {
     grid-area: main;
     width: 90%;
-    height: 100%;
+    min-height: 80vh; 
     justify-self: center;
     display: flex;
     flex-direction: column;
-    justify-content: left;
-    align-items: start;
+    align-items: stretch;
     gap: 2em;
     color: var(--text-color);
+    padding-bottom: 2em;
 }
 
 #course-nav {
@@ -181,17 +181,23 @@ main {
 
 #desc-group-container {
     width: 100%;
-    height: 20%;
     display: flex;
-    gap: 1em;
+    gap: 2em;
+    align-items: stretch; 
+    margin-bottom: 2em;
 }
 
 .desc-group {
-    padding: 1em;
-    width: 100%;
+    padding: 1.5em;
+    flex: 1; 
+    
     border-radius: 0.5em;
     border: 1px solid var(--text-color);
     background-color: var(--input-background);
+    
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
 }
 
 .desc-group-header {
@@ -209,40 +215,47 @@ main {
 }
 
 .grading-body-container {
+    width: 100%;
     display: flex;
-    overflow-y: scroll;
+    flex-direction: column;
 }
 
 #grading {
-    padding: 1em;
+    padding: 1.5em;
     width: 100%;
-    height: 28vh;
+    min-height: 300px; 
+    height: auto;      /* Biar tingginya ngikutin isi kartu */
     border-radius: 0.5em;
     border: 1px solid var(--text-color);
     background-color: var(--input-background);
     display: flex;
     flex-direction: column;
+    gap: 1em; 
 }
 
 
 /* JIKA ADA GRADING PHASE */
 #grading-wrapper {
     width: 100%;
-    max-height: 20%;
     display: flex;
-    flex-wrap: wrap;
-    gap: 2em;
+    flex-wrap: wrap; 
+    gap: 1.5em;    
+    padding: 0.5em; 
+    overflow-x: auto; 
 }
 
 .grading-card {
-    padding: 0.3em;
-    width: 23%;
+    padding: 1em; 
+    width: 300px; 
+    min-width: 250px;
     display: flex;
     flex-direction: column;
     align-items: start;
     border-radius: 0.5em;
     border: 1px solid var(--text-color);
-    gap: 0.5em;
+    background-color: var(--input-background);
+    gap: 0.8em;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
 
 .grading-body {
@@ -273,18 +286,17 @@ main {
 }
 
 #course-edit-details {
-    grid-area: main;
-    margin-top: 2em;
-    width: 100%;
-    height: 100%;
-    align-items: center;
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
-    z-index: 99;
-    display: none;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); 
+    z-index: 100;
+    
+    display: none; 
     justify-content: center;
-    gap: 2em;
+    align-items: center;
 }
 
 #back-icon {
@@ -377,19 +389,21 @@ main {
 
 /* POPUP SHOW RUBRIC */
 #popup-show-rubric {
-    padding: 1em;
-    width: 35%;
-    height: 30%;
-    position: absolute;
-    transform: translate(0%, 75%);
-    align-self: center;
-    z-index: 999;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000; 
+    
+    width: 90%;
+    max-width: 600px; 
+    background-color: #FFFFFF; 
+    padding: 2em;
+    border-radius: 12px; /* Sudut membulat */
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2); 
+    
     display: none;
     flex-direction: column;
-    justify-content: space-between;
-    color: var(--input-background);
-    border-radius: 0.5em;
-    background-color: var(--button-color);
 }
 
 #popup-show-rubric div {
@@ -414,6 +428,76 @@ main {
     cursor: pointer;
 }
 
+/* buat kalo belum ada tubes */
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    
+    flex-grow: 1; 
+    min-height: 40vh; 
+    
+    border: 2px dashed #ccc;
+    border-radius: 10px;
+    margin-top: 20px;
+    color: #888;
+}
 
+.empty-state h2 {
+    margin-bottom: 15px;
+    font-weight: normal;
+}
 
- 
+.btn-create {
+    background-color: var(--button-color);
+    color: white;
+    padding: 12px 24px;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 1.1em;
+    transition: 0.3s;
+}
+
+.btn-create:hover {
+    background-color: var(--secondary-color);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+#course-create-details {
+    grid-area: main;
+    margin-top: 2em;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    position: fixed; /* Fixed biar overlay */
+    top: 0;
+    left: 0;
+    z-index: 100; /* Di atas overlay */
+    display: none;
+    justify-content: center;
+}
+
+/* Styling content create sama kayak edit */
+#create-course {
+    color: var(--text-color);
+    width: 50%;
+    background-color: var(--input-background);
+    padding: 2em;
+    border-radius: 0.5em;
+    border: 1px solid var(--text-color);
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+/* Input styling samain aja */
+#createCourseForm input, #createCourseForm textarea {
+    padding: 0.8em;
+    border-radius: 0.3em;
+    border: 1px solid var(--input-border);
+    width: 100%;
+}

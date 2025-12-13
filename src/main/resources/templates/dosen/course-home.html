@@ -1,11 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tugas Besar</title>
+    <title>Course Home</title>
     <link rel="stylesheet" th:href="@{/css/dosen/course-home.css}">
-    <script src="" defer></script>
 </head>
 <body>
     <header>
@@ -17,18 +16,20 @@
             </ul>
             <ul id="nav-right">
                 <li>
-                    <span>Nama</span> 
-                    <span>61823010xx@unpar.ac.id</span>
+                    <span th:text="${user.nama}">Nama Dosen</span> 
+                    <span th:text="${user.email}">dosen@unpar.ac.id</span>
                 </li>
                 <li>
                     <div>
                         <a th:href="@{/dosen/profile}">
-                            <img src="" alt="profile picture">
+                            <img th:src="@{${#strings.isEmpty(user.fotoProfil) ? '/images/default-profile.jpg' : user.fotoProfil}}" 
+                                alt="profile picture" 
+                                style="width: 100%; height: 100%; object-fit: cover;">
                         </a>
                     </div>    
                 </li>
                 <li><img th:src="@{/images/bell.png}" alt="notification icon"></li>
-                <li><img th:src="@{/images/logout.png}" alt="logout icon"></li>
+                <li><a th:href="@{/logout}"><img th:src="@{/images/logout.png}" alt="logout icon"></a></li>
             </ul>
         </nav>
     </header>
@@ -42,19 +43,9 @@
                     <select name="filter" id="filter">
                         <option value="title">Filter and Sort</option>
                         <option value="sortByName">Sort by Course Name</option>
-                        <option value="sortByName">Sort by Last Accessed</option>
-                        <br>
+                        <option value="sortByAccess">Sort by Last Accessed</option>
                     </select>
-                    <div id="filter-checkbox">
-                        <input type="checkbox" name="inProgres" id="inProgres">
-                        <label for="inProgres">In-progres</label>
-                        <input type="checkbox" name="past" id="past" value="Past">
-                        <label for="past">Past</label>
-                        <input type="checkbox" name="hidden" id="hidden" value="hidden">
-                        <label for="hidden">Hidden</label>
                     </div>
-                    
-                </div>
                 <div id="search">
                     <img th:src="@{/images/search.svg}" alt="search icon">
                     <input type="text" placeholder="Search">
@@ -62,54 +53,21 @@
             </div>
 
             <div id="course-card-wrapper">
-                <a th:href="@{/dosen/course/details}">
-                    <div class="course-card">
+                <a th:each="course : ${listCourses}" 
+                th:href="@{/dosen/course/details(id=${course.id})}"> <div class="course-card">
                         <div class="card-color"></div>
-                        <h4>Nama Mata Kuliah</h4>
+                        
+                        <h4>
+                            <span th:text="${course.namaMatkul}">Nama Mata Kuliah</span> 
+                            (<span th:text="${course.kelasMatkul}">A</span>)
+                        </h4>
+                        
                     </div>
                 </a>
-                <a th:href="@{/dosen/course/details}">
-                    <div class="course-card">
-                        <div class="card-color"></div>
-                        <h4>Nama Mata Kuliah</h4>
-                    </div>
-                </a>
-                <a th:href="@{/dosen/course/details}">
-                    <div class="course-card">
-                        <div class="card-color"></div>
-                        <h4>Nama Mata Kuliah</h4>
-                    </div>
-                </a>
-                <a th:href="@{/dosen/course/details}">
-                    <div class="course-card">
-                        <div class="card-color"></div>
-                        <h4>Nama Mata Kuliah</h4>
-                    </div>
-                </a>
-                <a th:href="@{/dosen/course/details}">
-                    <div class="course-card">
-                        <div class="card-color"></div>
-                        <h4>Nama Mata Kuliah</h4>
-                    </div>
-                </a>
-                <a th:href="@{/dosen/course/details}">
-                    <div class="course-card">
-                        <div class="card-color"></div>
-                        <h4>Nama Mata Kuliah</h4>
-                    </div>
-                </a>
-                <a th:href="@{/dosen/course/details}">
-                    <div class="course-card">
-                        <div class="card-color"></div>
-                        <h4>Nama Mata Kuliah</h4>
-                    </div>
-                </a>
-                <a th:href="@{/dosen/course/details}">
-                    <div class="course-card">
-                        <div class="card-color"></div>
-                        <h4>Nama Mata Kuliah</h4>
-                    </div>
-                </a>
+
+                <div th:if="${#lists.isEmpty(listCourses)}" style="grid-column: 1/-1; text-align: center;">
+                    <p>Tidak ada mata kuliah yang sedang aktif.</p>
+                </div>
             </div>
         </section>
     </main>

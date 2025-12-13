@@ -1,11 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tugas Besar</title>
+    <title>View Group</title>
     <link rel="stylesheet" th:href="@{/css/dosen/course-nav-group-view.css}">
-    <script src="" defer></script>
 </head>
 <body>
     <header>
@@ -17,73 +16,153 @@
             </ul>
             <ul id="nav-right">
                 <li>
-                    <span>Nama</span> 
-                    <span>61823010xx@unpar.ac.id</span>
+                    <span th:text="${user.nama}">Nama</span> 
+                    <span th:text="${user.email}">email@unpar.ac.id</span>
                 </li>
                 <li>
                     <div>
                         <a th:href="@{/dosen/profile}">
-                            <img src="" alt="profile picture">
+                            <img th:src="@{${#strings.isEmpty(user.fotoProfil) ? '/images/default-profile.jpg' : user.fotoProfil}}" 
+                                alt="profile picture" 
+                                style="width: 100%; height: 100%; object-fit: cover;">
                         </a>
                     </div>    
                 </li>
                 <li><img th:src="@{/images/bell.png}" alt="notification icon"></li>
-                <li><img th:src="@{/images/logout.png}" alt="logout icon"></li>
+                <li><a th:href="@{/logout}"><img th:src="@{/images/logout.png}" alt="logout icon"></a></li>
             </ul>
         </nav>
     </header>
 
     <main>
         <section id="course-nav">
-            <a th:href="@{/dosen/course/nav/grading}"><p>Grading</p></a>
-            <a th:href="@{/dosen/course/nav/participant}"><p>Participant</p></a>
-            <a th:href="@{/dosen/course/nav/group}"><p>Group</p></a>
+            <a th:href="@{/dosen/course/nav/grading(id=${tubesId})}"><p>Grading</p></a>
+            <a th:href="@{/dosen/course/nav/participant(id=${tubesId})}"><p>Participant</p></a>
+            <a th:href="@{/dosen/course/details(id=${matkulId})}"><p>Group</p></a>
         </section>
 
-        <div id="lock-button">
-                <img th:src="@{/images/lock-group.svg}" alt="lock group icon">
-                <p>Unlock</p>
-        </div>
-        
-        <section id="group-list">
-            <div id="table-container">
+        <section id="view-group-container">
+            
+            <div class="container-header">
+                <h2>Group List</h2>
+            </div>
+
+            <div id="table-wrapper">
                 <table>
                     <thead>
                         <tr>
                             <th>Group</th>
-                            <th>Members</th>
-                            <th>Group <br>Members</th>
-                            <th><button>Show Group<br>Members</button></th>
+                            <th>Capacity</th> 
+                            <th>Group Members</th>
+                            <th style="width: 50px;">Action</th> 
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>Group <span>A</span></td>
-                            <td>7</td>
-                            <div></div>
-                            <!-- TAMPILKAN SAAT TOMBOL SHOW MEMBER DITEKAN-->
-                            <td class="member-card">
-                                <div>61822010@student</div>
-                                <div>61822010@student</div>
-                                <div>61822010@student</div>
-                                <div>61822010@student</div>
+                        <tr th:each="group : ${listKelompok}">
+                            <td>
+                                <span th:text="${group.namaKelompok}" style="font-weight:bold;">Group A</span>
+                            </td>
+                            
+                            <td th:text="${group.jmlAnggota}">0</td>
+                            
+                            <td class="member-list">
+                                <div class="member-wrapper">
+                                    <div th:if="${not #lists.isEmpty(group.listAnggota)}">
+                                        <div th:each="member : ${group.listAnggota}" class="member-item">
+                                            <span th:text="${member.nama}">Nama</span>
+                                        </div>
+                                    </div>
+                                    <div th:if="${#lists.isEmpty(group.listAnggota)}" style="color: #aaa; font-style: italic;">
+                                        No members yet
+                                    </div>
+                                </div>
+                            </td>
+
+                            <td style="text-align: center;">
+                                <a th:if="${!tubes.isLocked}" 
+                                th:href="@{/dosen/course/nav/group/edit(groupId=${group.id}, tubesId=${tubesId})}">
+                                    <img th:src="@{/images/EditGreen.svg}" alt="Edit" style="width: 20px; height: 20px; cursor: pointer;">
+                                </a>
+
+                                <img th:if="${tubes.isLocked}" th:src="@{/images/lock-closed.svg}" alt="Locked" style="width: 20px; height: 20px; opacity: 0.5;">
                             </td>
                         </tr>
-                        <tr>
-                            <td>Group <span>A</span></td>
-                            <td>7</td>
-                            <td class="member-card">
-                                <div>61822010@student</div>
-                                <div>61822010@student</div>
-                                <div>61822010@student</div>
-                                <div>61822010@student</div>
+
+                        <tr th:if="${#lists.isEmpty(listKelompok)}">
+                            <td colspan="4" style="text-align: center; padding: 2em; color: gray;">
+                                No groups created yet.
                             </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
+
+            <div class="container-footer">
+                <button class="footer-btn" id="toggle-members-btn" onclick="toggleMembersVisibility()">Hide Group Members</button>
+
+                <div class="footer-btn" id="lock-button" 
+                    th:data-id="${tubesId}" 
+                    th:data-locked="${tubes.isLocked}"
+                    onclick="toggleLockTubes(this)">
+                    
+                    <img th:src="@{${tubes.isLocked ? '/images/lock-closed.svg' : '/images/lock-open.svg'}}" alt="lock icon" id="lock-icon">
+                    <p style="margin:0;" id="lock-text" th:text="${tubes.isLocked ? 'Unlock Group' : 'Lock Group'}"></p>
+                </div>
+            </div>
+
+            <script>
+                // FUNGSI UNTUK TOGGLE VISIBILITY
+                function toggleMembersVisibility() {
+                    // Ambil semua wrapper anggota
+                    const wrappers = document.querySelectorAll('.member-wrapper');
+                    const btn = document.getElementById('toggle-members-btn');
+                    
+                    // Cek apakah sekarang sedang visible atau hidden (default visible)
+                    // Kita cek element pertama aja buat acuan
+                    if (wrappers.length > 0) {
+                        const isCurrentlyVisible = wrappers[0].style.display !== 'none';
+
+                        wrappers.forEach(wrapper => {
+                            if (isCurrentlyVisible) {
+                                wrapper.style.display = 'none';
+                            } else {
+                                wrapper.style.display = 'block';
+                            }
+                        });
+
+                        if (isCurrentlyVisible) {
+                            btn.innerText = "Show Group Members";
+                        } else {
+                            btn.innerText = "Hide Group Members";
+                        }
+                    }
+                }
+
+                function toggleLockTubes(element) {
+                    const tubesId = element.getAttribute('data-id');
+                    let currentStatus = element.getAttribute('data-locked') === 'true';
+                    let newStatus = !currentStatus;
+
+                    const formData = new FormData();
+                    formData.append('tubesId', tubesId);
+                    formData.append('lockStatus', newStatus);
+
+                    fetch('/dosen/course/nav/group/toggle-lock', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            location.reload(); 
+                        } else {
+                            alert("Gagal mengubah status lock.");
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+                }
+            </script>
+
         </section>
-        
     </main>
 </body>
 </html>
