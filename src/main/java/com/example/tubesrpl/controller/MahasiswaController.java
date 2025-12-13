@@ -29,7 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/mahasiswa")
 public class MahasiswaController {
 
-    @Autowired 
+    @Autowired
     private TubesRepository tubesRepository;
 
     @Autowired
@@ -38,7 +38,7 @@ public class MahasiswaController {
     @Autowired
     private TahapRepository tahapRepository; // Rename
 
-    @ModelAttribute("user") 
+    @ModelAttribute("user")
     public User userSession(HttpSession session) {
         return (User) session.getAttribute("user");
     }
@@ -62,7 +62,7 @@ public class MahasiswaController {
 
         return "Mahasiswa/homeMhs";
     }
-    
+
     @GetMapping("/course-details")
     public String courseDetailsMhs(@RequestParam(name = "id") Long matkulId, HttpSession session, Model model) {
         User user = (User) session.getAttribute("user");
@@ -80,7 +80,7 @@ public class MahasiswaController {
             java.sql.Date sqlDate = (java.sql.Date) headerInfo.get("start_date");
             headerInfo.put("start_date", sqlDate.toLocalDate());
         }
-        
+
         if (headerInfo.get("end_date") != null) {
             java.sql.Date sqlDate = (java.sql.Date) headerInfo.get("end_date");
             headerInfo.put("end_date", sqlDate.toLocalDate());
@@ -95,7 +95,7 @@ public class MahasiswaController {
             model.addAttribute("tubes", tubes);
 
             isLocked = tubes.isLocked();
-            
+
             List<TahapTubes> listTahap = tahapRepository.findAllByTubesId(tubes.getId());
             model.addAttribute("listTahap", listTahap);
         } else {
@@ -109,4 +109,72 @@ public class MahasiswaController {
 
         return "mahasiswa/course-details";
     }
+
+    @GetMapping("/grading-phase")
+    public String gradingPhase(@RequestParam(name = "id") Long tubesId, HttpSession session, Model model) {
+        User user = (User) session.getAttribute("user");
+
+        if (user == null || !"dosen".equalsIgnoreCase(user.getRole())) {
+            return "redirect:/login";
+        }
+
+        model.addAttribute("user", user);
+
+        Optional<Tubes> tubesOpt = tubesRepository.findById(tubesId);
+        if (tubesOpt.isPresent()) {
+            Tubes tubes = tubesOpt.get();
+            model.addAttribute("matkulId", tubes.getIdMatkul()); // Simpan matkulId ke model supaya bisa dipakai di tombol "Back"
+        }
+
+        List<TahapTubes> listTahap = tahapRepository.findAllByTubesId(tubesId);
+
+        model.addAttribute("listTahap", listTahap);
+        model.addAttribute("tubesId", tubesId);
+
+        return "mahasiswa/course-nav-grading-phase";
+    }
+
+    @GetMapping("/profile")
+    public String dosenProfile(HttpSession session, Model model) {
+        User user = (User) session.getAttribute("user");
+        if (user == null)
+            return "redirect:/login";
+        model.addAttribute("mahasiswa", user);
+
+        return "mahasiswa/profile-page";
+    }
+
+    // ROUTING UNTUK COURSE PARTICIPANT
+    @GetMapping("/participant")
+    public String courseNavParticipant(@RequestParam(name = "id") Long tubesId, Model model, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user == null) return "redirect:/login";
+        model.addAttribute("user", user);
+        
+        // ambil id matkul dari Tubes, ini buat back aja sih
+        Long matkulId = null;
+        Optional<Tubes> tubesOpt = tubesRepository.findById(tubesId);
+        if (tubesOpt.isPresent()) {
+            matkulId = tubesOpt.get().getIdMatkul();
+            model.addAttribute("matkulId", matkulId);
+        }
+
+        // ambil list participant dari db
+        if (matkulId != null) {
+            List<User> participants = matkulRepository.findParticipantsByMatkulId(matkulId);
+            model.addAttribute("participantList", participants);
+        }
+
+        model.addAttribute("tubesId", tubesId);
+        return "mahasiswa/course-nav-participant";
+    }
+    
+
+
+
+    // @GetMapping("/group")
+    // public String showGroup() {
+
+    // }
+
 }
