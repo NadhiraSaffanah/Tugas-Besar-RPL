@@ -210,17 +210,6 @@ public class DosenController {
         }
     }
 
-    @GetMapping("/dosen/course/nav/grading/phase/details")
-    public String gradingPhaseDetails() {
-        return "dosen/course-nav-grading-phase-details";
-    }
-
-    @GetMapping("/dosen/course/nav/grading/phase/details/edit")
-    public String gradingPhaseDetailsEdit() {
-        return "dosen/course-nav-grading-phase-details-edit";
-    }
-
-
     // ROUTING UNTUK COURSE PARTICIPANT
     @GetMapping("/dosen/course/nav/participant")
     public String courseNavParticipant(@RequestParam(name = "id") Long tubesId, Model model, HttpSession session) {
@@ -277,6 +266,7 @@ public class DosenController {
         return "dosen/course-nav-group-view"; 
     }
 
+    // --> BARU DITAMBAHIN
     @GetMapping("/dosen/course/nav/group/edit")
     public String courseNavGroupEdit(@RequestParam Long groupId, 
                                      @RequestParam Long tubesId, 

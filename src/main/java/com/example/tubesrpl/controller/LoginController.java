@@ -73,9 +73,9 @@ public class LoginController {
     // @GetMapping("/home-mahasiswa") 
     // public String homeMhs() { return "homeMhs"; }
     
-    // // @GetMapping("/home-dosen")
+    // @GetMapping("/home-dosen")
     // public String homeDosen() { return "Dosen/homeDosen"; }
     
-    // @GetMapping("/home-admin")
-    // public String homeAdmin() { return "Admin/homeAdmin"; }
+    @GetMapping("/home-admin")
+    public String homeAdmin() { return "Admin/homeAdmin"; }
 } 
