@@ -13,8 +13,8 @@
             <ul id="nav-left">
                 <li><img th:src="@{/images/Logo.png}" alt="Logo"></li>
                 <!-- ini pake home + user.role jadi dinamis redirect nya -->
-                <li><a th:href="@{'/home-' + ${user.role}}">Home</a></li>
-                <li><a th:href="@{/course}">Course</a></li>
+                <li><a th:href="@{/mahasiswa/home}">Home</a></li>
+                <li><a th:href="@{/mahasiswa/course}">Course</a></li>
             </ul>
             <ul id="nav-right">
                 <li>
@@ -67,7 +67,7 @@
             </div>
 
             <div id="course-card-wrapper">
-                <a th:each="m : ${matkulList}" href="#" class="course-link">
+                <a th:each="m : ${matkulList}" th:href="@{/mhs/course/details(id=${m.id})}" class="course-link">
                     <div class="course-card">
                         <div class="card-color"></div>
                         <h4>

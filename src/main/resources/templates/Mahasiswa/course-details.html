@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" th:href="@{/css/course-details.css}" type="text/css">
+    <title>Course Project</title>
+    <link rel="stylesheet" th:href="@{/css/mahasiswa/course-details.css}" type="text/css">
 </head>
 <body>
     <!--Navigation Bar-->
@@ -43,25 +43,21 @@
                 <a th:href="@{/mahasiswa/course/nav/group(id=${selectedMatkulId})}" class="tab-button" name="Group">Groups</a>
             </nav>
 
-            <section class="tubes-info-container">
-                <div class="tubes-main-info">
-                    <!--Judul Tugas Besar-->
-                   <h2 th:if="${tubes != null}" class="tubes-title" name="judul-tubes" th:text="${tubes.namaTubes}">Project</h2>
+            <section id="project">
+                <h2>
+                    <span th:text="${tubes != null ? tubes.namaTubes : 'Project'}">Project Name</span> - 
+                    
                     <span th:text="${header.get('nama_matkul')}">Nama Matkul</span>
-
-                    <!--Tanggal Tugas Besar-->
-                    <div class="date-info">
-                        <!--Start Date-->
-                        <div>
-                            <span class="label-date">Start date</span>
-                            <h5 th:text="${#temporals.format(header.get('start_date'), 'EEEE, d MMMM yyyy')}">Date</h5>
-                        </div>
-
-                        <!--End Date-->
-                        <div>
-                            <span class="label-date">End date</span>
-                            <h5 th:text="${#temporals.format(header.get('end_date'), 'EEEE, d MMMM yyyy')}">Date</h5>
-                        </div>
+                </h2>
+                
+                <div id="project-date">
+                    <div id="start-date">
+                        <p>Start Date</p>
+                        <h5 th:text="${#temporals.format(header.get('start_date'), 'EEEE, d MMMM yyyy')}">Date</h5>
+                    </div>
+                    <div id="end-date">
+                        <p>End Date</p>
+                        <h5 th:text="${#temporals.format(header.get('end_date'), 'EEEE, d MMMM yyyy')}">Date</h5>
                     </div>
                 </div>
             </section>
@@ -83,10 +79,7 @@
 
                     <!--FINALSCORE-BOX-->
                     <section class="finalScore-box">
-                        <!-- <h3>Final Score</h3>
-                        <p class="score" name="final-score" th:text="${}">78</p> belom bikin backend -->
-
-                        <div class="finalScore-box">
+                        <div>
                             <h3>Final Score</h3>
                             <p class="score" name="final-score">78</p>
                         </div>
@@ -101,7 +94,9 @@
                         <div class="phasePrev-box">
                             <div class="box-header">
                                 <h3>Phase</h3>
-                                <button class="view-deets-button">View Details</button>
+                                <a th:href="@{/mahasiswa/course/nav/grading(id=${selectedMatkulId})}">
+                                    <img th:src="@{/images/view-details.svg}" alt="view details">
+                                </a>
                             </div>
 
                             <!--Tabel Tahap Penilaian-->
@@ -122,9 +117,9 @@
                                         
                                         <td th:text="${tahap.namaTahap}">SRS</td> 
                                         
-                                        <td th:text="${#temporals.format(tahap.deadline, 'EEEE, d MMM yyyy HH:mm')}">Wednesay, 15 Nov 2029</td>
+                                        <td th:text="${#temporals.format(tahap.deadline, 'EEEE, d MMM yyyy HH:mm')}"></td>
                                         
-                                        <td th:text="${#temporals.createNow().isAfter(tahap.deadline)} ? 'Closed' : 'Open'">Status</td>
+                                        <td tth:text="${tahap.statusPenilaian == 'Graded'} ? 'Graded' : 'Not Graded'"></td>
                                         
                                         <td>
                                             <a th:href="@{/mahasiswa/course/tahap/detail(tahapId=${tahap.id}, matkulId=${selectedMatkulId})}" class="view-button">
@@ -163,7 +158,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="group-name" name="group-name" th:text="${tubes.groupName}"> nama Group </div>
+                            <div class="group-name" name="group-name" th:if="${groupName != null}"><span th:text="${groupName}"></div>
                         </div>
                     </section>
                 </section>
