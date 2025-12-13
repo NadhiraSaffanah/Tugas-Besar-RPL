@@ -318,6 +318,7 @@ main {
     background-color: rgba(0, 0, 0, 0.1);
 }
 
+/* buat menu ellipsis */
 .dropdown-menu {
     display: none;
     position: absolute;
@@ -559,3 +560,42 @@ main {
     background-color: #7a8a45;
 }
 
+
+
+/* ======== BREADCRUMB ======== */
+/* Style the list */
+ul.breadcrumb {
+    display: flex;
+    flex-direction: row;
+    list-style: none;
+}
+
+/* Add a slash symbol (/) before/behind each list item */
+ul.breadcrumb li+li:before {
+    color: var(--text-color);
+    margin-bottom: 5px;
+    margin-left: 7px;
+    content: ">\00a0";
+    font-size: 1em;
+    font-weight: normal;
+}
+
+ul.breadcrumb li {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+ul.breadcrumb a {
+    color: var(--text-color);
+    text-decoration: none;
+}
+
+ul.breadcrumb a:visited {
+    color: var(--text-color);
+}
+
+ul.breadcrumb a:hover {
+    color: var(--text-color);
+    opacity: 0.8;
+}

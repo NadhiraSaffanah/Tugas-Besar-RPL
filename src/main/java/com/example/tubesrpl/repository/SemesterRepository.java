@@ -37,6 +37,16 @@ public class SemesterRepository {
         return jdbcTemplate.query(sql, semesterRowMapper);
     }
 
+    public Semester findById(Long id){
+        String sql = """
+            SELECT id, start_date, end_date, jenis_semester
+            FROM semester
+            WHERE id = ? AND isActive = TRUE
+        """;
+        List<Semester> results = jdbcTemplate.query(sql, semesterRowMapper, id);
+        return results.isEmpty() ? null : results.get(0);
+    }
+
     public void createSemester(java.time.LocalDate startDate, java.time.LocalDate endDate, String jenisSemester) {
         String sql = "INSERT INTO semester (start_date, end_date, jenis_semester, isActive) VALUES (?, ?, ?, TRUE)";
         jdbcTemplate.update(sql, startDate, endDate, jenisSemester);

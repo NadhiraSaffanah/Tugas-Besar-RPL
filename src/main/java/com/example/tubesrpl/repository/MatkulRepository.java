@@ -52,6 +52,16 @@ public class MatkulRepository {
         return jdbcTemplate.query(sql, matkulRowMapper, idSemester);   
     }
 
+    public Matkul findById(Long id) {
+        String sql = """
+            SELECT id, nama_matkul, kelas_matkul
+            FROM matkul
+            WHERE id = ? AND isActive = TRUE
+        """;
+        List<Matkul> results = jdbcTemplate.query(sql, matkulRowMapper, id);
+        return results.isEmpty() ? null : results.get(0);
+    }
+
     // BARU : Method untuk mengambil Header Info (Nama Matkul + Tanggal Semester)
     public Map<String, Object> findHeaderInfo(Long matkulId) {
         String sql = """

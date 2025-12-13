@@ -416,12 +416,6 @@ function searchUsers() {
     });
 }
 
-// Update participants (placeholder - can be used for bulk operations)
-function updateParticipants() {
-    // For now, just reload to show any changes
-    window.location.reload();
-}
-
 // Close dropdown when clicking outside
 document.addEventListener('click', function(event) {
     const dropdown = document.getElementById("search-available-users");

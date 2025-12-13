@@ -40,32 +40,51 @@ public class AdminController {
 
     @ModelAttribute("user") //supaya ga nerima parameter HttpSesison berkali kali
     public User userSession(HttpSession session) {
-        return (User) session.getAttribute("user"); //buat role base restriction
+        User user = (User) session.getAttribute("user");
+        return user; 
     }
     
     @GetMapping("/home")
-    public String homeAdminView(){
+    public String homeAdminView(@ModelAttribute("user") User user){
+        //role base restriction
+        if (user == null || !"admin".equals(user.getRole())) {
+            return "redirect:/login";
+        }
         return "Admin/homeAdmin";
     }
 
     @GetMapping("/semesters")
-    public String semestersAdminView(Model model){
+    public String semestersAdminView(@ModelAttribute("user") User user, Model model){
+        //role base restriction
+        if (user == null || !"admin".equals(user.getRole())) {
+            return "redirect:/login";
+        }
         List<Semester> semesterList = semesterRepository.findAll();
         model.addAttribute("semesterList", semesterList); //matkul list karena menggunakan template yang sama dengan matkul
         return "Admin/semester";
     }
 
     @GetMapping("/semesters/{idSemester}/courses")
-    public String coursesAdminView(@PathVariable Long idSemester, Model model){
+    public String coursesAdminView(@ModelAttribute("user") User user, @PathVariable Long idSemester, Model model){
+        //role base restriction
+        if (user == null || !"admin".equals(user.getRole())) {
+            return "redirect:/login";
+        }
         List<Matkul> matkulList = matkulRepository.findAllBySemester(idSemester);
+        Semester semester = semesterRepository.findById(idSemester);
         model.addAttribute("matkulList", matkulList);
         model.addAttribute("idSemester", idSemester);
+        model.addAttribute("semester", semester);
         return "Admin/matkul";
     }
 
     @PostMapping("/courses/create")
-    public String createCourses(@RequestParam("idSemester") Long idSemester,
+    public String createCourses(@ModelAttribute("user") User user, @RequestParam("idSemester") Long idSemester,
                                 @RequestParam("courses") String[] courses) {
+        //role base restriction
+        if (user == null || !"admin".equals(user.getRole())) {
+            return "redirect:/login";
+        }
         // Parse courses: format "namaMatkul,kelasMatkul"
         for (String course : courses) {
             String[] parts = course.split(",");
@@ -84,9 +103,13 @@ public class AdminController {
     }
 
     @PostMapping("/semesters/create")
-    public String createSemester(@RequestParam("startDate") String startDateStr,
+    public String createSemester(@ModelAttribute("user") User user, @RequestParam("startDate") String startDateStr,
                                  @RequestParam("endDate") String endDateStr,
                                  @RequestParam("jenis") String jenis) {
+        //role base restriction
+        if (user == null || !"admin".equals(user.getRole())) {
+            return "redirect:/login";
+        }
         try {
             java.time.LocalDate startDate = java.time.LocalDate.parse(startDateStr);
             java.time.LocalDate endDate = java.time.LocalDate.parse(endDateStr);
@@ -99,7 +122,11 @@ public class AdminController {
     }
 
     @PostMapping("/semesters/{idSemester}/delete")
-    public String deleteSemester(@PathVariable Long idSemester) {
+    public String deleteSemester(@ModelAttribute("user") User user, @PathVariable Long idSemester) {
+        //role base restriction
+        if (user == null || !"admin".equals(user.getRole())) {
+            return "redirect:/login";
+        }
         try {
             semesterRepository.deleteSemester(idSemester);
             return "redirect:/admin/semesters";
@@ -110,7 +137,11 @@ public class AdminController {
     }
 
     @PostMapping("/courses/{idMatkul}/delete")
-    public String deleteMatkul(@PathVariable Long idMatkul, @RequestParam("idSemester") Long idSemester) {
+    public String deleteMatkul(@ModelAttribute("user") User user, @PathVariable Long idMatkul, @RequestParam("idSemester") Long idSemester) {
+        //role base restriction
+        if (user == null || !"admin".equals(user.getRole())) {
+            return "redirect:/login";
+        }
         try {
             matkulRepository.deleteMatkul(idMatkul);
             return "redirect:/admin/semesters/" + idSemester + "/courses";
@@ -122,25 +153,38 @@ public class AdminController {
 
     // Manage participants page
     @GetMapping("/semesters/{idSemester}/courses/{idMatkul}/participants")
-    public String manageDosenView(@PathVariable Long idSemester, 
+    public String manageParticipantsView(@ModelAttribute("user") User user, @PathVariable Long idSemester, 
                                   @PathVariable Long idMatkul, 
                                   Model model) {
+        //role base restriction
+        if (user == null || !"admin".equals(user.getRole())) {
+            return "redirect:/login";
+        }
         List<User> allParticipants = userRepository.findUsersByMatkulId(idMatkul);
         // Filter by role
         List<User> dosenList = allParticipants.stream().filter(u -> "dosen".equals(u.getRole())).toList();
         List<User> mahasiswaList = allParticipants.stream().filter(u -> "mahasiswa".equals(u.getRole())).toList();
         
+        Matkul matkul = matkulRepository.findById(idMatkul);
+        Semester semester = semesterRepository.findById(idSemester);
+        
         model.addAttribute("dosenList", dosenList);
         model.addAttribute("mahasiswaList", mahasiswaList);
         model.addAttribute("idMatkul", idMatkul);
         model.addAttribute("idSemester", idSemester);
-        return "Admin/manageDosen";
+        model.addAttribute("matkul", matkul);
+        model.addAttribute("semester", semester);
+        return "Admin/manageParticipants";
     }
 
     // Search users API (AJAX)
     @GetMapping("/users/search")
     @ResponseBody
-    public ResponseEntity<List<User>> searchUsers(@RequestParam String role, @RequestParam String searchTerm) {
+    public ResponseEntity<List<User>> searchUsers(@ModelAttribute("user") User user, @RequestParam String role, @RequestParam String searchTerm) {
+        //role base restriction
+        if (user == null || !"admin".equals(user.getRole())) {
+            return ResponseEntity.status(401).build(); // Unauthorized
+        }
         try {
             List<User> users = userRepository.searchUsers(role, searchTerm);
             return ResponseEntity.ok(users);
@@ -152,9 +196,13 @@ public class AdminController {
 
     // Add participants (link users to matkul)
     @PostMapping("/semesters/{idSemester}/courses/{idMatkul}/participants/add")
-    public String addParticipants(@PathVariable Long idSemester,
+    public String addParticipants(@ModelAttribute("user") User user, @PathVariable Long idSemester,
                                  @PathVariable Long idMatkul,
                                  @RequestParam("userIds") Long[] userIds) {
+        //role base restriction
+        if (user == null || !"admin".equals(user.getRole())) {
+            return "redirect:/login";
+        }
         try {
             for (Long userId : userIds) {
                 if (userId != null) {
@@ -170,9 +218,13 @@ public class AdminController {
 
     // Remove participant (unlink user from matkul)
     @PostMapping("/semesters/{idSemester}/courses/{idMatkul}/participants/{userId}/remove")
-    public String removeParticipant(@PathVariable Long idSemester,
+    public String removeParticipant(@ModelAttribute("user") User user, @PathVariable Long idSemester,
                                    @PathVariable Long idMatkul,
                                    @PathVariable Long userId) {
+        //role base restriction
+        if (user == null || !"admin".equals(user.getRole())) {
+            return "redirect:/login";
+        }
         try {
             userRepository.unlinkUserFromMatkul(userId, idMatkul);
             return "redirect:/admin/semesters/" + idSemester + "/courses/" + idMatkul + "/participants";
