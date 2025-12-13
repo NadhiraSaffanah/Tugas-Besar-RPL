@@ -395,19 +395,23 @@ main {
 }
 
 /* buat "forms" di popup (general css) */
-.popup button {
-    background-color: var(--button-color);
-    color: white;
-    border: 0px;
-    padding: 10px;
-    grid-column: 1 / span 2;
-    border-radius: 0.3em;
-}
 .popup-header {
     display: flex;
     flex-direction: column;
     justify-content: left;
     width: 100%;
+}
+
+.popup-header h1 {
+    color: var(--text-color);
+    margin-bottom: 0.3em;
+}
+
+.popup-header span {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 100%;
+    box-sizing: border-box;
 }
 
 
@@ -497,6 +501,7 @@ main {
     display: flex;
     row-gap: 10px;
     flex-direction: column;
+    width: 100%;
 }
 
 .input-section {
@@ -538,6 +543,18 @@ main {
 }
 
 /* submit button popup */
+.submit-btn {
+    background-color: var(--button-color);
+    color: white;
+    border: none;
+    padding: 0.8em;
+    border-radius: 0.3em;
+    cursor: pointer;
+    font-size: 1em;
+    width: 100%;
+    transition: background-color 0.2s;
+}
+
 .submit-btn:hover {
     background-color: #7a8a45;
 }

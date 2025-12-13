@@ -1,0 +1,737 @@
+:root {
+    --text-color: #535F24;
+    --secondary-color: #ACBD6F;
+    --background-color: #FDFAE7;
+    --button-color: #8FA053;
+    --input-background: #FFFFFF;
+    --input-border: #D8D8D8;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: var(--background-color);
+    display: grid;
+    height: 100vh;
+    grid-template-areas: 
+        "header"
+        "main";
+    grid-template-rows: auto 1fr;
+}
+
+body::-webkit-scrollbar {
+    display: none;
+}
+
+header {
+    position: sticky;
+    top: 0;
+    z-index: 99;
+    grid-area: header;
+    width: 100%;
+    background-color: var(--secondary-color);
+    padding: 0.5em 0;
+    color: #FFFFFF;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.1em;
+}
+
+nav ul {
+    list-style-type: none;
+    display: flex;
+    align-items: center;
+    gap: 1.5em;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #FFFFFF;
+}
+
+nav img {
+    width: 2.5em;
+    filter: brightness(0) invert(1);
+}
+
+#nav-left {
+    width: 20%;
+    margin-left: 2em;
+}
+
+#nav-left img {
+    transform: scale(1);
+}
+
+#nav-left li:nth-child(3) {
+    background-color: var(--button-color);
+}
+
+#nav-left li:nth-child(2),
+#nav-left li:nth-child(3) {
+    padding: 0.5em;
+}
+
+#nav-left li:nth-child(2):hover,
+#nav-left li:nth-child(3):hover {
+    cursor: pointer;
+    background-color: var(--button-color);
+}
+
+#nav-right {
+    margin-right: 2em;
+    cursor: pointer;
+}
+
+#nav-right li:first-child {
+    display: flex;
+    flex-direction: column;
+    text-align: right;
+    font-size: small;
+    justify-content: end;
+}
+
+#nav-right div {
+    width: 3.5em;
+    height: 3.5em;
+    background-color: rgb(198, 172, 209);
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+#nav-right div img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: none;
+}
+
+#nav-right li:hover {
+    background-color: var(--button-color);
+}
+
+/* MAIN CONTENT */
+main {
+    grid-area: main;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    gap: 2em;
+    padding: 2em;
+    position: relative;
+}
+
+#back-icon {
+    position: absolute;
+    top: 1em;
+    right: 2em;
+    z-index: 10;
+}
+
+#back-icon img {
+    width: 2em;
+    height: 2em;
+    cursor: pointer;
+    filter: none;
+}
+
+#participant {
+    width: 90%;
+    max-width: 1200px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5em;
+    color: var(--text-color);
+}
+
+/* Tab Container */
+#tab-container {
+    display: flex;
+    gap: 0.5em;
+    background-color: var(--button-color);
+    width: fit-content;
+    border-radius: 2em;
+}
+
+.tab-button {
+    padding: 0.7em 2em;
+    border: none;
+    border-radius: 2em;
+    background-color: var(--button-color);
+    color: white;
+    font-size: 1em;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.tab-button.active {
+    background-color: var(--secondary-color);
+}
+
+.tab-button:hover {
+    background-color: var(--secondary-color);
+}
+
+/* Participant Card */
+#participant-card {
+    background-color: white;
+    border: 1px solid var(--text-color);
+    border-radius: 0.5em;
+    padding: 1.5em;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5em;
+    height: 650px;
+}
+
+#search-add-container {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+}
+
+#search-container {
+    flex: 1;
+    padding: 0.7em;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    border: 1px solid var(--input-border);
+    border-radius: 0.3em;
+    background-color: var(--input-background);
+}
+
+#search-container img {
+    width: 1.2em;
+    height: 1.2em;
+    filter: none;
+}
+
+#search-container input {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: 1em;
+}
+
+.add-button {
+    width: 3em;
+    height: 3em;
+    border-radius: 50%;
+    background-color: var(--button-color);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+}
+
+.add-button:hover {
+    background-color: #7a8a45;
+}
+
+.add-button img {
+    width: 1.5em;
+    height: 1.5em;
+    filter: brightness(0) invert(1);
+}
+
+/* Participant List */
+.participant-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8em;
+    max-height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 0.5em;
+}
+
+.participant-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.participant-list::-webkit-scrollbar-thumb {
+    background-color: #b8c28b;
+    border-radius: 10px;
+}
+
+.participant-list::-webkit-scrollbar-track {
+    background-color: #f0f0f0;
+    border-radius: 10px;
+}
+
+.participant-item {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+    padding: 0.8em;
+    border-radius: 0.3em;
+    border: 1px solid var(--input-border);
+}
+
+.participant-avatar {
+    width: 3em;
+    height: 3em;
+    border-radius: 50%;
+    background-color: #CBCBE7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    font-size: 1.2em;
+    flex-shrink: 0;
+}
+
+.participant-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2em;
+}
+
+.participant-name {
+    color: var(--text-color);
+    font-weight: 500;
+    font-size: 1em;
+}
+
+.participant-email {
+    color: var(--secondary-color);
+    font-size: 0.9em;
+}
+
+.remove-participant-btn {
+    background: none;
+    border: none;
+    color: var(--text-color);
+    font-size: 1.2em;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 0.3em 0.6em;
+    border-radius: 0.3em;
+    transition: background-color 0.2s;
+}
+
+.remove-participant-btn:hover {
+    background-color: #ffebee;
+    color: #d32f2f;
+}
+
+/* Update Button */
+.update-btn {
+    align-self: flex-end;
+    padding: 0.8em 2em;
+    background-color: var(--button-color);
+    color: white;
+    border: none;
+    border-radius: 0.3em;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.update-btn:hover {
+    background-color: #7a8a45;
+}
+
+/*======= POPUP ADMIN =======*/
+.popup {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: max-content;
+  border: 1px solid var(--text-color); 
+  border-radius: 0.5em;
+  padding: 20px;
+  background-color: white;
+  z-index: 10;
+}
+
+.popup-top {
+    display: flex;
+    width: 100%;
+    justify-content: right;
+}
+
+.popup-top input {
+    width: 1.3em;
+}
+
+.popup-bottom {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    row-gap: 20px;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+.popup button {
+    background-color: var(--button-color);
+    color: white;
+    border: 0px;
+    padding: 10px;
+    grid-column: 1 / span 2;
+    border-radius: 0.3em;
+}
+
+.popup-header {
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    width: 100%;
+}
+
+.popup-header h1 {
+    color: var(--text-color);
+    margin-bottom: 0.3em;
+}
+
+.popup-header span {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+/* Input Group */
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3em;
+    flex: 1;
+}
+
+.input-group label {
+    color: var(--text-color);
+    font-size: 0.9em;
+    font-weight: 500;
+}
+
+.manual-input {
+    padding: 0.7em;
+    border: 1px solid var(--input-border);
+    border-radius: 0.3em;
+    background-color: var(--input-background);
+    font-size: 1em;
+}
+
+/* Participant List in Popup */
+#participant-list-popup {
+    display: flex;
+    flex-direction: column;
+    height: 200px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    border: 1px solid var(--input-border);
+    border-radius: 0.3em;
+    padding: 0.5em;
+    gap: 0.5em;
+    background-color: var(--input-background);
+}
+
+#participant-list-popup::-webkit-scrollbar {
+    width: 6px;
+}
+
+#participant-list-popup::-webkit-scrollbar-thumb {
+    background-color: #b8c28b;
+    border-radius: 10px;
+}
+
+#participant-list-popup::-webkit-scrollbar-track {
+    background-color: #f0f0f0;
+    border-radius: 10px;
+}
+
+.course-list-item {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+    padding: 0.8em;
+    background-color: #f9f9f9;
+    border: 1px solid var(--input-border);
+    border-radius: 0.3em;
+}
+
+.course-list-item .participant-avatar {
+    width: 3em;
+    height: 3em;
+    border-radius: 50%;
+    background-color: #CBCBE7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    font-size: 1.2em;
+    flex-shrink: 0;
+}
+
+.course-list-item .participant-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2em;
+}
+
+.course-list-item .participant-name {
+    color: var(--text-color);
+    font-weight: 500;
+    font-size: 1em;
+}
+
+.course-list-item .participant-email {
+    color: var(--secondary-color);
+    font-size: 0.9em;
+}
+
+.course-list-item .remove-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.3em 0.6em;
+    border-radius: 0.3em;
+    color: var(--text-color);
+    font-size: 1.2em;
+    font-weight: bold;
+    transition: background-color 0.2s;
+    flex-shrink: 0;
+}
+
+.course-list-item .remove-btn:hover {
+    background-color: #ffebee;
+    color: #d32f2f;
+}
+
+#participantForm {
+    width: 50%;
+}
+
+#participantForm .popup-body {
+    display: flex;
+    row-gap: 10px;
+    flex-direction: column;
+    width: 100%;
+}
+
+.input-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+    position: relative;
+}
+
+/* Add File Button */
+.add-file-btn {
+    background-color: var(--button-color);
+    color: white;
+    border: none;
+    padding: 0.5em 1em;
+    border-radius: 0.3em;
+    cursor: pointer;
+    font-size: 0.9em;
+    width: fit-content;
+}
+
+input[type="file"].add-file-btn {
+    padding: 0.5em 1em;
+}
+
+/* Submit Button */
+.submit-btn {
+    width: 100%;
+    padding: 0.8em;
+    background-color: var(--button-color);
+    color: white;
+    border: none;
+    border-radius: 0.3em;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.2s;
+}
+
+.submit-btn:hover {
+    background-color: #7a8a45;
+}
+
+/* Participant role sections */
+.participant-role-section {
+    display: flex;
+    flex-direction: column;
+    gap: 5em;
+}
+
+/* Empty state */
+.empty-state {
+    padding: 2em;
+    text-align: center;
+    color: var(--secondary-color);
+    font-style: italic;
+}
+
+/* Ensure popup body matches courseForm style */
+#participantForm .popup-body {
+    display: flex;
+    row-gap: 10px;
+    flex-direction: column;
+    width: 100%;
+}
+
+/* Input section styling to match courseForm */
+#participantForm .input-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+    position: relative;
+}
+
+/* Add file button styling */
+input[type="file"].add-file-btn {
+    padding: 0.5em 1em;
+    cursor: pointer;
+}
+
+input[type="file"].add-file-btn::file-selector-button {
+    display: none;
+}
+
+/* Dropdown Container */
+.dropdown {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: white;
+  width: 100%;
+  border: 1px solid var(--input-border);
+  border-radius: 0.3em;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  margin-top: 0.3em;
+  overflow: hidden;
+  top: 100%;
+  left: 0;
+}
+
+.dropdown-content.show {
+  display: block;
+}
+
+/* Search input field */
+#dropdown-search-input {
+  width: 100%;
+}
+
+/* Dropdown user list container */
+.dropdown-user-list {
+  max-height: 300px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.dropdown-user-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.dropdown-user-list::-webkit-scrollbar-thumb {
+  background-color: #b8c28b;
+  border-radius: 10px;
+}
+
+.dropdown-user-list::-webkit-scrollbar-track {
+  background-color: #f0f0f0;
+  border-radius: 10px;
+}
+
+/* Dropdown user item (styled like participant-item) */
+.dropdown-user-item {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+  padding: 0.8em;
+  cursor: pointer;
+  border-bottom: 1px solid var(--input-border);
+  transition: background-color 0.2s;
+}
+
+.dropdown-user-item:last-child {
+  border-bottom: none;
+}
+
+.dropdown-user-item:hover {
+  background-color: #f9f9f9;
+}
+
+.dropdown-user-avatar {
+  width: 3em;
+  height: 3em;
+  border-radius: 50%;
+  background-color: #CBCBE7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  font-size: 1.2em;
+  flex-shrink: 0;
+}
+
+.dropdown-user-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2em;
+}
+
+.dropdown-user-name {
+  color: var(--text-color);
+  font-weight: 500;
+  font-size: 1em;
+}
+
+.dropdown-user-email {
+  color: var(--secondary-color);
+  font-size: 0.9em;
+}
+
+.dropdown-user-item.empty {
+  padding: 1.5em;
+  text-align: center;
+  color: var(--secondary-color);
+  font-style: italic;
+  cursor: default;
+}
+
+.dropdown-user-item.empty:hover {
+  background-color: white;
+}

@@ -18,8 +18,12 @@ import com.example.tubesrpl.model.Semester;
 import com.example.tubesrpl.model.User;
 import com.example.tubesrpl.repository.MatkulRepository;
 import com.example.tubesrpl.repository.SemesterRepository;
+import com.example.tubesrpl.repository.UserRepository;
 
 import jakarta.servlet.http.HttpSession;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @SessionAttributes("user")
@@ -30,6 +34,9 @@ public class AdminController {
 
     @Autowired
     MatkulRepository matkulRepository;
+
+    @Autowired
+    UserRepository userRepository;
 
     @ModelAttribute("user") //supaya ga nerima parameter HttpSesison berkali kali
     public User userSession(HttpSession session) {
@@ -110,6 +117,68 @@ public class AdminController {
         } catch (Exception e) {
             e.printStackTrace();
             return "redirect:/admin/semesters/" + idSemester + "/courses";
+        }
+    }
+
+    // Manage participants page
+    @GetMapping("/semesters/{idSemester}/courses/{idMatkul}/participants")
+    public String manageDosenView(@PathVariable Long idSemester, 
+                                  @PathVariable Long idMatkul, 
+                                  Model model) {
+        List<User> allParticipants = userRepository.findUsersByMatkulId(idMatkul);
+        // Filter by role
+        List<User> dosenList = allParticipants.stream().filter(u -> "dosen".equals(u.getRole())).toList();
+        List<User> mahasiswaList = allParticipants.stream().filter(u -> "mahasiswa".equals(u.getRole())).toList();
+        
+        model.addAttribute("dosenList", dosenList);
+        model.addAttribute("mahasiswaList", mahasiswaList);
+        model.addAttribute("idMatkul", idMatkul);
+        model.addAttribute("idSemester", idSemester);
+        return "Admin/manageDosen";
+    }
+
+    // Search users API (AJAX)
+    @GetMapping("/users/search")
+    @ResponseBody
+    public ResponseEntity<List<User>> searchUsers(@RequestParam String role, @RequestParam String searchTerm) {
+        try {
+            List<User> users = userRepository.searchUsers(role, searchTerm);
+            return ResponseEntity.ok(users);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).build();
+        }
+    }
+
+    // Add participants (link users to matkul)
+    @PostMapping("/semesters/{idSemester}/courses/{idMatkul}/participants/add")
+    public String addParticipants(@PathVariable Long idSemester,
+                                 @PathVariable Long idMatkul,
+                                 @RequestParam("userIds") Long[] userIds) {
+        try {
+            for (Long userId : userIds) {
+                if (userId != null) {
+                    userRepository.linkUserToMatkul(userId, idMatkul);
+                }
+            }
+            return "redirect:/admin/semesters/" + idSemester + "/courses/" + idMatkul + "/participants";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/admin/semesters/" + idSemester + "/courses/" + idMatkul + "/participants?error=true";
+        }
+    }
+
+    // Remove participant (unlink user from matkul)
+    @PostMapping("/semesters/{idSemester}/courses/{idMatkul}/participants/{userId}/remove")
+    public String removeParticipant(@PathVariable Long idSemester,
+                                   @PathVariable Long idMatkul,
+                                   @PathVariable Long userId) {
+        try {
+            userRepository.unlinkUserFromMatkul(userId, idMatkul);
+            return "redirect:/admin/semesters/" + idSemester + "/courses/" + idMatkul + "/participants";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/admin/semesters/" + idSemester + "/courses/" + idMatkul + "/participants?error=true";
         }
     }
 }

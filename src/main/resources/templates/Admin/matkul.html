@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tugas Besar</title>
+    <title>Page Matkul</title>
     <link rel="stylesheet" th:href="@{/css/admin/matkulStyle.css}">
     <script th:src="@{/js/createCourseAdmin.js}" defer></script>
 </head>
@@ -71,7 +71,7 @@
                     </div>
                     <h4><span>Add Course</span></h4>
                 </button>
-                <a th:each="m : ${matkulList}" href="#" class="course-link">
+                <a th:each="m : ${matkulList}" th:href="@{'/admin/semesters/'+${idSemester}+'/courses/'+${m.id}+'/participants'}" th:data-matkul-id="${m.id}" class="course-link">
                     <div class="course-card">
                         <div class="card-color"></div>
                         <div class="card-name">
@@ -97,7 +97,7 @@
                 <div class="popup-bottom">
                     <div class="popup-header"> 
                         <h1>Add Course</h1>
-                        <span>Add course with file or type manually</span>
+                        <span>Add course with file or type manually. File uploaded must be a CSV and has the following columns: "nama_matkul", "kelas_matkul"</span>
                     </div>
                     <div class="popup-body">
                         <input type="file" id="csv-file-input" accept=".csv" class="add-file-btn">
