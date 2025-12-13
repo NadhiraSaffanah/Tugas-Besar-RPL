@@ -17,8 +17,8 @@
             </ul>
             <ul id="nav-right">
                 <li>
-                    <span>Nama</span> 
-                    <span>61823010xx@unpar.ac.id</span>
+                    <span th:text="${user.nama}">Nama</span> 
+                    <span th:text="${user.email}">email@unpar.ac.id</span>
                 </li>
                 <li>
                     <div>
@@ -30,7 +30,7 @@
                     </div>    
                 </li>
                 <li><img th:src="@{/images/bell.png}" alt="notification icon"></li>
-                <li><img th:src="@{/images//logout.png}" alt="logout icon"></li>
+                <li><a th:href="@{/logout}"><img th:src="@{/images/logout.png}" alt="logout icon"></a></li>
             </ul>
         </nav>
     </header>

@@ -130,7 +130,7 @@ public class DosenController {
         }
 
         model.addAttribute("selectedMatkulId", matkulId);
-        model.addAttribute("dosen", user);
+        model.addAttribute("user", user);
 
         return "dosen/course-details";
     }
@@ -171,9 +171,8 @@ public class DosenController {
             @RequestParam String namaTahap,
             @RequestParam String deskripsi,
             @RequestParam String rubrik,
-            @RequestParam String tanggalAkhir) { // String dari input type="date"
+            @RequestParam String tanggalAkhir) { 
         try {
-            // Parse String date ke LocalDate
             LocalDate date = LocalDate.parse(tanggalAkhir);
             
             tahapRepository.createTahap(namaTahap, deskripsi, rubrik, date, tubesId);
@@ -192,6 +191,23 @@ public class DosenController {
     @GetMapping("/dosen/course/nav/grading/phase")
     public String gradingPhase() {
         return "dosen/course-nav-grading-phase";
+    }
+
+    // update fase
+    @PostMapping("/dosen/course/grading/phase/update-api")
+    @ResponseBody
+    public ResponseEntity<String> updatePhaseApi(@RequestParam Long id,
+                                            @RequestParam String namaTahap,
+                                            @RequestParam String deskripsi,
+                                            @RequestParam String rubrik,
+                                            @RequestParam LocalDate tanggalAkhir) {
+        try {
+            tahapRepository.updateTahap(id, namaTahap, deskripsi, rubrik, tanggalAkhir);
+            return ResponseEntity.ok("Success");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error: " + e.getMessage());
+        }
     }
 
     @GetMapping("/dosen/course/nav/grading/phase/details")
@@ -234,82 +250,92 @@ public class DosenController {
     @GetMapping("/dosen/course/nav/group")
     public String courseNavGroup(@RequestParam(name = "id") Long tubesId, Model model, HttpSession session) {
         User user = (User) session.getAttribute("user");
-
         if (user == null || !"dosen".equalsIgnoreCase(user.getRole())) {
             return "redirect:/login";
         }
 
-        model.addAttribute("user", user); 
-        model.addAttribute("tubesId", tubesId); 
-
-        return "dosen/course-nav-group";
-    }
-
-    @GetMapping("/dosen/course/nav/group/view")
-    public String courseNavGroupView(@RequestParam(name = "id") Long tubesId, Model model, HttpSession session) {
-        User user = (User) session.getAttribute("user");
-        if (user == null) return "redirect:/login";
-
-        // Ambil info tubes & matkul (buat navbar & lock status)
         Optional<Tubes> tubesOpt = tubesRepository.findById(tubesId);
         if (tubesOpt.isPresent()) {
             Tubes tubes = tubesOpt.get();
             model.addAttribute("tubes", tubes);
             model.addAttribute("matkulId", tubes.getIdMatkul());
+            
+            tubesRepository.syncGroupCount(tubesId, tubes.getJmlKelompok());
         }
 
         List<Kelompok> listKelompok = kelompokRepository.findAllByTubesId(tubesId);
-        model.addAttribute("listKelompok", listKelompok); 
-
-        model.addAttribute("user", user);
-        model.addAttribute("tubesId", tubesId);
         
-        return "dosen/course-nav-group-view";
-    }
-
-    @GetMapping("/dosen/course/nav/group/add")
-    public String courseNavGroupAdd(@RequestParam(name = "id") Long tubesId, Model model, HttpSession session) {
-        User user = (User) session.getAttribute("user");
-
-        if (user == null || !"dosen".equalsIgnoreCase(user.getRole())) {
-            return "redirect:/login";
+        for (Kelompok k : listKelompok) {
+            List<User> anggotas = kelompokRepository.findAnggotaByKelompokId(k.getId());
+            k.setListAnggota(anggotas);
         }
 
-        model.addAttribute("user", user); 
+        model.addAttribute("listKelompok", listKelompok); 
+        model.addAttribute("user", user);
         model.addAttribute("tubesId", tubesId);
 
-        return "dosen/course-nav-group-add";
+        return "dosen/course-nav-group-view"; 
     }
 
     @GetMapping("/dosen/course/nav/group/edit")
-    public String courseNavGroupEdit(@RequestParam(name = "id") Long tubesId, Model model, HttpSession session) {
+    public String courseNavGroupEdit(@RequestParam Long groupId, 
+                                     @RequestParam Long tubesId, 
+                                     Model model, 
+                                     HttpSession session) {
+        
         User user = (User) session.getAttribute("user");
-
         if (user == null || !"dosen".equalsIgnoreCase(user.getRole())) {
             return "redirect:/login";
         }
 
-        model.addAttribute("user", user); 
+        Kelompok kelompok = kelompokRepository.findById(groupId);
+        List<User> currentMembers = kelompokRepository.findAnggotaByKelompokId(groupId); 
+        kelompok.setListAnggota(currentMembers);
+
+        Optional<Tubes> tubesOpt = tubesRepository.findById(tubesId);
+        Long matkulId = tubesOpt.isPresent() ? tubesOpt.get().getIdMatkul() : null;
+
+        List<User> availableStudents = kelompokRepository.findAvailableStudents(matkulId, tubesId);
+
+        model.addAttribute("kelompok", kelompok);
+        model.addAttribute("availableStudents", availableStudents);
         model.addAttribute("tubesId", tubesId);
+        model.addAttribute("user", user);
 
         return "dosen/course-nav-group-edit";
     }
 
-
-    // Endpoint API untuk handle update (pake AJAX)
     @PostMapping("/dosen/course/update-api")
-    @ResponseBody // biar spring ga nyari file HTML, tapi return data
-    public ResponseEntity<String> updateCourseApi(@RequestParam Long id,
+    @ResponseBody
+    public ResponseEntity<String> updateCourseApi(@RequestParam Long id, // ID Tubes
                                                   @RequestParam String namaTubes,
                                                   @RequestParam String deskripsi,
-                                                  @RequestParam int jmlKelompok) {
+                                                  @RequestParam int jmlKelompok) { 
         try {
-            // Panggil service/repository untuk update
             tubesRepository.updateTubes(id, namaTubes, deskripsi, jmlKelompok);
             return ResponseEntity.ok("Success");
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error: " + e.getMessage());
+        }
+    }
+
+    // API untuk Proses Simpan Edit (Update)
+    @PostMapping("/dosen/course/nav/group/update-api") 
+    @ResponseBody
+    public ResponseEntity<String> updateGroupApi(
+            @RequestParam Long groupId,
+            @RequestParam String namaKelompok,
+            @RequestParam int jmlAnggota,
+            @RequestParam(required = false) List<Long> memberIds 
+    ) {
+        try {
+            kelompokRepository.updateKelompok(groupId, namaKelompok, jmlAnggota);
+            kelompokRepository.updateAnggotaKelompok(groupId, memberIds);
+            return ResponseEntity.ok("Success");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error: " + e.getMessage());
         }
     }
 

@@ -1,12 +1,14 @@
 package com.example.tubesrpl.repository;
 
 import com.example.tubesrpl.model.Kelompok;
-import com.example.tubesrpl.model.User; // Pastikan import User ada
+import com.example.tubesrpl.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -31,6 +33,17 @@ public class KelompokRepository {
         return u;
     };
 
+    public List<User> findAnggotaByKelompokId(Long kelompokId) {
+        String sql = """
+            SELECT u.* FROM users u
+            JOIN anggota_kelompok ak ON u.id = ak.user_id
+            WHERE ak.kelompok_id = ?
+            ORDER BY u.nama ASC
+        """;
+        
+        return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(User.class), kelompokId);
+    }
+
     public List<Kelompok> findAllByTubesId(Long tubesId) {
         String sqlKelompok = "SELECT * FROM kelompok WHERE tubes_id = ? ORDER BY nama_kelompok ASC";
         List<Kelompok> listKelompok = jdbcTemplate.query(sqlKelompok, kelompokRowMapper, tubesId);
@@ -51,5 +64,53 @@ public class KelompokRepository {
         }
 
         return listKelompok;
+    }
+
+    public Kelompok findById(Long id) {
+        String sql = "SELECT * FROM kelompok WHERE id = ?";
+        try {
+            // queryForObject digunakan kalau hasilnya pasti cuma 1 baris
+            return jdbcTemplate.queryForObject(sql, kelompokRowMapper, id);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public void updateKelompok(Long id, String namaKelompok, int jmlAnggota) {
+        String sql = "UPDATE kelompok SET nama_kelompok = ?, jml_anggota = ? WHERE id = ?";
+        jdbcTemplate.update(sql, namaKelompok, jmlAnggota, id);
+    }
+
+    // cari mahasiswa yg belum masuk kelompok
+    public List<User> findAvailableStudents(Long matkulId, Long tubesId) {
+        String sql = """
+            SELECT u.* FROM users u
+            JOIN user_matkul um ON u.id = um.user_id
+            WHERE um.matkul_id = ?
+            AND u.id NOT IN (
+                SELECT ak.user_id 
+                FROM anggota_kelompok ak
+                JOIN kelompok k ON ak.kelompok_id = k.id
+                WHERE k.tubes_id = ?
+            )
+            ORDER BY u.nama ASC
+        """;
+        
+        return jdbcTemplate.query(sql, new org.springframework.jdbc.core.BeanPropertyRowMapper<>(User.class), matkulId, tubesId);
+    }
+
+    public void updateAnggotaKelompok(Long kelompokId, List<Long> userIds) {
+        String deleteSql = "DELETE FROM anggota_kelompok WHERE kelompok_id = ?";
+        jdbcTemplate.update(deleteSql, kelompokId);
+
+        if (userIds != null && !userIds.isEmpty()) {
+            String insertSql = "INSERT INTO anggota_kelompok (kelompok_id, user_id) VALUES (?, ?)";
+            
+            List<Object[]> batchArgs = new ArrayList<>();
+            for (Long uid : userIds) {
+                batchArgs.add(new Object[]{kelompokId, uid});
+            }
+            jdbcTemplate.batchUpdate(insertSql, batchArgs);
+        }
     }
 }

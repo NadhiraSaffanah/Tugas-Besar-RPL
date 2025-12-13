@@ -23,15 +23,17 @@ body {
     overflow: hidden;
 }
 
-/* HEADER */
+/* === HEADER & NAV (UPDATED TO MATCH course-nav-group.css) === */
 header {
     grid-area: header;
+    position: sticky; /* Biar sticky kayak halaman sebelah */
+    top: 0;
+    z-index: 99;
     width: 100%;
     background-color: var(--secondary-color);
     padding: 0.5em 0;
     color: var(--input-background);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    z-index: 10;
 }
 
 nav {
@@ -48,14 +50,79 @@ nav ul {
     gap: 1.5em;
 }
 
-nav ul li a { text-decoration: none; color: var(--input-background); }
-nav img { width: 2.5em; filter: brightness(0) invert(1); }
-#nav-left { width: 20%; margin-left: 2em; }
-#nav-left img { transform: scale(1.5); }
-#nav-right { margin-right: 2em; cursor: pointer; }
-#nav-right div { width: 3.5em; height: 3.5em; background-color: rgb(198, 172, 209); border-radius: 50%; overflow: hidden; }
+nav ul li a {
+    text-decoration: none;
+    color: var(--input-background);
+}
 
-/* MAIN LAYOUT */
+nav img {
+    width: 2.5em;
+    filter: brightness(0) invert(1);
+}
+
+/* NAV LEFT */
+#nav-left {
+    width: 20%;
+    margin-left: 2em;
+}
+
+#nav-left img {
+    transform: scale(1.5);
+}
+
+/* Active State buat menu "Course" */
+#nav-left li:nth-child(3) {
+    background-color: var(--button-color);
+}
+
+#nav-left li:nth-child(2),
+#nav-left li:nth-child(3) {
+    padding: 0.5em;
+}
+
+#nav-left li:nth-child(2):hover,
+#nav-left li:nth-child(3):hover {
+    cursor: pointer;
+    background-color: var(--button-color);
+}
+
+/* NAV RIGHT */
+#nav-right {
+    margin-right: 2em;
+    cursor: pointer;
+}
+
+/* Stack Nama & Email */
+#nav-right li:first-child {
+    display: flex;
+    flex-direction: column;
+    text-align: right;
+    font-size: small;
+    justify-content: end;
+}
+
+#nav-right div {
+    width: 3.5em;
+    height: 3.5em;
+    background-color: rgb(198, 172, 209);
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+/* FIX: Reset filter buat foto profil biar warnanya bener */
+#nav-right div img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: none; 
+}
+
+#nav-right li:hover {
+    background-color: var(--button-color);
+}
+
+
+/* === MAIN LAYOUT === */
 main {
     grid-area: main;
     width: 90%;
@@ -63,24 +130,22 @@ main {
     justify-self: center;
     display: flex;
     flex-direction: column;
-    justify-content: left; /* Ikuti CSS asli */
+    justify-content: left; 
     align-items: start;
-    gap: 2em; /* Ikuti CSS asli */
+    gap: 2em; 
     color: var(--text-color);
 }
 
-/* === NAVBAR (COPY PASTE DARI FILE YANG KAMU KIRIM) === */
+/* === NAVBAR TABS === */
 #course-nav {
     margin-top: 2em;
     width: 30%;
-    /* height: 6%; */
     border-radius: 0.3em;
     background-color: var(--button-color);
     display: flex;
     justify-content: space-around;
     align-items: center;
     gap: 1em;
-    /* PENTING: Saya hapus padding container biar tidak ketebalan */
 }
 
 #course-nav a {
@@ -89,7 +154,7 @@ main {
     color: var(--input-background);
 }
 
-/* Tab ke-3 (Group) jadi hijau muda */
+/* Tab ke-3 (Group) Active */
 #course-nav a:nth-child(3) {
     background-color: var(--secondary-color);
 }
@@ -99,7 +164,7 @@ main {
     transition: 0.5s;
 }
 
-/* CONTAINER UTAMA (VIEW GROUP) */
+/* === CONTAINER UTAMA (VIEW GROUP) === */
 #view-group-container {
     width: 100%;
     height: 75vh;
@@ -151,12 +216,21 @@ tbody td {
 
 .member-list div { margin-bottom: 0.3em; font-size: 0.9em; color: #555; }
 
+.member-item {
+    padding: 2px 0;
+    border-bottom: 1px solid #eee;
+    font-size: 0.9em;
+}
+.hidden {
+    display: none !important;
+}
+
 /* === FOOTER (POSISI TOMBOL) === */
 .container-footer {
     display: flex;
-    justify-content: flex-end; /* Pojok Kanan */
+    justify-content: flex-end; 
     align-items: center;
-    gap: 1em; /* Jarak antar tombol */
+    gap: 1em; 
     height: 3em;
 }
 
@@ -183,4 +257,13 @@ tbody td {
 .footer-btn img {
     width: 1.5em;
     filter: brightness(0) invert(1);
+}
+
+/* custom scroll */
+#table-wrapper::-webkit-scrollbar {
+    width: 8px; 
+}
+#table-wrapper::-webkit-scrollbar-thumb {
+    background-color: var(--secondary-color); 
+    border-radius: 4px; 
 }

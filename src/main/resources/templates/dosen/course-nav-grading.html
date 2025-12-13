@@ -77,7 +77,14 @@
                     <p>No grading phases yet.</p>
                 </div>
 
-                <div class="grading-card" th:each="phase : ${listTahap}">
+                <div class="grading-card" 
+                     th:each="phase : ${listTahap}"
+                     th:data-id="${phase.id}" 
+                     th:data-rubrik="${phase.rubrikPenilaian}"
+                     th:data-tanggal="${phase.tanggalAkhir}"
+                     th:data-nama="${phase.namaTahap}"
+                     th:data-desc="${phase.deskripsi}">
+                    
                     <div class="card-header">
                         <h2><span th:text="${phase.namaTahap}">Phase Name</span></h2>
                         <p th:text="${phase.statusPenilaian}"
@@ -85,7 +92,7 @@
                            Status
                         </p>
                     </div>
-
+                    
                     <div class="card-body">
                         <div class="card-body-wrap">
                             <img th:src="@{/images/calendar.svg}" alt="calendar">
@@ -139,6 +146,56 @@
                 </div>
 
                 <button type="submit" class="btn-submit">Create Phase</button>
+            </form>
+        </div>
+
+        <div id="popup-show-rubric" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 50%; background: #FFF; padding: 2em; border-radius: 10px; z-index: 1000; display: none; box-shadow: 0 4px 15px rgba(0,0,0,0.2); border: 2px solid #535F24;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h2 id="rubric-popup-title" style="color: #535F24; margin: 0;">Assessment Rubric</h2>
+                <img th:src="@{/images/close.svg}" id="closeShowRubric" style="width: 20px; cursor: pointer;">
+            </div>
+            <hr style="border: 0; border-top: 1px solid #ACBD6F; margin: 10px 0;">
+            
+            <div id="rubric-content-display" style="max-height: 400px; overflow-y: auto; white-space: pre-wrap;">
+                <p id="rubric-text-content" style="color: #333;">Loading...</p>
+            </div>
+        </div>
+
+        <div id="popup-edit-phase" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 50%; background: #FFF; padding: 2em; border-radius: 10px; z-index: 1000; display: none; box-shadow: 0 4px 15px rgba(0,0,0,0.2); flex-direction: column; gap: 1em; border: 2px solid #535F24;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h2 style="color: #535F24; margin: 0;">Edit Grading Phase</h2>
+                <img th:src="@{/images/close.svg}" id="closeEditPhase" style="width: 20px; cursor: pointer;">
+            </div>
+            <hr style="border: 0; border-top: 1px solid #ACBD6F; margin: 10px 0;">
+            
+            <form id="editPhaseForm">
+                <input type="hidden" name="id" id="edit-id">
+                <input type="hidden" name="tubesId" th:value="${tubesId}">
+
+                <div class="form-group">
+                    <label>Title</label>
+                    <input type="text" name="namaTahap" id="edit-namaTahap" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea name="deskripsi" id="edit-deskripsi" rows="3" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Assessment Rubric</label>
+                    <textarea name="rubrik" id="edit-rubrik" rows="3" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Deadline</label>
+                    <input type="date" name="tanggalAkhir" id="edit-tanggalAkhir" required>
+                </div>
+                
+                <div style="display: flex; gap: 10px; margin-top: 1em;">
+                    <button type="button" class="btn-submit" id="cancelEditPhase" style="background-color: #ccc; color: #333;">Cancel</button>
+                    <button type="submit" class="btn-submit">Save Changes</button>
+                </div>
             </form>
         </div>
     </main>

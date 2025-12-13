@@ -196,6 +196,7 @@ main {
 
 .group-menu button {
     align-self: end;
+    color: var(--text-color);
     font-size: 3em;
     font-weight: 600;
     border: none;

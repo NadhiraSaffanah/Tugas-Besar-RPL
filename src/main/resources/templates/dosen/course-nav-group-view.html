@@ -5,17 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Group</title>
     <link rel="stylesheet" th:href="@{/css/dosen/course-nav-group-view.css}">
-    <style>
-        .member-item {
-            padding: 2px 0;
-            border-bottom: 1px solid #eee;
-            font-size: 0.9em;
-        }
-        /* Class helper untuk menyembunyikan elemen */
-        .hidden {
-            display: none !important;
-        }
-    </style>
 </head>
 <body>
     <header>
@@ -49,15 +38,12 @@
         <section id="course-nav">
             <a th:href="@{/dosen/course/nav/grading(id=${tubesId})}"><p>Grading</p></a>
             <a th:href="@{/dosen/course/nav/participant(id=${tubesId})}"><p>Participant</p></a>
-            <a th:href="@{/dosen/course/nav/group(id=${tubesId})}"><p>Group</p></a>
+            <a th:href="@{/dosen/course/details(id=${matkulId})}"><p>Group</p></a>
         </section>
 
         <section id="view-group-container">
             
             <div class="container-header">
-                <a th:href="@{/dosen/course/nav/group(id=${tubesId})}" id="back-btn">
-                    <img th:src="@{/images/back.svg}" alt="back icon">
-                </a>
                 <h2>Group List</h2>
             </div>
 
@@ -68,6 +54,7 @@
                             <th>Group</th>
                             <th>Capacity</th> 
                             <th>Group Members</th>
+                            <th style="width: 50px;">Action</th> 
                         </tr>
                     </thead>
                     <tbody>
@@ -80,23 +67,29 @@
                             
                             <td class="member-list">
                                 <div class="member-wrapper">
-                                    
                                     <div th:if="${not #lists.isEmpty(group.listAnggota)}">
                                         <div th:each="member : ${group.listAnggota}" class="member-item">
-                                            <span th:text="${member.nama}">Nama Anggota</span>
+                                            <span th:text="${member.nama}">Nama</span>
                                         </div>
                                     </div>
-
                                     <div th:if="${#lists.isEmpty(group.listAnggota)}" style="color: #aaa; font-style: italic;">
                                         No members yet
                                     </div>
-
                                 </div>
+                            </td>
+
+                            <td style="text-align: center;">
+                                <a th:if="${!tubes.isLocked}" 
+                                th:href="@{/dosen/course/nav/group/edit(groupId=${group.id}, tubesId=${tubesId})}">
+                                    <img th:src="@{/images/EditGreen.svg}" alt="Edit" style="width: 20px; height: 20px; cursor: pointer;">
+                                </a>
+
+                                <img th:if="${tubes.isLocked}" th:src="@{/images/lock-closed.svg}" alt="Locked" style="width: 20px; height: 20px; opacity: 0.5;">
                             </td>
                         </tr>
 
                         <tr th:if="${#lists.isEmpty(listKelompok)}">
-                            <td colspan="3" style="text-align: center; padding: 2em; color: gray;">
+                            <td colspan="4" style="text-align: center; padding: 2em; color: gray;">
                                 No groups created yet.
                             </td>
                         </tr>

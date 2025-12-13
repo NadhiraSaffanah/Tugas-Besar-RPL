@@ -45,7 +45,6 @@ public class TahapRepository {
             ORDER BY tt.tanggal_akhir ASC
         """;
         
-        // Kita butuh mapper khusus yang bisa ambil kolom 'nama_matkul'
         RowMapper<TahapTubes> semesterMapper = (rs, rowNum) -> {
             TahapTubes t = new TahapTubes();
             t.setId(rs.getLong("id"));
@@ -64,7 +63,7 @@ public class TahapRepository {
         return jdbcTemplate.query(sql, semesterMapper, semesterId);
     }
 
-    // --- BARU: Method Create Tahap ---
+    // bikin tahap tubes
     public void createTahap(String nama, String deskripsi, String rubrik, LocalDate tanggalAkhir, Long tubesId) {
         String sql = """
             INSERT INTO tahap_tubes 
@@ -73,5 +72,11 @@ public class TahapRepository {
         """; 
         
         jdbcTemplate.update(sql, nama, deskripsi, rubrik, tanggalAkhir, tubesId);
+    }
+
+    // update tahap tubes
+    public void updateTahap(Long id, String namaTahap, String deskripsi, String rubrik, LocalDate tanggalAkhir) {
+        String sql = "UPDATE tahap_tubes SET nama_tahap = ?, deskripsi = ?, rubrik_penilaian = ?, tanggal_akhir = ? WHERE id = ?";
+        jdbcTemplate.update(sql, namaTahap, deskripsi, rubrik, tanggalAkhir, id);
     }
 }
