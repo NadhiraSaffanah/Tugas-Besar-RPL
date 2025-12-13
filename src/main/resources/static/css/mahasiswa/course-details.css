@@ -205,7 +205,7 @@ nav img {
 
 .desc-box { 
     flex: 0.7;
-    border-radius: 0.5em;
+    border-radius: 100px;
     border: 1px solid var(--text-color);
     background-color: var(--input-background);
     border-radius: var(--border-radius-base);

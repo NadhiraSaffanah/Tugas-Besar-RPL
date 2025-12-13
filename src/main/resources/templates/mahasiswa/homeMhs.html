@@ -1,36 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head xmlns:th="http://www.thymeleaf.org">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Homepage</title>
-    <link rel="stylesheet" th:href="@{/css/home-page.css}">
-    <script src="" defer></script>
-</head>
+    <title>Course Home</title>
 
+    <link rel="stylesheet" th:href="@{/css/home-page.css}">
+</head>
 <body>
     <header>
         <nav>
             <ul id="nav-left">
-                <li><img src="/images/book.png" alt="book icon"></li>
+                <li><img th:src="@{/images/book.png}" alt="book icon"></li>
                 <li><a th:href="@{/mahasiswa/home}">Home</a></li>
                 <li><a th:href="@{/mahasiswa/course}">Course</a></li>
             </ul>
             <ul id="nav-right">
                 <li>
-                    <span>Nama</span>
-                    <span>61823010xx@unpar.ac.id</span>
+                    <span th:text="${user.nama}">Nama Mahasiswa</span> 
+                    <span th:text="${user.email}">Mahasiswa@unpar.ac.id</span>
                 </li>
                 <li>
                     <div>
-                        <a href="/profile">
-                            <img src="" alt="profile picture">
+                        <a th:href="@{/mahasiswa/profile}">
+                            <img th:src="@{${#strings.isEmpty(user.fotoProfil) ? '/images/default-profile.jpg' : user.fotoProfil}}" 
+                                alt="profile picture" 
+                                style="width: 100%; height: 100%; object-fit: cover;">
                         </a>
-                    </div>
+                    </div>    
                 </li>
-                <li><img src="images/bell.png" alt="notification icon"></li>
-                <li><img src="images/logout.png" alt="logout icon"></li>
+                <li><img th:src="@{/images/bell.png}" alt="notification icon"></li>
+                <li><a th:href="@{/logout}"><img th:src="@{/images/logout.png}" alt="logout icon"></a></li>
             </ul>
         </nav>
     </header>
@@ -82,5 +82,4 @@
         </section>
     </main>
 </body>
-
 </html>

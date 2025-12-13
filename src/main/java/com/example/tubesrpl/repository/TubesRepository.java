@@ -36,9 +36,8 @@ public class TubesRepository {
         tubes.setStartDate(rs.getDate("start_date").toLocalDate());
         tubes.setEndDate(rs.getDate("end_date").toLocalDate()); //convert sql.Date jadi LocalDate
 
-        String status = rs.getString("status_kelompok");
-        tubes.setLocked("Locked".equalsIgnoreCase(status));
-
+        String statusKelompok = rs.getString("status_kelompok");
+        tubes.setLocked(statusKelompok != null && statusKelompok.equalsIgnoreCase("Locked"));
         
         return tubes;
     };
@@ -75,7 +74,7 @@ public class TubesRepository {
                 t.deskripsi,
                 t.jml_kelompok,
                 t.matkul_id,
-                t.is_locked,
+                t.status_kelompok,
                 m.nama_matkul,
                 m.kelas_matkul,
                 s.start_date,
@@ -102,7 +101,6 @@ public class TubesRepository {
                 t.jml_kelompok,
                 t.status_kelompok,
                 t.matkul_id,
-                t.is_locked,
                 m.nama_matkul,
                 m.kelas_matkul,
                 s.start_date,
@@ -126,7 +124,7 @@ public class TubesRepository {
                 t.jml_kelompok,
                 t.matkul_id,
                 m.nama_matkul,
-                t.is_locked,
+                t.status_kelompok,
                 m.kelas_matkul,
                 s.start_date,
                 s.end_date

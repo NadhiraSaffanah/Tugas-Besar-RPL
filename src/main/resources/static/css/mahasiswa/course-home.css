@@ -11,16 +11,16 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Segoe UI', 'Inter', sans-serif;
+    letter-spacing: 0.2px;
+    font-weight: 350;
 }
 
 body {
-    background-color: var(--background-color);
+    background-color: #FAF6D9;
     display: grid;
     height: 100vh;
-    grid-template-areas: 
-        "header"
-        "main";
+    grid-template-areas: "header" "main";
     grid-template-rows: auto 1fr;
 }
 
@@ -28,6 +28,7 @@ body::-webkit-scrollbar {
     display: none;
 }
 
+/* ===================== Header + Navigation ===================== */
 header {
     position: sticky;
     top: 0;
@@ -48,22 +49,25 @@ nav {
 }
 
 nav ul {
-    list-style-type: none;
+    list-style: none;
     display: flex;
     align-items: center;
     gap: 1.5em;
 }
 
-nav ul li a {
+nav a {
     text-decoration: none;
     color: #FFFFFF;
+    font-size: 1.05em;
+    font-weight: 500;
 }
 
 nav img {
-    width: 2.5em;
+    width: 2.2em;
     filter: brightness(0) invert(1);
 }
 
+/* Left Nav */
 #nav-left {
     width: 20%;
     margin-left: 2em;
@@ -73,21 +77,19 @@ nav img {
     transform: scale(1.5);
 }
 
-#nav-left li:nth-child(3) {
-    background-color: var(--button-color);
-}
-
 #nav-left li:nth-child(2),
 #nav-left li:nth-child(3) {
     padding: 0.5em;
 }
 
 #nav-left li:nth-child(2):hover,
-#nav-left li:nth-child(3):hover {
+#nav-left li:nth-child(3) {
     cursor: pointer;
-    background-color: var(--button-color);
+    background-color: #798C49; 
+    border-radius: 0.25em;
 }
 
+/* Right Nav */
 #nav-right {
     margin-right: 2em;
     cursor: pointer;
@@ -104,7 +106,7 @@ nav img {
 #nav-right div {
     width: 3.5em;
     height: 3.5em;
-    background-color: rgb(198, 172, 209);
+    background: #D4C9F1;
     border-radius: 50%;
     overflow: hidden;
 }
@@ -116,305 +118,125 @@ nav img {
     filter: none;
 }
 
-#nav-right li:hover {
-    background-color: var(--button-color);
-}
-
-/* ===================== Main Layout ===================== */
+/* MAIN CONTENT */
 main {
     grid-area: main;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1.5em;
-    padding-bottom: 2em;
-}
-
-/* ===================== Foto Section ===================== */
-#image-container {
-    margin-top: 3%;
-    width: 85%;
-    height: 32vh;
-    border-radius: 1em;
-    position: relative;
-    overflow: hidden;
-}
-
-#image-container img {
-    width: 100%;
     height: 100%;
-    object-fit: cover;
-    border-radius: inherit;
-    display: block;
-}
-
-#image-container::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
     width: 100%;
-    height: 100%;
-    border-radius: inherit;
-    pointer-events: none;
-    background: linear-gradient(to left, rgba(65, 65, 65, 0.75) 0%, rgba(120, 120, 120, 0.55) 40%, rgba(200, 200, 200, 0.10) 100%);
-}
-
-/* Text + Icon Overlay */
-#info-wrapper {
-    position: absolute;
-    top: 4em;
-    right: 4.5em;
     display: flex;
+    flex-direction: column;
+    justify-content: start;
     align-items: center;
-    gap: 1em;
-    transform: scale(1.1);
-    z-index: 99;
-}
-
-#info-wrapper img {
-    width: 40%;
-    height: 40%;
-    object-fit: contain;
-}
-
-#info-wrapper p {
-    color: #FFFFFF;
-    font-size: 3.2em;
-    font-weight: 550;
-    letter-spacing: 0px;
-}
-
-/* ===================== On-going Course Section ===================== */
-#on-going-course {
-    padding: 1.5em;
-    width: 80%;
-    height: 40%;
-    border: 1px solid var(--text-color);
-    border-radius: 0.5em;
-    display: flex;
-    flex-direction: column;
-    gap: 1em;
-    overflow-x: auto;
-}
-
-#on-going-course h1 {
-    color: var(--text-color);
-    width: 100%;
-    height: 5vh;
-}
-
-#course-wrapper {
-    display: flex;
-    flex-direction: column;
-    gap: 1em;
-    padding-top: 1em;
-    overflow-x: auto;
-}
-
-.date {
-    font-size: 0.9em;
-    color: #95A751;
-    display: flex;
-    align-items: center;
-    gap: 1em;
-}
-
-/* ===================== Admin Info Boxes ===================== */
-.dropdown-box {
-    width: 85%;
-    background: #FFFFFF;
-    border-radius: 0.8em;
-    padding: 0.9em 1.4em;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5em;
-    border: 2px solid #EEE;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
-}
-
-.dropdown-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    cursor: pointer;
-}
-
-.dropdown-header span {
-    color: var(--button-color);
-    font-size: 1.25em;
-    font-weight: 550;
-    letter-spacing: 0.5px;
-}
-
-.dropdown-header img {
-    width: 2em;
-    height: 2em;
-    filter: invert(48%) sepia(35%) saturate(350%) hue-rotate(34deg);
-}
-
-.dropdown-content {
-    display: none;
-    padding-top: 0.5em;
-    color: #515151;
-    font-size: 0.95em;
-    line-height: 1.35em;
-}
-
-.dropdown-box.active .dropdown-content {
-    display: block;
-}
-
-/* =========================== Scrollable Box Styling =========================== */
-/* Matches screenshot spacing + style */
-#on-going-course,
-#timeline-section {
-    width: 85%;
-    min-height: 25vh;
-    max-height: 35vh;
-    border: 1px solid var(--text-color);
-    border-radius: 0.7em;
-    padding: 1.5em; 
-    display: flex;
-    flex-direction: column;
-    gap: 1em;
-    overflow-y: auto; 
-}
- 
-#on-going-course::-webkit-scrollbar,
-#timeline-wrapper::-webkit-scrollbar {
-    width: 6px;
-}
-
-#on-going-course::-webkit-scrollbar-thumb,
-#timeline-wrapper::-webkit-scrollbar-thumb {
-    background-color: #b8c28b;
-    border-radius: 10px;
-}
-
-/* =========================== Timeline Section =========================== */
-#timeline-section h1 {
-    color: var(--text-color);
-}
-
-#timeline-wrapper {
-    display: flex;
-    flex-direction: column;
-    gap: 1em;
-    overflow-y: auto;
-    padding-right: 0.5em;
-    max-height: 26vh;
-}
-
-.timeline-card {
-    background: #FEFFFA;
-    border: 1px solid var(--input-border);
-    border-radius: 0.5em;
-    padding: 1em;
-    display: flex;
-    flex-direction: column;
-    gap: 0.7em;
-    position: relative;
-}
-
-.timeline-content {
-    display: flex;
-    align-items: center;
-    gap: 1em;
-    font-size: 0.95em;
-    color: #444;
-}
-
-.timeline-content img {
-    width: 1.3em;
-}
-
-.detail-button {
-    position: absolute;
-    right: 1em;
-    top: 1em;
-    padding: 0.4em 0.9em;
-    font-size: 0.8em;
-    border-radius: 0.4em;
-    border: 1px solid var(--input-border);
-    background: #FFFFFF;
-    cursor: pointer;
-}
-
-.detail-button:hover {
-    background: #eff5d8;
-}
-
-#bellowIMG {
-    display: flex;
-    flex-direction: row;
-}
-
-/* ===========================
-   FIX & ALIGN LAYOUT BELOW IMAGE
-=========================== */
-
-/* Wrapper untuk On Going + Timeline */
-#bellowIMG {
-    width: 85%;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
     gap: 2em;
-    margin-top: 1em;
 }
 
-/* Dua box dibuat berdampingan */
-#on-going-courseMHS,
-#timeline-section {
-    width: 48%; 
-    border: 1px solid var(--text-color);
-    border-radius: 0.8em;
-    padding: 1.5em;
-    display: flex;
-    flex-direction: column;
-    gap: 1em;
-    max-height: 35vh;
-    overflow: hidden;
-}
-
-/* Title styling konsisten */
-#on-going-courseMHS h1,
-#timeline-section h1 {
+#course-overview {
     color: var(--text-color);
-    font-size: 1.4em;
-    font-weight: 550;
-}
-
-/* CARD di dalam On Going */
-#course-wrapperMHS {
-    display: flex;
-    flex-direction: column;
-    gap: 1em;
-    overflow-y: auto;
-    padding-right: 0.5em;
-    max-height: 26vh;
-}
-
-.course-cardMHS {
-    background: #FEFFFA;
-    border: 1px solid var(--input-border);
-    border-radius: 0.6em;
+    width: 95%;
+    height: 90%;
+    margin-top: 2em;
     padding: 1em;
+    border-radius: 0.5em;
+    border: 1px solid var(--text-color);
+}
+
+#course-overview h3 {
+    margin-bottom: 0.5em;
+}
+
+#course-header {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+}
+
+#filter-sort {
+    padding: 0.5em;
+    display: flex;
+    border: 1px solid var(--text-color);
+    border-radius: 0.2em;
+    border: 1px solid var(--text-color);
+    background-color: #FFFFFF;
+}
+
+#filter-sort select {
+    border: none;
+    outline: none;
+}
+
+#filter-checkbox {
+    display: none;
+}
+
+#search {
+    padding: 0.5em;
+    display: flex;
+    width: 90%;
+    border-radius: 0.2em;
+    border: 1px solid var(--text-color);
+    background-color: #FFFFFF;
+    gap: 0.5em;
+}
+
+#search input {
+    width: 100%;
+    border: none;
+    outline: none;
+}
+
+#course-card-wrapper {
+    width: 100%;
+    height: 80%;
+    margin-top: 1em;
+    overflow-y: auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    gap: 1.5em;
+}
+
+#course-card-wrapper a {
+    color: var(--text-color);
+    text-decoration: none;
+    width: 18%;
+    height: 35%;
+    display: block;
+}
+
+.course-card {
+    width: 100%;
+    height: 100%;
     display: flex;
     flex-direction: column;
-    gap: 0.6em;
+    border-radius: 0.5em;
+    border: 1px solid var(--text-color);
+    background-color: #FFFFFF;
+    overflow: hidden;
+    position: relative; /* Tambahkan ini */
 }
 
-/* Scrollbar clean */
-#course-wrapperMHS::-webkit-scrollbar,
-#timeline-wrapper::-webkit-scrollbar {
-    width: 6px;
+.card-color {
+    height: 60%;
+    border-radius: 0.5em 0.5em 0 0;
 }
 
-#course-wrapperMHS::-webkit-scrollbar-thumb,
-#timeline-wrapper::-webkit-scrollbar-thumb {
-    background: #b8c28b;
-    border-radius: 10px;
+#course-card-wrapper a:nth-child(4n + 1) .card-color {
+    background-image: linear-gradient(to bottom, #FCE2A9 30%, #F8BE85 100%);
 }
+
+#course-card-wrapper a:nth-child(4n + 2) .card-color {
+    background-image: linear-gradient(to bottom, #FDFAE7 0%, #CFD8A4 100%);
+}
+
+#course-card-wrapper a:nth-child(4n + 3) .card-color {
+    background-image: linear-gradient(to bottom, #CBCBE7 30%, #9D9DBE 100%);
+}
+
+#course-card-wrapper a:nth-child(4n + 4) .card-color {
+    background-image: linear-gradient(to bottom, #E7F2FD 0%, #A4C2D8 100%);
+}
+
+.course-card h4 {
+    margin: 0.5em;
+}
+

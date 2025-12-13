@@ -35,6 +35,6 @@ public class MatkulController {
         model.addAttribute("user", user);
         model.addAttribute("matkulList", matkulList);
 
-        return "matkul"; 
+        return "Mahasiswa/course-home"; 
     }
 }
