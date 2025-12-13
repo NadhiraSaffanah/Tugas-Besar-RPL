@@ -35,7 +35,10 @@ public class TubesRepository {
         tubes.setKelas(rs.getString("kelas_matkul"));
         tubes.setStartDate(rs.getDate("start_date").toLocalDate());
         tubes.setEndDate(rs.getDate("end_date").toLocalDate()); //convert sql.Date jadi LocalDate
-        tubes.setLocked(rs.getBoolean("is_locked"));
+
+        String status = rs.getString("status_kelompok");
+        tubes.setLocked("Locked".equalsIgnoreCase(status));
+
         
         return tubes;
     };

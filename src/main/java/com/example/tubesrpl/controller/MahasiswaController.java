@@ -36,8 +36,10 @@ public class MahasiswaController {
         return (User) session.getAttribute("user");
     }
 
-    @GetMapping("/home-mahasiswa")
-    public String homeMhsView(Model model){
+    @GetMapping("/home")
+    public String homeMhsView(HttpSession session, Model model) {
+        User user = (User) session.getAttribute("user");
+        if (user == null) return "redirect:/login";
         // Sementara hardcode semester 1
         Long semesterId = 1L;
 
@@ -45,10 +47,11 @@ public class MahasiswaController {
         
         // Sekarang pakai TahapRepository
         List<TahapTubes> phases = tahapRepository.findAllBySemester(semesterId);
-       
+
         model.addAttribute("tubeslist", tubes); 
         model.addAttribute("phaselist", phases);
+        model.addAttribute("user", user);
         
-        return "Mahasiswa/homeMhs";
+        return "Mahasiswa/course-home";
     }
 }
