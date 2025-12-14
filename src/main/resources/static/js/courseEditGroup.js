@@ -6,6 +6,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const errorMsg = document.getElementById('capacity-error');
     const countBadge = document.getElementById('member-count-badge');
 
+    capacityInput.addEventListener('input', validateCapacity);
+
     updateMemberCount();
     validateCapacity();
 
@@ -53,16 +55,22 @@ document.addEventListener("DOMContentLoaded", () => {
             errorMsg.style.display = 'block';
             saveBtn.disabled = true;
             saveBtn.innerText = "Capacity too low";
+            return false;
         } else {
             errorMsg.style.display = 'none';
             saveBtn.disabled = false;
             saveBtn.innerText = "Save Changes";
+            return true; 
         }
     }
 
     const form = document.getElementById('editGroupForm');
     form.addEventListener("submit", function(e) {
         e.preventDefault();
+
+        if (!validateCapacity()) {
+            return; 
+        }
 
         const groupId = document.getElementById('groupId').value;
         const nama = document.getElementById('namaKelompok').value;

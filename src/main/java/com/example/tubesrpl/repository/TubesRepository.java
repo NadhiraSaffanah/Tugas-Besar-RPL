@@ -89,10 +89,6 @@ public class TubesRepository {
     }
 
     public Optional<Tubes> findAllByMatkulId(Long matkulId) {
-        // TODO Auto-generated method stub
-        // throw new UnsupportedOperationException("Unimplemented method
-        // 'findByMatkulId'");
-
         String sql = """
                 SELECT
                     t.id AS tubes_id,

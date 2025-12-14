@@ -64,11 +64,10 @@ public class DosenController {
     public String dosenProfile(HttpSession session, Model model) { 
         User user = (User) session.getAttribute("user");
         if (user == null) return "redirect:/login";
-        model.addAttribute("dosen", user);
+        model.addAttribute("user", user);
         
-        return "dosen/profile-page"; 
+        return "profile-page"; 
     }
-
     
     // ROUTING UNTUK COURSE (BARU DITAMBAHIN BACKEND)
     @GetMapping("/dosen/course")
@@ -406,10 +405,10 @@ public class DosenController {
     // Endpoint API untuk bikin Tubes Baru
     @PostMapping("/dosen/course/create-api")
     @ResponseBody
-    public ResponseEntity<String> createCourseApi(@RequestParam Long matkulId,
-                                                  @RequestParam String namaTubes,
-                                                  @RequestParam String deskripsi,
-                                                  @RequestParam int jmlKelompok) { 
+    public ResponseEntity<String> createCourseApi(@RequestParam("matkulId") Long matkulId,
+                                                  @RequestParam("namaTubes") String namaTubes,
+                                                  @RequestParam("deskripsi") String deskripsi,
+                                                  @RequestParam("jmlKelompok") int jmlKelompok) { 
         try {
             tubesRepository.createTubes(namaTubes, deskripsi, jmlKelompok, matkulId);
             return ResponseEntity.ok("Success");

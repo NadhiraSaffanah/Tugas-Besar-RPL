@@ -31,7 +31,6 @@
 
         header {
             flex-shrink: 0;
-            height: 70px;
         }
 
         main {
@@ -157,6 +156,29 @@
             display: inline-block;
         }
 
+        #nav-right div {
+            width: 3.5em;
+            height: 3.5em;
+            background-color: rgb(198, 172, 209);
+            border-radius: 50%;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #nav-right div img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        #nav-right {
+            display: flex;
+            align-items: center;
+            gap: 1.5em;
+        }
+
         .btn-cancel { background: #eee; color: #333; }
         .btn-save { background: var(--button-color); color: white; }
         .btn-save:disabled { background: #ccc; cursor: not-allowed; }
@@ -173,7 +195,21 @@
                 <li><a th:href="@{/dosen/course}">Course</a></li>
             </ul>
             <ul id="nav-right">
-                <li><span th:text="${user.nama}">User</span></li>
+                <li>
+                    <span th:text="${user.nama}">Nama</span> 
+                    <span th:text="${user.email}">email@unpar.ac.id</span>
+                </li>
+                <li>
+                    <div>
+                        <a th:href="@{/dosen/profile}">
+                            <img th:src="@{${#strings.isEmpty(user.fotoProfil) ? '/images/default-profile.jpg' : user.fotoProfil}}" 
+                                alt="profile picture" 
+                                style="width: 100%; height: 100%; object-fit: contain;">
+                        </a>
+                    </div>    
+                </li>
+                <li><img th:src="@{/images/bell.png}" alt="notification icon"></li>
+                <li><a th:href="@{/logout}"><img th:src="@{/images/logout.png}" alt="logout icon"></a></li>
             </ul>
         </nav>
     </header>
@@ -196,7 +232,7 @@
                     </div>
                     <div class="form-group">
                         <label>Capacity (Max Members)</label>
-                        <input type="number" id="jmlAnggota" name="jmlAnggota" th:value="${kelompok.jmlAnggota}" min="1" required oninput="validateCapacity()">
+                        <input type="number" id="jmlAnggota" name="jmlAnggota" th:value="${kelompok.jmlAnggota}" min="1" required>
                         <span id="capacity-error" class="error-msg">Capacity cannot be less than current members!</span>
                     </div>
                 </div>
