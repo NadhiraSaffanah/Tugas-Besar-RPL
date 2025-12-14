@@ -35,7 +35,9 @@ public class TubesRepository {
         tubes.setKelas(rs.getString("kelas_matkul"));
         tubes.setStartDate(rs.getDate("start_date").toLocalDate());
         tubes.setEndDate(rs.getDate("end_date").toLocalDate()); //convert sql.Date jadi LocalDate
-        tubes.setLocked(rs.getBoolean("is_locked"));
+
+        String statusKelompok = rs.getString("status_kelompok");
+        tubes.setLocked(statusKelompok != null && statusKelompok.equalsIgnoreCase("Locked"));
         
         return tubes;
     };
@@ -47,6 +49,7 @@ public class TubesRepository {
                 t.nama_tubes,
                 t.deskripsi,
                 t.jml_kelompok,
+                t.status_kelompok,
                 t.matkul_id,
                 ms.semester_id,
                 m.nama_matkul, 
@@ -71,7 +74,7 @@ public class TubesRepository {
                 t.deskripsi,
                 t.jml_kelompok,
                 t.matkul_id,
-                t.is_locked,
+                t.status_kelompok,
                 m.nama_matkul,
                 m.kelas_matkul,
                 s.start_date,
@@ -86,16 +89,18 @@ public class TubesRepository {
         return jdbcTemplate.query(sql, tubesRowMapper, id);
     }
 
-    // BARU 
-    public Optional<Tubes> findByMatkulId(Long matkulId) {
+    public Optional<Tubes> findAllByMatkulId(Long matkulId) {
+        // TODO Auto-generated method stub
+        // throw new UnsupportedOperationException("Unimplemented method 'findByMatkulId'");
+
         String sql = """
             SELECT 
                 t.id AS tubes_id,
                 t.nama_tubes,
                 t.deskripsi,
                 t.jml_kelompok,
+                t.status_kelompok,
                 t.matkul_id,
-                t.is_locked,
                 m.nama_matkul,
                 m.kelas_matkul,
                 s.start_date,
@@ -105,9 +110,8 @@ public class TubesRepository {
             JOIN matkul_semester ms ON m.id = ms.matkul_id
             JOIN semester s ON ms.semester_id = s.id
             WHERE t.matkul_id = ?
-        """;
+            """;
         
-        // Pakai stream().findFirst() buat balikin satu data (Optional)
         return jdbcTemplate.query(sql, tubesRowMapper, matkulId).stream().findFirst();
     }
 
@@ -120,7 +124,7 @@ public class TubesRepository {
                 t.jml_kelompok,
                 t.matkul_id,
                 m.nama_matkul,
-                t.is_locked,
+                t.status_kelompok,
                 m.kelas_matkul,
                 s.start_date,
                 s.end_date

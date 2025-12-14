@@ -179,7 +179,8 @@ CREATE TABLE tubes (
     nama_tubes VARCHAR(100) NOT NULL,
     deskripsi VARCHAR(255),
 	jml_kelompok BIGINT,
-	matkul_id BIGINT NOT NULL REFERENCES matkul(id) ON DELETE CASCADE
+	matkul_id BIGINT NOT NULL REFERENCES matkul(id) ON DELETE CASCADE, 
+    status_kelompok VARCHAR(20) NOT NULL CHECK (status_kelompok IN ('Locked', 'Unlocked'))
 );
 
 -- NOTE: ini ada beberapa tubes yang matkul_idnya sama, harusnya getMatkul, getTubes, dkk mempertimbangkan semester yang lagi ongoing/ngganya

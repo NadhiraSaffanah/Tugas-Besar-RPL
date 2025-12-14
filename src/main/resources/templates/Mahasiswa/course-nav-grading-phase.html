@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grading Phase</title>
+    <link rel="stylesheet" th:href="@{/css/dosen/course-nav-grading-phase.css}">
+    <!-- <script th:src="@{/js/dosen/gradingPhase.js}" defer></script> -->
+</head>
+<body>
+    <header>
+            <nav>
+                <ul id="nav-left">
+                    <li><img th:src="@{/images/book.png}" alt="book icon"></li>
+                    <li><a th:href="@{/mahasiswa/home}">Home</a></li>
+                    <li><a th:href="@{/mahasiswa/course}">Course</a></li>
+                </ul>   
+                <ul id="nav-right">
+                    <li>
+                        <span th:text="${mahasiswa.nama}">Nama Mahasiswa</span> 
+                        <span th:text="${mahasiswa.email}">email</span>
+                    </li>
+                    <li>
+                        <div>
+                            <a th:href="@{/mahasiswa/profile}">
+                                <img th:src="@{/images/default-profile.png}" alt="profile">
+                            </a>
+                        </div>    
+                    </li>
+                    <li><img th:src="@{/images/bell.png}" alt="notif"></li>
+                    <li><a th:href="@{/logout}"><img th:src="@{/images/logout.png}" alt="logout"></a></li>
+                </ul>
+            </nav>
+        </header>
+
+    <main>
+        <section id="course-nav">
+            <a th:href="@{/mahasiswa/course/nav/grading(id=${selectedMatkulId})}"><p>Grading</p></a>
+            <a th:href="@{/mahasiswa/course/nav/participant(id=${selectedMatkulId})}"><p>Participant</p></a>
+            <a th:href="@{/mahasiswa/course/nav/group(id=${selectedMatkulId})}"><p>Group</p></a>
+        </section>
+
+        <section class="tubes-header-card">
+            <h1 th:if="${tubes != null}" th:text="${tubes.namaTubes}">Tugas Besar 1</h1>
+            <div class="date-info">
+                <div>
+                    <span class="label-date">Start date</span>
+                    <h5 th:text="${#temporals.format(header.get('start_date'), 'EEEE, d MMMM yyyy')}">Start date</h5>
+                </div>
+                <div>
+                    <span class="label-date">End date</span>
+                    <h5 th:text="${#temporals.format(header.get('end_date'), 'EEEE, d MMMM yyyy')}">End date</h5>
+                </div>
+            </div>
+
+            <div class="phase-list">
+                <div th:if="${tubes==null}" th:text="Currently there is no project."></div>
+                
+                <div class="phase-card" th:each="tahap, iterStat : ${listTahap}">
+                    <div class="phase-content">
+                        <div class="phase-title">
+                            <span class="phase-name" th:text="${tahap.namaTahap}">Phase</span>
+                            
+                            <div class="phase-date">
+                                <img th:src="@{/images/calendar.png}" alt="calendar">
+                                <span th:text="${#temporals.format(tahap.deadline, 'd MMMM yyyy')}">7 September 2025</span>
+                            </div>
+                        </div>
+                        
+                        <p class="phase-description" th:text="${tahap.deskripsi}">Membuat persona dan scenario</p>
+                    </div>
+
+                    <div class="phase-status-box">
+                        <span th:if="${tahap.statusGraded}" 
+                              th:classappend="${tahap.nilaiTahap >= 80 ? 'status-excellent' : 'status-graded'}"
+                              th:text="${tahap.nilaiTahap + '%'}">Excellent 90%</span>
+                        
+                        <span th:if="${!tahap.statusGraded}" 
+                              class="status-not-graded"
+                              th:text="'Not Graded'">Not Graded</span>
+                        
+                        <a th:href="@{/mahasiswa/course/tahap/comment(tahapId=${tahap.id}, matkulId=${selectedMatkulId})}" 
+                           class="view-comment-btn">View Comment</a>
+                    </div>
+                </div>
+                
+                <div th:if="${#lists.isEmpty(listTahap)}" class="empty-phases">
+                    <p>Belum ada tahap penilaian yang ditentukan untuk tugas besar ini.</p>
+                </div>
+                
+            </div>
+        </section>
+    </main>
+</body>
+</html>
