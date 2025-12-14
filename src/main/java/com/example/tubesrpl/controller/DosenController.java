@@ -64,11 +64,10 @@ public class DosenController {
     public String dosenProfile(HttpSession session, Model model) { 
         User user = (User) session.getAttribute("user");
         if (user == null) return "redirect:/login";
-        model.addAttribute("dosen", user);
+        model.addAttribute("user", user);
         
-        return "dosen/profile-page"; 
+        return "profile-page"; 
     }
-
     
     // ROUTING UNTUK COURSE (BARU DITAMBAHIN BACKEND)
     @GetMapping("/dosen/course")
