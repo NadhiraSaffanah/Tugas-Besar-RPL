@@ -18,4 +18,7 @@ public class TahapTubes {
     private String namaMatkul;
     private LocalDate semesterStart;
     private LocalDate semesterEnd;
+
+    // === FIELD TAMBAHAN (BUAT VIEW) ===
+    private Integer nilaiTahap;       // dari penilaian
 }

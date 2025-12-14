@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Course Home</title>
 
-    <link rel="stylesheet" th:href="@{/css/home-page.css}">
+    <link rel="stylesheet" th:href="@{/css/mahasiswa/home-page.css}">
 </head>
 <body>
     <header>
@@ -22,7 +22,7 @@
                 </li>
                 <li>
                     <div>
-                        <a th:href="@{/mahasiswa/profile}">
+                        <a th:href="@{/mahasiswa/profile-page}">
                             <img th:src="@{${#strings.isEmpty(user.fotoProfil) ? '/images/default-profile.jpg' : user.fotoProfil}}" 
                                 alt="profile picture" 
                                 style="width: 100%; height: 100%; object-fit: cover;">
@@ -37,9 +37,9 @@
 
     <main>
         <section id="image-container">
-            <img src="images/homepage-img.png" alt="">
+            <img th:src="@{/images/homepage-img.png}" alt="Hero Image">
             <div id="info-wrapper">
-                <img src="images/book.svg" alt="">
+                <img th:src="@{/images/book.svg}" alt="Logo Book">
                 <p>Tubes <br>UNPAR</p>
             </div>
         </section>
@@ -51,10 +51,14 @@
                 <div id="course-wrapperMHS">
                     <div class="course-cardMHS" th:each="t : ${tubeslist}">
                         <div class="date">
-                            <img src="images/calendar.svg" alt="calender icon">
+                            <img th:src="@{/images/calendar.svg}" alt="calender icon">
                             <p th:text="${#temporals.format(t.endDate, 'dd MMMM yyyy')}">01 January 2025</p>
                         </div>
-                        <h3 th:text="${t.namaTubes}"> - <span th:text="${t.matkul}"></span></h3>
+                        <h3>
+                            <span th:text="${t.namaTubes}">Judul</span> - 
+                            <span th:text="${t.matkul}">Matkul</span>
+                            (<span th:text="${t.kelas}">kelas</span>)
+                        </h3>  
                     </div>
                 </div>
             </section>
@@ -66,15 +70,15 @@
                     <div class="timeline-card" th:each="p : ${phaselist}">
 
                         <div class="date">
-                            <img src="images/calendar.svg" alt="calendar icon">
-                            <p th:text="${#temporals.format(p.semesterEnd, 'dd MMMM yyyy')}">01 January 2025</p>
+                            <img th:src="@{/images/calendar.svg}" alt="calendar icon">
+                            <p th:text="${#temporals.format(p.tanggalAkhir, 'dd MMMM yyyy')}">01 January 2025</p>
                         </div>
                         <div class="timeline-content">
-                            <img src="images/Inbox.svg" alt="file icon">
+                            <img th:src="@{/images/Inbox.svg}" alt="file icon">
                             <p th:text="${p.namaTahap} + ' - ' + ${p.namaMatkul}">SRS - Rekayasa Perangkat Lunak</p>
                         </div>
 
-                        <button class="detail-button">View Detail</button>
+                        <button class="detail-button">View Detail</button> <!--belom dipakein th href-->
                     </div>
 
                 </div>
