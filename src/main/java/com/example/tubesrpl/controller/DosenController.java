@@ -409,10 +409,10 @@ public class DosenController {
     // Endpoint API untuk bikin Tubes Baru
     @PostMapping("/dosen/course/create-api")
     @ResponseBody
-    public ResponseEntity<String> createCourseApi(@RequestParam Long matkulId,
-                                                  @RequestParam String namaTubes,
-                                                  @RequestParam String deskripsi,
-                                                  @RequestParam int jmlKelompok) { 
+    public ResponseEntity<String> createCourseApi(@RequestParam("matkulId") Long matkulId,
+                                                  @RequestParam("namaTubes") String namaTubes,
+                                                  @RequestParam("deskripsi") String deskripsi,
+                                                  @RequestParam("jmlKelompok") int jmlKelompok) { 
         try {
             tubesRepository.createTubes(namaTubes, deskripsi, jmlKelompok, matkulId);
             return ResponseEntity.ok("Success");

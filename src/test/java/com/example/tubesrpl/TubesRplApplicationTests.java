@@ -13,9 +13,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc; // Perbaikan import
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc; 
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.bean.override.mockito.MockitoBean; // Perbaikan import
+import org.springframework.test.context.bean.override.mockito.MockitoBean; 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -26,7 +26,7 @@ import com.example.tubesrpl.repository.TahapRepository;
 import com.example.tubesrpl.repository.TubesRepository;
 
 @SpringBootTest
-@AutoConfigureMockMvc // jadinya pake AutoConfigure, @ExtendWith dihapus
+@AutoConfigureMockMvc
 class TubesRplApplicationTests {
 
     @Autowired
@@ -47,49 +47,48 @@ class TubesRplApplicationTests {
     void contextLoads() { 
     }
 
-    //Test akses halaman course details yang dapat menambahkan atau memperbarui tubes
+    //Test akses halaman course details yang dapat menambahkan atau memperbarui tubes (oleh user mahasiswa)
     @Test
     void courseDetailsAccesedByNonDosen() throws Exception {
-        User mockUser = new User();  //buat user dengan role mahasiswa
+        User mockUser = new User();
         mockUser.setRole("mahasiswa"); // Set role bukan dosen
 
         mockMvc.perform(
             get("/dosen/course/details")
-            .param("id", "1") //masukan param untuk "/dosen/course/details"
+            .param("id", "1") 
             .sessionAttr("user", mockUser)
         )
-        .andExpect(status().is3xxRedirection()) //jika bukan dosen maka hasil yang diharapkan adalah no access dan di redirect
+        .andExpect(status().is3xxRedirection()) 
         .andExpect(redirectedUrl("/login"));
     }
 
     //Tes jika sukses menambahkan tugas besar
     @Test 
     void tryAddTubesSucess() throws Exception {
-        mockMvc.perform( //simulasi buat tubes di mata kuliah ASD
+        mockMvc.perform( 
             post("/dosen/course/create-api")
                 .param("matkulId", "1")
                 .param("namaTubes", "Tubes 1 - Algoritma")
                 .param("deskripsi", "Implementasi struktur data dasar")
                 .param("jmlKelompok", "8")
         )
-        .andExpect(status().isOk()) //hasil yang diharapkan adalah status ok dengan body "Success"
+        .andExpect(status().isOk())
         .andExpect(content().string("Success"));
     }
         
     //Tes jika gagal menambahkan tugas besar
     @Test
     void tryAddTubesFail() throws Exception {
-        //nanti jika method tubesRepository createTubes() dipanggil, throw sebuah exception seakan-akan ada error pada server
         doThrow(new RuntimeException("DB Error")).when(tubesRepository).createTubes(any(), any(), anyInt(), anyLong());
         
-        mockMvc.perform( //jalankan controller dengan param apa saja agar createTubes terpanggil
+        mockMvc.perform(
             post("/dosen/course/create-api")
                 .param("namaTubes", "Tubes 1 - Algoritma")
                 .param("deskripsi", "Test jika repo atau DB fail")
                 .param("jmlKelompok", "8")
                 .param("matkulId", "1")
         )
-        .andExpect(status().isInternalServerError()) //hasil yang diharapkan adalah server error dengan body "Error"
+        .andExpect(status().isInternalServerError()) 
         .andExpect(content().string("Error"));
     }
 
@@ -98,32 +97,32 @@ class TubesRplApplicationTests {
     void tryAddTubesMissing() throws Exception {
         mockMvc.perform(
             post("/dosen/course/create-api")
-                // Param 'namaTubes' SENGAJA DIHILANGKAN
+                // gaada param 'namaTubes'
                 .param("deskripsi", "Implementasi struktur data dasar")
                 .param("jmlKelompok", "8")
                 .param("matkulId", "1")
         )
-        // PERBAIKAN: kalo parameter kurang, Spring returnnya 400 (Bad Request), ga jadi error 500
         .andExpect(status().isBadRequest()); 
     }
 
     //Tes jika input melebihi constraint basis data
     @Test 
     void tryAddTubesMoreThanLimit() throws Exception {
-        //jika createTubes() dipanggil, throw exception ini seolah-olah terjadi. Pelanggaran constraint biasanya DataIntegrityViolation
-		//kenapa ditambahin: karena mock ga punya akses db beneran
+        String namaTubesPanjang = "A".repeat(101);
+        String deskripsiPanjang = "A".repeat(256);
+
         doThrow(new DataIntegrityViolationException("Too long"))
             .when(tubesRepository)
             .createTubes(any(), any(), anyInt(), anyLong());
 
         mockMvc.perform(
             post("/dosen/course/create-api")
-                .param("namaTubes", "Lorem ipsum dolor sit amet panjang banget...") 
-                .param("deskripsi", "Deskripsi panjang...")
+                .param("namaTubes", namaTubesPanjang) 
+                .param("deskripsi", deskripsiPanjang)
                 .param("jmlKelompok", "8")
                 .param("matkulId", "1")
         )
-        .andExpect(status().isInternalServerError()) //hasil yang diharapkan adalah server error dengan body "Error"
+        .andExpect(status().isInternalServerError()) 
         .andExpect(content().string("Error"));
     }
 }
