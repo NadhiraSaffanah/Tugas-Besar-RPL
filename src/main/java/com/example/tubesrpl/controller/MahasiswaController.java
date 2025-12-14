@@ -229,4 +229,28 @@ public class MahasiswaController {
         return "redirect:/mahasiswa/course-nav-group?id=" + tubesId;
     }
 
+    @GetMapping("/course-nav-grading-phase")
+    public String showGradingPhase(@RequestParam(name = "id") Long tubesId, Model model, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        
+        if (user == null || !"dosen".equalsIgnoreCase(user.getRole())) {
+            return "redirect:/login";
+        }
+        
+        model.addAttribute("user", user); 
+
+        Optional<Tubes> tubesOpt = tubesRepository.findById(tubesId);
+        if (tubesOpt.isPresent()) {
+            Tubes tubes = tubesOpt.get();
+            model.addAttribute("matkulId", tubes.getIdMatkul()); // Simpan matkulId ke model supaya bisa dipakai di tombol "Back"
+        }
+
+        List<TahapTubes> listTahap = tahapRepository.findAllByTubesId(tubesId);
+        
+        model.addAttribute("listTahap", listTahap);
+        model.addAttribute("tubesId", tubesId);
+        
+        return "mahasiswa/course-nav-grading";
+    }
+
 }

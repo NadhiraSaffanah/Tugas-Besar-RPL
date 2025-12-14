@@ -1,0 +1,310 @@
+:root {
+    --text-color: #535F24;
+    --secondary-color: #ACBD6F;
+    --background-color: #FDFAE7;
+    --button-color: #8FA053;
+    --input-background: #FFFFFF;
+    --input-border: #D8D8D8;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: var(--background-color);
+    display: grid;
+    height: 100vh;
+    grid-template-areas: 
+        "header"
+        "main";
+    grid-template-rows: auto 1fr;
+    overflow: hidden; /* Hapus scroll body utama */
+}
+
+/* HEADER & NAV (Sama seperti sebelumnya) */
+header {
+    position: sticky;
+    top: 0;
+    z-index: 99;
+    grid-area: header;
+    width: 100%;
+    background-color: var(--secondary-color);
+    padding: 0.5em 0;
+    color: var(--input-background);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.1em;
+}
+
+nav ul {
+    list-style-type: none;
+    display: flex;
+    align-items: center;
+    gap: 1.5em;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: var(--input-background);
+}
+
+nav img {
+    width: 2.5em;
+    filter: brightness(0) invert(1);
+}
+
+#nav-left {
+    width: 20%;
+    margin-left: 2em;
+}
+
+#nav-left img {
+    transform: scale(1.5);
+}
+
+#nav-left li:nth-child(3) {
+    background-color: var(--button-color);
+}
+
+#nav-left li:nth-child(2),
+#nav-left li:nth-child(3) {
+    padding: 0.5em;
+}
+
+#nav-left li:nth-child(2):hover,
+#nav-left li:nth-child(3):hover {
+    cursor: pointer;
+    background-color: var(--button-color);
+}
+
+#nav-right {
+    margin-right: 2em;
+    cursor: pointer;
+}
+
+#nav-right li:first-child {
+    display: flex;
+    flex-direction: column;
+    text-align: right;
+    font-size: small;
+    justify-content: end;
+}
+
+#nav-right div {
+    width: 3.5em;
+    height: 3.5em;
+    background-color: rgb(198, 172, 209);
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+#nav-right div img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: none;
+}
+
+#nav-right li:hover {
+    background-color: var(--button-color);
+}
+
+
+main {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 0 20px;
+}
+
+#course-nav {
+    display: flex;
+    margin-bottom: 30px;
+    border-bottom: 2px solid var(--border-color);
+}
+
+#course-nav a {
+    text-decoration: none;
+    padding: 10px 20px;
+    color: var(--light-text-color);
+    font-weight: 500;
+    transition: all 0.3s;
+    border-bottom: 2px solid transparent; /* Untuk efek tab */
+}
+
+/* Asumsi: jika URL mengandung 'grading', ini adalah tab aktif */
+#course-nav a { 
+    color: var(--secondary-color);
+    border-bottom: 2px solid var(--secondary-color);
+    font-weight: 700;
+}
+
+
+/* --- TUBES HEADER CARD --- */
+.tubes-header-card {
+    background-color: var(--card-background);
+    padding: 30px;
+    border-radius: var(--box-border-radius);
+    box-shadow: var(--shadow);
+    margin-bottom: 40px;
+}
+
+.tubes-header-card h1 {
+    font-size: 2em;
+    color: var(--secondary-color);
+    margin-top: 0;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #eeeeee;
+    padding-bottom: 10px;
+}
+
+.date-info {
+    display: flex;
+    gap: 40px;
+    margin-bottom: 30px;
+}
+
+.date-info .label-date {
+    display: block;
+    font-size: 0.8em;
+    color: var(--light-text-color);
+    margin-bottom: 4px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.date-info h5 {
+    margin: 0;
+    font-size: 1em;
+    color: var(--text-color);
+    font-weight: 600;
+}
+
+
+/* --- PHASE LIST --- */
+.phase-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.empty-phases {
+    padding: 30px;
+    text-align: center;
+    border: 1px dashed var(--border-color);
+    border-radius: var(--box-border-radius);
+    color: var(--light-text-color);
+}
+
+.phase-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    background-color: var(--card-background);
+    padding: 20px;
+    border-radius: var(--box-border-radius);
+    border: 1px solid var(--border-color);
+    transition: box-shadow 0.2s;
+}
+
+.phase-card:hover {
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+.phase-content {
+    flex-grow: 1;
+    padding-right: 20px;
+}
+
+.phase-title {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 10px;
+}
+
+.phase-name {
+    font-size: 1.2em;
+    font-weight: 700;
+    color: var(--secondary-color);
+}
+
+.phase-date {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9em;
+    color: var(--light-text-color);
+}
+
+.phase-date img {
+    width: 16px;
+    height: 16px;
+    opacity: 0.7;
+}
+
+.phase-description {
+    color: var(--light-text-color);
+    margin-top: 0;
+}
+
+
+/* --- PHASE STATUS AND GRADING BOX --- */
+.phase-status-box {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    min-width: 150px;
+    text-align: right;
+}
+
+/* Gaya untuk nilai */
+.phase-status-box span {
+    font-size: 1.5em;
+    font-weight: 700;
+    margin-bottom: 10px;
+    line-height: 1;
+}
+
+/* Warna berdasarkan nilai (Meniru mockup) */
+.status-excellent {
+    color: var(--accent-excellent); /* Hijau gelap */
+}
+
+.status-graded {
+    color: var(--accent-good); /* Kuning/Amber */
+}
+
+.status-not-graded {
+    color: var(--accent-not-graded);
+    font-size: 1em; /* Lebih kecil untuk "Not Graded" */
+    font-weight: 500;
+    text-transform: uppercase;
+    padding-top: 5px;
+}
+
+/* Tombol View Comment */
+.view-comment-btn {
+    display: inline-block;
+    background-color: transparent;
+    border: 1px solid var(--secondary-color);
+    color: var(--secondary-color);
+    padding: 6px 12px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 0.9em;
+    transition: all 0.2s;
+}
+
+.view-comment-btn:hover {
+    background-color: var(--secondary-color);
+    color: var(--card-background);
+}
