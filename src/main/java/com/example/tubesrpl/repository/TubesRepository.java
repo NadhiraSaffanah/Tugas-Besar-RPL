@@ -47,6 +47,7 @@ public class TubesRepository {
                 t.nama_tubes,
                 t.deskripsi,
                 t.jml_kelompok,
+                t.is_locked,
                 t.matkul_id,
                 ms.semester_id,
                 m.nama_matkul, 
@@ -86,16 +87,18 @@ public class TubesRepository {
         return jdbcTemplate.query(sql, tubesRowMapper, id);
     }
 
-    // BARU 
-    public Optional<Tubes> findByMatkulId(Long matkulId) {
+    public Optional<Tubes> findAllByMatkulId(Long matkulId) {
+        // TODO Auto-generated method stub
+        // throw new UnsupportedOperationException("Unimplemented method 'findByMatkulId'");
+
         String sql = """
             SELECT 
                 t.id AS tubes_id,
                 t.nama_tubes,
                 t.deskripsi,
                 t.jml_kelompok,
-                t.matkul_id,
                 t.is_locked,
+                t.matkul_id,
                 m.nama_matkul,
                 m.kelas_matkul,
                 s.start_date,
@@ -105,9 +108,8 @@ public class TubesRepository {
             JOIN matkul_semester ms ON m.id = ms.matkul_id
             JOIN semester s ON ms.semester_id = s.id
             WHERE t.matkul_id = ?
-        """;
+            """;
         
-        // Pakai stream().findFirst() buat balikin satu data (Optional)
         return jdbcTemplate.query(sql, tubesRowMapper, matkulId).stream().findFirst();
     }
 

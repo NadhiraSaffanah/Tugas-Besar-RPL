@@ -1,18 +1,25 @@
 package com.example.tubesrpl.controller; // Pastikan package sesuai
 
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.example.tubesrpl.model.Kelompok;
 import com.example.tubesrpl.model.TahapTubes; // GANTI Phase jadi TahapTubes
 import com.example.tubesrpl.model.Tubes;
 import com.example.tubesrpl.model.User;
+import com.example.tubesrpl.repository.KelompokRepository;
+import com.example.tubesrpl.repository.MatkulRepository;
 import com.example.tubesrpl.repository.TahapRepository; // GANTI PhaseRepository jadi TahapRepository
 import com.example.tubesrpl.repository.TubesRepository;
 
@@ -25,30 +32,225 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/mahasiswa")
 public class MahasiswaController {
 
-    @Autowired 
+    @Autowired
     private TubesRepository tubesRepository;
+
+    @Autowired
+    MatkulRepository matkulRepository;
 
     @Autowired
     private TahapRepository tahapRepository; // Rename
 
-    @ModelAttribute("user") 
+    @Autowired
+    private KelompokRepository kelompokRepository;
+
+    @ModelAttribute("user")
     public User userSession(HttpSession session) {
         return (User) session.getAttribute("user");
     }
 
-    @GetMapping("/home-mahasiswa")
-    public String homeMhsView(Model model){
+    @GetMapping("/home")
+    public String homeMhsView(HttpSession session, Model model) {
+        User user = (User) session.getAttribute("user");
+        if (user == null)
+            return "redirect:/login";
         // Sementara hardcode semester 1
         Long semesterId = 1L;
 
         List<Tubes> tubes = tubesRepository.findAllBySemester(semesterId);
-        
+
         // Sekarang pakai TahapRepository
         List<TahapTubes> phases = tahapRepository.findAllBySemester(semesterId);
-       
-        model.addAttribute("tubeslist", tubes); 
+
+        model.addAttribute("tubeslist", tubes);
         model.addAttribute("phaselist", phases);
-        
+        model.addAttribute("user", user);
+
         return "Mahasiswa/homeMhs";
     }
+
+    @GetMapping("/course-details")
+    public String courseDetailsMhs(@RequestParam(name = "id") Long matkulId, HttpSession session, Model model) {
+        User user = (User) session.getAttribute("user");
+        boolean isLocked = false;
+
+        // BARU, kalau bukan dosen redirect ke login
+        if (user == null || !"mahasiswa".equalsIgnoreCase(user.getRole())) {
+            return "redirect:/login";
+        }
+
+        Map<String, Object> headerInfo = matkulRepository.findHeaderInfo(matkulId);
+
+        // konversi java.sql.Date -> java.time.LocalDate
+        if (headerInfo.get("start_date") != null) {
+            java.sql.Date sqlDate = (java.sql.Date) headerInfo.get("start_date");
+            headerInfo.put("start_date", sqlDate.toLocalDate());
+        }
+
+        if (headerInfo.get("end_date") != null) {
+            java.sql.Date sqlDate = (java.sql.Date) headerInfo.get("end_date");
+            headerInfo.put("end_date", sqlDate.toLocalDate());
+        }
+        model.addAttribute("header", headerInfo);
+
+        // ambil tubes (bisa null)
+        Optional<Tubes> tubesOpt = tubesRepository.findAllByMatkulId(matkulId);
+
+        if (tubesOpt.isPresent()) {
+            Tubes tubes = tubesOpt.get();
+            model.addAttribute("tubes", tubes);
+
+            isLocked = tubes.isLocked();
+
+            List<TahapTubes> listTahap = tahapRepository.findAllByTubesId(tubes.getId());
+            model.addAttribute("listTahap", listTahap);
+        } else {
+            model.addAttribute("tubes", null);
+            model.addAttribute("listTahap", null);
+        }
+
+        model.addAttribute("selectedMatkulId", matkulId);
+        model.addAttribute("user", user);
+        model.addAttribute("isGroupLocked", isLocked);
+
+        return "Mahasiswa/course-details";
+    }
+
+    @GetMapping("/grading-phase")
+    public String gradingPhase(@RequestParam(name = "id") Long tubesId, HttpSession session, Model model) {
+        User user = (User) session.getAttribute("user");
+
+        if (user == null || !"dosen".equalsIgnoreCase(user.getRole())) {
+            return "redirect:/login";
+        }
+
+        model.addAttribute("user", user);
+
+        Optional<Tubes> tubesOpt = tubesRepository.findById(tubesId);
+        if (tubesOpt.isPresent()) {
+            Tubes tubes = tubesOpt.get();
+            model.addAttribute("matkulId", tubes.getIdMatkul()); // Simpan matkulId ke model supaya bisa dipakai di
+                                                                 // tombol "Back"
+        }
+
+        List<TahapTubes> listTahap = tahapRepository.findAllByTubesId(tubesId);
+
+        model.addAttribute("listTahap", listTahap);
+        model.addAttribute("tubesId", tubesId);
+
+        return "Mahasiswa/course-nav-grading-phase";
+    }
+
+    @GetMapping("/profile")
+    public String dosenProfile(HttpSession session, Model model) {
+        User user = (User) session.getAttribute("user");
+        if (user == null)
+            return "redirect:/login";
+        model.addAttribute("mahasiswa", user);
+
+        return "Mahasiswa/profile-page";
+    }
+
+    // ROUTING UNTUK COURSE PARTICIPANT
+    @GetMapping("/participant")
+    public String courseNavParticipant(@RequestParam(name = "id") Long tubesId, Model model, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user == null)
+            return "redirect:/login";
+        model.addAttribute("user", user);
+
+        // ambil id matkul dari Tubes, ini buat back aja sih
+        Long matkulId = null;
+        Optional<Tubes> tubesOpt = tubesRepository.findById(tubesId);
+        if (tubesOpt.isPresent()) {
+            matkulId = tubesOpt.get().getIdMatkul();
+            model.addAttribute("matkulId", matkulId);
+        }
+
+        // ambil list participant dari db
+        if (matkulId != null) {
+            List<User> participants = matkulRepository.findParticipantsByMatkulId(matkulId);
+            model.addAttribute("participantList", participants);
+        }
+
+        model.addAttribute("tubesId", tubesId);
+        return "Mahasiswa/course-nav-participant";
+    }
+
+    @GetMapping("/course-nav-group")
+    public String showGroup(@RequestParam(name = "id") Long tubesId, Model model, HttpSession session) {
+
+        User user = (User) session.getAttribute("user");
+        if (user == null)
+            return "redirect:/login";
+        model.addAttribute("user", user);
+
+        Optional<Tubes> tubesOpt = tubesRepository.findById(tubesId);
+        if (tubesOpt.isPresent()) {
+            Tubes tubes = tubesOpt.get();
+            model.addAttribute("tubes", tubes);
+            model.addAttribute("matkulId", tubes.getIdMatkul());
+
+            tubesRepository.syncGroupCount(tubesId, tubes.getJmlKelompok());
+        }
+
+        // ambil data kelompok
+        List<Kelompok> listKelompok = kelompokRepository.findAllByTubesId(tubesId);
+        Kelompok myKelompok = kelompokRepository.findKelompokByUserAndTubes(user.getId(), tubesId);
+
+        // untuk kasih tau status udah join kelompok atau belum
+        boolean alreadyJoined = (myKelompok != null);
+
+        for (Kelompok k : listKelompok) {
+            List<User> anggotas = kelompokRepository.findAnggotaByKelompokId(k.getId());
+            k.setListAnggota(anggotas);
+        }
+
+        model.addAttribute("listKelompok", listKelompok);
+        model.addAttribute("user", user);
+        model.addAttribute("tubesId", tubesId);
+        model.addAttribute("alreadyJoined", alreadyJoined);
+        model.addAttribute("myKelompok", myKelompok);
+
+        return "Mahasiswa/course-nav-group";
+    }
+
+    @PostMapping("/course-nav-group")
+    public String handleGroupChoice(@RequestParam Long tubesId,
+            @RequestParam(required = false) Long selectedGroup,
+            @RequestParam String action,
+            HttpSession session) {
+        User user = (User) session.getAttribute("user");
+
+        if ("save".equals(action)) {
+        } else if ("remove".equals(action)) {
+        }
+
+        return "redirect:/mahasiswa/course-nav-group?id=" + tubesId;
+    }
+
+    @GetMapping("/course-nav-grading-phase")
+    public String showGradingPhase(@RequestParam(name = "id") Long tubesId, Model model, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        
+        if (user == null || !"dosen".equalsIgnoreCase(user.getRole())) {
+            return "redirect:/login";
+        }
+        
+        model.addAttribute("user", user); 
+
+        Optional<Tubes> tubesOpt = tubesRepository.findById(tubesId);
+        if (tubesOpt.isPresent()) {
+            Tubes tubes = tubesOpt.get();
+            model.addAttribute("matkulId", tubes.getIdMatkul()); // Simpan matkulId ke model supaya bisa dipakai di tombol "Back"
+        }
+
+        List<TahapTubes> listTahap = tahapRepository.findAllByTubesId(tubesId);
+        
+        model.addAttribute("listTahap", listTahap);
+        model.addAttribute("tubesId", tubesId);
+        
+        return "mahasiswa/course-nav-grading";
+    }
+
 }

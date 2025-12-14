@@ -3,8 +3,6 @@ package com.example.tubesrpl.controller;
 import com.example.tubesrpl.repository.MatkulRepository;
 import com.example.tubesrpl.model.Matkul;
 import com.example.tubesrpl.model.User;
-
-
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,7 +18,7 @@ public class MatkulController {
     private MatkulRepository matkulRepository;
 
     // pake localhost:8080/matkul
-    @GetMapping("/matkul")
+    @GetMapping("/mahasiswa/course")
     public String viewCoursePage(HttpSession session, Model model) {
         // ambil user dari session saat ini
         User user = (User) session.getAttribute("user");
@@ -37,6 +35,6 @@ public class MatkulController {
         model.addAttribute("user", user);
         model.addAttribute("matkulList", matkulList);
 
-        return "matkul"; 
+        return "Mahasiswa/course-home"; 
     }
 }
