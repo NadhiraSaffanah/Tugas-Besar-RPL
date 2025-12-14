@@ -5,7 +5,6 @@
     --button-color: #8FA053;
     --input-background: #FFFFFF;
     --input-border: #D8D8D8;
-    --card-hover: #f0f4e3;
 }
 
 * {
@@ -23,14 +22,13 @@ body {
         "header"
         "main";
     grid-template-rows: auto 1fr;
-    color: var(--text-color);
+    overflow-x: hidden;
 }
 
 body::-webkit-scrollbar {
     display: none;
 }
 
-/* HEADER & NAV */
 header {
     position: sticky;
     top: 0;
@@ -39,7 +37,7 @@ header {
     width: 100%;
     background-color: var(--secondary-color);
     padding: 0.5em 0;
-    color: #FFFFFF;
+    color: var(--input-background);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -59,7 +57,7 @@ nav ul {
 
 nav ul li a {
     text-decoration: none;
-    color: #FFFFFF;
+    color: var(--input-background);
 }
 
 nav img {
@@ -67,7 +65,6 @@ nav img {
     filter: brightness(0) invert(1);
 }
 
-/* NAV LEFT */
 #nav-left {
     width: 20%;
     margin-left: 2em;
@@ -77,10 +74,8 @@ nav img {
     transform: scale(1.5);
 }
 
-/* UPDATE: HAPUS BORDER RADIUS (KOTAK) */
 #nav-left li:nth-child(3) {
     background-color: var(--button-color);
-    border-radius: 0; /* KOTAK */
 }
 
 #nav-left li:nth-child(2),
@@ -92,10 +87,8 @@ nav img {
 #nav-left li:nth-child(3):hover {
     cursor: pointer;
     background-color: var(--button-color);
-    border-radius: 0; /* KOTAK PAS HOVER */
 }
 
-/* NAV RIGHT */
 #nav-right {
     margin-right: 2em;
     cursor: pointer;
@@ -124,61 +117,122 @@ nav img {
     filter: none;
 }
 
+#nav-right li:hover {
+    background-color: var(--button-color);
+}
+
 /* MAIN CONTENT */
 main {
     grid-area: main;
+    width: 90%;
     height: 100%;
-    width: 100%;
+    justify-self: center;
     display: flex;
     flex-direction: column;
-    justify-content: start;
-    align-items: center;
+    justify-content: left;
+    align-items: start;
     gap: 2em;
+    color: var(--text-color);
 }
 
-#course-overview {
-    color: var(--text-color);
-    width: 95%;
-    height: 90%;
+#course-nav {
     margin-top: 2em;
+    width: 30%;
+    /* height: 6%; */
+    border-radius: 0.3em;
+    background-color: var(--button-color);
+    display: flex;
+    flex-wrap:wrap-reverse;
+    justify-content: space-around;
+    align-items: center;
+    gap: 1em;
+}
+
+#course-nav a {
+    padding: 0.4em;
+    text-decoration: none;
+    color: var(--input-background);
+}
+
+#course-nav a:nth-child(2) {
+    background-color: var(--secondary-color);
+}
+
+#course-nav a:hover {
+    background-color: var(--secondary-color);
+    transition: 0.5s;
+}
+
+#participant-container {
     padding: 1em;
+    width: 100%;
+    height: 80%;
     border-radius: 0.5em;
     border: 1px solid var(--text-color);
+    background-color: var(--input-background);
 }
 
-#course-overview h3 {
-    margin-bottom: 0.5em;
-}
-
-#course-header {
+#participant-header {
+    margin-bottom: 1em;
     display: flex;
     align-items: center;
     gap: 1em;
 }
 
 #filter-sort {
+    width: 8%;
     padding: 0.5em;
     display: flex;
+    justify-content: center;
     border: 1px solid var(--text-color);
-    border-radius: 0.2em;
+    border-radius: 0.5em;
     border: 1px solid var(--text-color);
     background-color: #FFFFFF;
+    gap: 0.5em;
 }
 
-#filter-sort select {
+#filter-sort button {
     border: none;
-    outline: none;
+    font-size: large;
+    cursor: pointer;
+    color: var(--text-color);
+    background-color: var(--input-background);
 }
 
-#filter-checkbox {
+#filter-wrapper {
+    width: 15%;
+    height: 15%;
+    padding: 1em;
     display: none;
+    flex-wrap: wrap;
+    border-radius: 0.5em;
+    border: 1px solid var(--text-color);
+    background-color: var(--input-background);
+    position: absolute;
+    transform: translate(25%, 40%);
+}
+
+#filter-button {
+    align-self: flex-end;
+    display: flex;
+    gap: 1em;
+    cursor: pointer;
+}
+
+#filter-button p {
+    padding: 0.2em;
+}
+
+#filter-button p:hover {
+    color: var(--input-background);
+    background-color: var(--secondary-color);
 }
 
 #search {
     padding: 0.5em;
     display: flex;
-    width: 90%;
-    border-radius: 0.2em;
+    width: 100%;
+    border-radius: 0.5em;
     border: 1px solid var(--text-color);
     background-color: #FFFFFF;
     gap: 0.5em;
@@ -190,59 +244,46 @@ main {
     outline: none;
 }
 
-#course-card-wrapper {
+/* PARTICIPANT LIST */
+#participant-list {
+    width: 100%;
+    height: 90%;
+    padding: 0 1em;
+}
+
+#list-header {
+    display: flex;
+    margin-bottom: 1em;
+    justify-content: space-between;
+}
+
+#list-wrapper {
     width: 100%;
     height: 80%;
-    margin-top: 1em;
-    overflow-y: auto;
+    overflow-y: scroll;
+
+    padding-right: 1em;
+}
+
+#list-item {
+    padding: 0.5em 0 ;
+    align-items: center;
     display: flex;
-    flex-wrap: wrap;
-    align-content: flex-start;
-    gap: 1.5em;
+    align-items: center;
+    justify-content: space-between;
 }
 
-#course-card-wrapper a {
-    color: var(--text-color);
-    text-decoration: none;
-    width: 18%;
-    height: 35%;
-    display: block;
-}
-
-.course-card {
-    width: 100%;
-    height: 100%;
+#list-item div {
     display: flex;
-    flex-direction: column;
-    border-radius: 0.5em;
-    border: 1px solid var(--text-color);
-    background-color: #FFFFFF;
-    overflow: hidden;
-    position: relative; /* Tambahkan ini */
+    align-items: center;
+    gap: 2em;
 }
 
-.card-color {
-    height: 60%;
-    border-radius: 0.5em 0.5em 0 0;
+/* Custom Scrollbar */
+#list-wrapper::-webkit-scrollbar {
+    width: 8px;
 }
-
-#course-card-wrapper a:nth-child(4n + 1) .card-color {
-    background-image: linear-gradient(to bottom, #FCE2A9 30%, #F8BE85 100%);
+#list-wrapper::-webkit-scrollbar-thumb {
+    background-color: #ACBD6F;
+    border-radius: 4px;
 }
-
-#course-card-wrapper a:nth-child(4n + 2) .card-color {
-    background-image: linear-gradient(to bottom, #FDFAE7 0%, #CFD8A4 100%);
-}
-
-#course-card-wrapper a:nth-child(4n + 3) .card-color {
-    background-image: linear-gradient(to bottom, #CBCBE7 30%, #9D9DBE 100%);
-}
-
-#course-card-wrapper a:nth-child(4n + 4) .card-color {
-    background-image: linear-gradient(to bottom, #E7F2FD 0%, #A4C2D8 100%);
-}
-
-.course-card h4 {
-    margin: 0.5em;
-}
-

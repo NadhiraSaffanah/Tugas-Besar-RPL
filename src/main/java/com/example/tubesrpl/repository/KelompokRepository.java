@@ -3,6 +3,7 @@ package com.example.tubesrpl.repository;
 import com.example.tubesrpl.model.Kelompok;
 import com.example.tubesrpl.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -126,8 +127,6 @@ public class KelompokRepository {
                     AND p.tahap_id = ?
                 """;
 
-        // Perhatikan: sekarang kita menggunakan 'p.tahap_id' bukan 'p.tahap_tubes_id'
-        // Dan kita menggunakan 'ak.kelompok_id'
         return jdbcTemplate.queryForObject(sqlCheck, Integer.class, kelompokId, tahapId);
     }
 
@@ -145,7 +144,67 @@ public class KelompokRepository {
         try {
             return jdbcTemplate.queryForObject(sql, kelompokRowMapper, userId, tubesId);
         } catch (Exception e) {
-            return null; //user belum join kelompok
+            return null; // user belum join kelompok
+        }
+    }
+
+    // untuk save pilihan kelompok
+    public void saveUserGroup(Long userId, Long groupId) {
+        // hapus anggota di kelompok lama
+        String deleteSql = "DELETE FROM anggota_kelompok WHERE user_id = ?";
+        jdbcTemplate.update(deleteSql, userId);
+
+        // masukin anggota ke kelompok baru
+        String insertSql = "INSERT INTO anggota_kelompok (user_id, kelompok_id) VALUES (?, ?)";
+        jdbcTemplate.update(insertSql, userId, groupId);
+    }
+
+    // Untuk menghapus pilihan kelompok
+    public void deleteUserGroup(Long userId) {
+        String sql = "DELETE FROM anggota_kelompok WHERE user_id = ?";
+        jdbcTemplate.update(sql, userId);
+    }
+
+    // Ambil kapasitas maksimal kelompok
+    public int getMaxCapacityByGroupId(Long groupId) {
+        String sql = "SELECT jml_anggota FROM kelompok WHERE id = ?";
+        Integer capacity = jdbcTemplate.queryForObject(sql, Integer.class, groupId);
+        return capacity != null ? capacity : 0;
+    }
+
+    // Ambil jumlah anggota saat ini
+    public int getCurrentMembersByGroupId(Long groupId) {
+        String sql = "SELECT COUNT(*) FROM anggota_kelompok WHERE kelompok_id = ?";
+        Integer count = jdbcTemplate.queryForObject(sql, Integer.class, groupId);
+        return count != null ? count : 0;
+    }
+
+    // untuk ngecek apakah udh join kelompok atau belom
+    public boolean isUserAlreadyInAnyGroup(Long userId, Long matkulId) {
+        String sql = """
+                    SELECT COUNT(*)
+                    FROM anggota_kelompok ak
+                    JOIN kelompok k ON ak.kelompok_id = k.id
+                    JOIN tubes t ON k.tubes_id = t.id
+                    WHERE ak.user_id = ? AND t.matkul_id = ?
+                """;
+        Integer count = jdbcTemplate.queryForObject(sql, Integer.class, userId, matkulId);
+        return count != null && count > 0;
+    }
+
+    public Long findMatkulIdByUserId(Long userId) {
+        // Mencari Matkul ID yang terkait dengan kelompok yang dimiliki user
+        String sql = """
+                    SELECT t.matkul_id
+                    FROM anggota_kelompok ak
+                    JOIN kelompok k ON ak.kelompok_id = k.id
+                    JOIN tubes t ON k.tubes_id = t.id
+                    WHERE ak.user_id = ?
+                """;
+        try {
+            return jdbcTemplate.queryForObject(sql, Long.class, userId);
+        } catch (EmptyResultDataAccessException e) {
+            return null;
         }
     }
 }
