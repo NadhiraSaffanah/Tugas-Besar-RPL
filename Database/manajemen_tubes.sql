@@ -1,16 +1,16 @@
 -- =======================
 -- DROP TABLES (RESET SAFE)
 -- =======================
+DROP TABLE IF EXISTS anggota_kelompok CASCADE;
+DROP TABLE IF EXISTS penilaian CASCADE;
+DROP TABLE IF EXISTS tahap_tubes CASCADE;
 DROP TABLE IF EXISTS kelompok CASCADE;
 DROP TABLE IF EXISTS tubes CASCADE;
-DROP TABLE IF EXISTS matkul CASCADE;
-DROP TABLE IF EXISTS matkul_semester CASCADE;
-DROP TABLE IF EXISTS penilaian CASCADE;
-DROP TABLE IF EXISTS semester CASCADE;
-DROP TABLE IF EXISTS tahap_tubes CASCADE;
 DROP TABLE IF EXISTS user_matkul CASCADE;
+DROP TABLE IF EXISTS matkul_semester CASCADE;
+DROP TABLE IF EXISTS matkul CASCADE;
+DROP TABLE IF EXISTS semester CASCADE;
 DROP TABLE IF EXISTS users CASCADE;
-DROP TABLE IF EXISTS anggota_kelompok CASCADE;
 
 -- =======================
 -- USERS
@@ -62,7 +62,7 @@ INSERT INTO users (nama, email, password_hash, role, npm, no_induk, foto_profil,
 ('Siti Nurjanah', 'siti.nurjanah@mahasiswa.edu', 'hashedpass', 'mahasiswa', '230025', NULL, NULL, 'Aktif'),
 
 --ADMIN
-('Dogman', 'dogman@admin.edu', 'hashedpass', 'admin', NULL, NULL, NULL); --butuh buat restriction role-based
+('Dogman', 'dogman@admin.edu', 'hashedpass', 'admin', NULL, NULL, NULL, 'Aktif'); --butuh buat restriction role-based
 
 
 -- =======================
@@ -178,25 +178,24 @@ CREATE TABLE tubes (
     id BIGSERIAL PRIMARY KEY,
     nama_tubes VARCHAR(100) NOT NULL,
     deskripsi VARCHAR(255),
-	jml_kelompok BIGINT,
-	matkul_id BIGINT NOT NULL REFERENCES matkul(id) ON DELETE CASCADE, 
-    status_kelompok VARCHAR(20) NOT NULL CHECK (status_kelompok IN ('Locked', 'Unlocked'))
+    jml_kelompok BIGINT,
+    matkul_id BIGINT NOT NULL REFERENCES matkul(id) ON DELETE CASCADE, 
+    is_locked BOOLEAN NOT NULL DEFAULT FALSE
 );
 
--- NOTE: ini ada beberapa tubes yang matkul_idnya sama, harusnya getMatkul, getTubes, dkk mempertimbangkan semester yang lagi ongoing/ngganya
-INSERT INTO tubes (nama_tubes, deskripsi, jml_kelompok, matkul_id) VALUES 
-('Tubes 1 - Algoritma', 'Implementasi struktur data dasar', 8, 1),
-('Tubes 2 - Algoritma', 'Penerapan linked list dan stack', 6, 1),
-('Tubes Basis Data', 'Perancangan ERD dan normalisasi tabel', 10, 3),
-('Mini Project SQL', 'Membuat query CRUD dan relasi', 7, 3),
-('Tubes PBO', 'Membuat sistem OOP dengan inheritance', 5, 5),
-('Project Final PBO', 'Aplikasi console dengan design pattern', 6, 5),
-('Tubes Jaringan', 'Simulasi jaringan menggunakan Cisco PT', 4, 7),
-('Tugas Sistem Operasi', 'Simulasi penjadwalan proses', 7, 8),
-('Project Final Sistem Operasi', 'Implementasi algoritma deadlock', 6, 8),
-('Tubes RPL', 'Dokumentasi UML dan class diagram', 9, 10),
-('Final Project RPL', 'Build aplikasi sederhana berbasis tim', 8, 10),
-('Tubes Pemrograman Web', 'Website CRUD dengan routing dan template', 10, 9);
+INSERT INTO tubes (nama_tubes, deskripsi, jml_kelompok, matkul_id, is_locked) VALUES 
+('Tubes 1 - Algoritma', 'Implementasi struktur data dasar', 8, 1, FALSE),
+('Tubes 2 - Algoritma', 'Penerapan linked list dan stack', 6, 1, FALSE),
+('Tubes Basis Data', 'Perancangan ERD dan normalisasi tabel', 10, 3, FALSE),
+('Mini Project SQL', 'Membuat query CRUD dan relasi', 7, 3, FALSE),
+('Tubes PBO', 'Membuat sistem OOP dengan inheritance', 5, 5, FALSE),
+('Project Final PBO', 'Aplikasi console dengan design pattern', 6, 5, FALSE),
+('Tubes Jaringan', 'Simulasi jaringan menggunakan Cisco PT', 4, 7, FALSE),
+('Tugas Sistem Operasi', 'Simulasi penjadwalan proses', 7, 8, FALSE),
+('Project Final Sistem Operasi', 'Implementasi algoritma deadlock', 6, 8, FALSE),
+('Tubes RPL', 'Dokumentasi UML dan class diagram', 9, 10, FALSE),
+('Final Project RPL', 'Build aplikasi sederhana berbasis tim', 8, 10, FALSE),
+('Tubes Pemrograman Web', 'Website CRUD dengan routing dan template', 10, 9, FALSE);
 
 -- ======================================
 -- KELOMPOK
@@ -226,7 +225,7 @@ INSERT INTO kelompok (nama_kelompok, jml_anggota, tubes_id) VALUES
 ('Kelompok A', 6, 8),
 ('Kelompok B', 6, 8);
 
-ALTER TABLE tubes ADD COLUMN is_locked BOOLEAN DEFAULT FALSE; -- baru buat lock
+-- ALTER TABLE tubes ADD COLUMN is_locked BOOLEAN DEFAULT FALSE; -- baru buat lock
 
 -- ======================================
 -- TAHAP TUBES
