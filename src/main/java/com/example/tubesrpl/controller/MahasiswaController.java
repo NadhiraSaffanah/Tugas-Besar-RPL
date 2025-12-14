@@ -9,13 +9,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.example.tubesrpl.model.Kelompok;
 import com.example.tubesrpl.model.TahapTubes; // GANTI Phase jadi TahapTubes
 import com.example.tubesrpl.model.Tubes;
 import com.example.tubesrpl.model.User;
+import com.example.tubesrpl.repository.KelompokRepository;
 import com.example.tubesrpl.repository.MatkulRepository;
 import com.example.tubesrpl.repository.TahapRepository; // GANTI PhaseRepository jadi TahapRepository
 import com.example.tubesrpl.repository.TubesRepository;
@@ -37,6 +40,9 @@ public class MahasiswaController {
 
     @Autowired
     private TahapRepository tahapRepository; // Rename
+
+    @Autowired
+    private KelompokRepository kelompokRepository;
 
     @ModelAttribute("user")
     public User userSession(HttpSession session) {
@@ -75,7 +81,7 @@ public class MahasiswaController {
 
         Map<String, Object> headerInfo = matkulRepository.findHeaderInfo(matkulId);
 
-        // konversi java.sql.Date -> java.time.LocalDate 
+        // konversi java.sql.Date -> java.time.LocalDate
         if (headerInfo.get("start_date") != null) {
             java.sql.Date sqlDate = (java.sql.Date) headerInfo.get("start_date");
             headerInfo.put("start_date", sqlDate.toLocalDate());
@@ -107,7 +113,7 @@ public class MahasiswaController {
         model.addAttribute("user", user);
         model.addAttribute("isGroupLocked", isLocked);
 
-        return "mahasiswa/course-details";
+        return "Mahasiswa/course-details";
     }
 
     @GetMapping("/grading-phase")
@@ -123,7 +129,8 @@ public class MahasiswaController {
         Optional<Tubes> tubesOpt = tubesRepository.findById(tubesId);
         if (tubesOpt.isPresent()) {
             Tubes tubes = tubesOpt.get();
-            model.addAttribute("matkulId", tubes.getIdMatkul()); // Simpan matkulId ke model supaya bisa dipakai di tombol "Back"
+            model.addAttribute("matkulId", tubes.getIdMatkul()); // Simpan matkulId ke model supaya bisa dipakai di
+                                                                 // tombol "Back"
         }
 
         List<TahapTubes> listTahap = tahapRepository.findAllByTubesId(tubesId);
@@ -131,7 +138,7 @@ public class MahasiswaController {
         model.addAttribute("listTahap", listTahap);
         model.addAttribute("tubesId", tubesId);
 
-        return "mahasiswa/course-nav-grading-phase";
+        return "Mahasiswa/course-nav-grading-phase";
     }
 
     @GetMapping("/profile")
@@ -141,16 +148,17 @@ public class MahasiswaController {
             return "redirect:/login";
         model.addAttribute("mahasiswa", user);
 
-        return "mahasiswa/profile-page";
+        return "Mahasiswa/profile-page";
     }
 
     // ROUTING UNTUK COURSE PARTICIPANT
     @GetMapping("/participant")
     public String courseNavParticipant(@RequestParam(name = "id") Long tubesId, Model model, HttpSession session) {
         User user = (User) session.getAttribute("user");
-        if (user == null) return "redirect:/login";
+        if (user == null)
+            return "redirect:/login";
         model.addAttribute("user", user);
-        
+
         // ambil id matkul dari Tubes, ini buat back aja sih
         Long matkulId = null;
         Optional<Tubes> tubesOpt = tubesRepository.findById(tubesId);
@@ -166,15 +174,59 @@ public class MahasiswaController {
         }
 
         model.addAttribute("tubesId", tubesId);
-        return "mahasiswa/course-nav-participant";
+        return "Mahasiswa/course-nav-participant";
     }
-    
 
+    @GetMapping("/course-nav-group")
+    public String showGroup(@RequestParam(name = "id") Long tubesId, Model model, HttpSession session) {
 
+        User user = (User) session.getAttribute("user");
+        if (user == null)
+            return "redirect:/login";
+        model.addAttribute("user", user);
 
-    // @GetMapping("/group")
-    // public String showGroup() {
+        Optional<Tubes> tubesOpt = tubesRepository.findById(tubesId);
+        if (tubesOpt.isPresent()) {
+            Tubes tubes = tubesOpt.get();
+            model.addAttribute("tubes", tubes);
+            model.addAttribute("matkulId", tubes.getIdMatkul());
 
-    // }
+            tubesRepository.syncGroupCount(tubesId, tubes.getJmlKelompok());
+        }
+
+        // ambil data kelompok
+        List<Kelompok> listKelompok = kelompokRepository.findAllByTubesId(tubesId);
+        Kelompok myKelompok = kelompokRepository.findKelompokByUserAndTubes(user.getId(), tubesId);
+
+        // untuk kasih tau status udah join kelompok atau belum
+        boolean alreadyJoined = (myKelompok != null);
+
+        for (Kelompok k : listKelompok) {
+            List<User> anggotas = kelompokRepository.findAnggotaByKelompokId(k.getId());
+            k.setListAnggota(anggotas);
+        }
+
+        model.addAttribute("listKelompok", listKelompok);
+        model.addAttribute("user", user);
+        model.addAttribute("tubesId", tubesId);
+        model.addAttribute("alreadyJoined", alreadyJoined);
+        model.addAttribute("myKelompok", myKelompok);
+
+        return "Mahasiswa/course-nav-group";
+    }
+
+    @PostMapping("/course-nav-group")
+    public String handleGroupChoice(@RequestParam Long tubesId,
+            @RequestParam(required = false) Long selectedGroup,
+            @RequestParam String action,
+            HttpSession session) {
+        User user = (User) session.getAttribute("user");
+
+        if ("save".equals(action)) {
+        } else if ("remove".equals(action)) {
+        }
+
+        return "redirect:/mahasiswa/course-nav-group?id=" + tubesId;
+    }
 
 }

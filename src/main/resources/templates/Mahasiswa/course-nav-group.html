@@ -1,89 +1,116 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Course Group</title>
-    <link rel="stylesheet" th:href="@{/css/dosen/course-home.css}">
+    <link rel="stylesheet" th:href="@{/css/mahasiswa/course-nav-group.css}">
 </head>
+
 <body>
     <header>
-            <nav>
-                <ul id="nav-left">
-                    <li><img th:src="@{/images/book.png}" alt="book icon"></li>
-                    <li><a th:href="@{/mahasiswa/home}">Home</a></li>
-                    <li><a th:href="@{/mahasiswa/course}">Course</a></li>
-                </ul>
-                <ul id="nav-right">
-                    <li>
-                        <span th:text="${mahasiswa.nama}">Nama Mahasiswa</span> 
-                        <span th:text="${mahasiswa.email}">email</span>
-                    </li>
-                    <li>
-                        <div>
-                            <a th:href="@{/mahasiswa/profile}">
-                                <img th:src="@{/images/default-profile.png}" alt="profile">
-                            </a>
-                        </div>    
-                    </li>
-                    <li><img th:src="@{/images/bell.png}" alt="notif"></li>
-                    <li><a th:href="@{/logout}"><img th:src="@{/images/logout.png}" alt="logout"></a></li>
-                </ul>
-            </nav>
-        </header>
+        <nav>
+            <ul id="nav-left">
+                <li><img th:src="@{/images/book.png}" alt="book icon"></li>
+                <li><a th:href="@{/mahasiswa/home}">Home</a></li>
+                <li><a th:href="@{/mahasiswa/course}">Course</a></li>
+            </ul>
+            <ul id="nav-right">
+                <li>
+                    <span th:text="${user.nama}">Nama Mahasiswa</span>
+                    <span th:text="${user.email}">email</span>
+                </li>
+                <li>
+                    <div>
+                        <a th:href="@{/mahasiswa/profile}">
+                            <img th:src="@{/images/default-profile.png}" alt="profile">
+                        </a>
+                    </div>
+                </li>
+                <li><img th:src="@{/images/bell.png}" alt="notif"></li>
+                <li><a th:href="@{/logout}"><img th:src="@{/images/logout.png}" alt="logout"></a></li>
+            </ul>
+        </nav>
+    </header>
 
-    <main>
-        <section id="course-nav">
-            <a th:href="@{/mahasiswa/course/nav/grading}"><p>Grading</p></a>
-            <a th:href="@{/mahasiswa/course/nav/participant}"><p>Participant</p></a>
-            <a th:href="@{/mahasiswa/course/nav/group}"><p>Group</p></a>
-        </section>
+    <main class="main-content">
+        <!--Nav Page-->
+        <nav class="course-tabs">
+            <a th:href="@{/mahasiswa/grading-phase(id=${selectedMatkulId})}" class="tab-button"
+                name="Grading">Grading</a>
+            <a th:href="@{/mahasiswa/course-nav-participant(id=${selectedMatkulId})}" class="tab-button"
+                name="Participants">Participant</a>
+            <a th:href="@{/mahasiswa/course-nav-group(id=${selectedMatkulId})}" class="tab-button"
+                name="Group">Groups</a>
+        </nav>
 
-        <div id="lock-button">
-                <img th:src="@{/images/lock-group.svg}" alt="lock group icon">
-                <p>Unlock</p>
+        <div id="status-group">
+            <img th:if="${tubes.isLocked}" th:src="@{/images/lock-group.svg}" alt="Group Locked">
+            <img th:unless="${tubes.isLocked}" th:src="@{/images/unlock-group.svg}" alt="Group Unlocked">
         </div>
-        
-        <section id="group-list">
-            <div id="table-container">
+
+        <section id="view-group-container">
+
+            <div id="table-wrapper">
                 <table>
                     <thead>
                         <tr>
-                            <th>Choices</th>
+                            <th>Choice</th>
                             <th>Group</th>
-                            <th>Members</th>
-                            <th>Group <br>Members</th>
-                            <th><button>Show Group<br>Members</button></th>
+                            <th>Capacity</th>
+                            <th>Group Members</th>
+                            <th class="header-with-button">
+                                <button type="button" id="show-selected-group-btn">Show Group Members</button>
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>Group <span>A</span></td>
-                            <td>7</td>
-                            <div></div>
-                            <!-- TAMPILKAN SAAT TOMBOL SHOW MEMBER DITEKAN-->
-                            <td class="member-card">
-                                <div>61822010@student</div>
-                                <div>61822010@student</div>
-                                <div>61822010@student</div>
-                                <div>61822010@student</div>
+                        <tr th:each="group : ${listKelompok}">
+                            <td style="text-align: center;">
+                                <input type="radio" name="selectedGroup" th:id="|group-${group.id}|"
+                                    th:value="${group.id}" th:checked="${group.id == selectedGroupId}"
+                                    th:disabled="${tubes.isLocked or alreadyJoined}">
+                                <label th:for="|group-${group.id}|"></label>
+                            </td>
+                            <td>
+                                <span th:text="${group.namaKelompok}" style="font-weight:bold;"></span>
+                            </td>
+
+                            <td th:text="${group.jmlAnggota}"></td>
+
+                            <td class="member-list">
+                                <div class="member-wrapper">
+                                    <div th:if="${not #lists.isEmpty(group.listAnggota)}">
+                                        <div th:each="member : ${group.listAnggota}" class="member-item">
+                                            <span th:text="${member.nama}">Nama</span>
+                                        </div>
+                                    </div>
+                                    <div th:if="${#lists.isEmpty(group.listAnggota)}"
+                                        style="color: #aaa; font-style: italic;">
+                                        No members yet
+                                    </div>
+                                </div>
                             </td>
                         </tr>
-                        <tr>
-                            <td>Group <span>A</span></td>
-                            <td>7</td>
-                            <td class="member-card">
-                                <div>61822010@student</div>
-                                <div>61822010@student</div>
-                                <div>61822010@student</div>
-                                <div>61822010@student</div>
+
+                        <tr th:if="${#lists.isEmpty(listKelompok)}">
+                            <td colspan="4" style="text-align: center; padding: 2em; color: gray;">
+                                No groups created yet.
                             </td>
                         </tr>
                     </tbody>
                 </table>
+
+                <div style="text-align:center; margin-top:20px;">
+                    <button type="submit" class="save-btn"
+                        th:text="${alreadyJoined ? 'Remove My Choice' : 'Save My Choice'}" th:name="action"
+                        th:value="${alreadyJoined ? 'remove' : 'save'}" th:disabled="${tubes.isLocked}">
+                    </button>
+                </div>
             </div>
-        </section>
-        
+
     </main>
 </body>
+
 </html>

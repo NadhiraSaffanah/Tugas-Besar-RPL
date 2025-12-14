@@ -26,21 +26,20 @@ public class KelompokRepository {
         return k;
     };
 
-
     private static final RowMapper<User> memberRowMapper = (rs, rowNum) -> {
         User u = new User();
-        u.setId(rs.getLong("id")); 
+        u.setId(rs.getLong("id"));
         return u;
     };
 
     public List<User> findAnggotaByKelompokId(Long kelompokId) {
         String sql = """
-            SELECT u.* FROM users u
-            JOIN anggota_kelompok ak ON u.id = ak.user_id
-            WHERE ak.kelompok_id = ?
-            ORDER BY u.nama ASC
-        """;
-        
+                    SELECT u.* FROM users u
+                    JOIN anggota_kelompok ak ON u.id = ak.user_id
+                    WHERE ak.kelompok_id = ?
+                    ORDER BY u.nama ASC
+                """;
+
         return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(User.class), kelompokId);
     }
 
@@ -50,16 +49,15 @@ public class KelompokRepository {
 
         for (Kelompok k : listKelompok) {
             String sqlAnggota = """
-                SELECT u.* FROM users u
-                JOIN anggota_kelompok ak ON u.id = ak.user_id
-                WHERE ak.kelompok_id = ?
-            """;
+                        SELECT u.* FROM users u
+                        JOIN anggota_kelompok ak ON u.id = ak.user_id
+                        WHERE ak.kelompok_id = ?
+                    """;
 
             List<User> anggotas = jdbcTemplate.query(
-                sqlAnggota, 
-                new org.springframework.jdbc.core.BeanPropertyRowMapper<>(User.class), 
-                k.getId()
-            );
+                    sqlAnggota,
+                    new org.springframework.jdbc.core.BeanPropertyRowMapper<>(User.class),
+                    k.getId());
             k.setListAnggota(anggotas);
         }
 
@@ -84,19 +82,20 @@ public class KelompokRepository {
     // cari mahasiswa yg belum masuk kelompok
     public List<User> findAvailableStudents(Long matkulId, Long tubesId) {
         String sql = """
-            SELECT u.* FROM users u
-            JOIN user_matkul um ON u.id = um.user_id
-            WHERE um.matkul_id = ?
-            AND u.id NOT IN (
-                SELECT ak.user_id 
-                FROM anggota_kelompok ak
-                JOIN kelompok k ON ak.kelompok_id = k.id
-                WHERE k.tubes_id = ?
-            )
-            ORDER BY u.nama ASC
-        """;
-        
-        return jdbcTemplate.query(sql, new org.springframework.jdbc.core.BeanPropertyRowMapper<>(User.class), matkulId, tubesId);
+                    SELECT u.* FROM users u
+                    JOIN user_matkul um ON u.id = um.user_id
+                    WHERE um.matkul_id = ?
+                    AND u.id NOT IN (
+                        SELECT ak.user_id
+                        FROM anggota_kelompok ak
+                        JOIN kelompok k ON ak.kelompok_id = k.id
+                        WHERE k.tubes_id = ?
+                    )
+                    ORDER BY u.nama ASC
+                """;
+
+        return jdbcTemplate.query(sql, new org.springframework.jdbc.core.BeanPropertyRowMapper<>(User.class), matkulId,
+                tubesId);
     }
 
     public void updateAnggotaKelompok(Long kelompokId, List<Long> userIds) {
@@ -105,10 +104,10 @@ public class KelompokRepository {
 
         if (userIds != null && !userIds.isEmpty()) {
             String insertSql = "INSERT INTO anggota_kelompok (kelompok_id, user_id) VALUES (?, ?)";
-            
+
             List<Object[]> batchArgs = new ArrayList<>();
             for (Long uid : userIds) {
-                batchArgs.add(new Object[]{kelompokId, uid});
+                batchArgs.add(new Object[] { kelompokId, uid });
             }
             jdbcTemplate.batchUpdate(insertSql, batchArgs);
         }
@@ -116,19 +115,37 @@ public class KelompokRepository {
 
     public Integer countGradedMembersByGroupAndTahap(Long kelompokId, Long tahapId) {
         String sqlCheck = """
-            SELECT COUNT(p.user_id) 
-            FROM penilaian p 
-            
-            -- JOIN ke anggota_kelompok untuk menghubungkan Penilaian dengan Kelompok
-            JOIN anggota_kelompok ak ON p.user_id = ak.user_id 
-            
-            -- Filter berdasarkan ID Kelompok (dari tabel ak) dan ID Tahap (dari tabel p)
-            WHERE ak.kelompok_id = ? 
-            AND p.tahap_id = ?
-        """;
-        
+                    SELECT COUNT(p.user_id)
+                    FROM penilaian p
+
+                    -- JOIN ke anggota_kelompok untuk menghubungkan Penilaian dengan Kelompok
+                    JOIN anggota_kelompok ak ON p.user_id = ak.user_id
+
+                    -- Filter berdasarkan ID Kelompok (dari tabel ak) dan ID Tahap (dari tabel p)
+                    WHERE ak.kelompok_id = ?
+                    AND p.tahap_id = ?
+                """;
+
         // Perhatikan: sekarang kita menggunakan 'p.tahap_id' bukan 'p.tahap_tubes_id'
         // Dan kita menggunakan 'ak.kelompok_id'
         return jdbcTemplate.queryForObject(sqlCheck, Integer.class, kelompokId, tahapId);
+    }
+
+    // new
+    public Kelompok findKelompokByUserAndTubes(Long userId, Long tubesId) {
+        String sql = """
+                    SELECT k.*
+                    FROM kelompok k
+                    JOIN anggota_kelompok ak ON k.id = ak.kelompok_id
+                    WHERE ak.user_id = ?
+                    AND k.tubes_id = ?
+                    LIMIT 1
+                """;
+
+        try {
+            return jdbcTemplate.queryForObject(sql, kelompokRowMapper, userId, tubesId);
+        } catch (Exception e) {
+            return null; //user belum join kelompok
+        }
     }
 }
