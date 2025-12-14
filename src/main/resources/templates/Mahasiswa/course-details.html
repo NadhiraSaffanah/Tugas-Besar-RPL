@@ -25,8 +25,8 @@
                     </li>
                     <li>
                         <div>
-                            <a th:href="@{/mahasiswa/profile}">
-                                <img th:src="@{/images/default-profile.png}" alt="profile">
+                            <a th:href="@{/mahasiswa/profile-page}">
+                                <img th:src="@{/images/default-profile.jpg}" alt="profile">
                             </a>
                         </div>
                     </li>
@@ -99,7 +99,7 @@
                         <div class="phasePrev-box">
                             <div class="box-header">
                                 <h3>Phase</h3>
-                                <a th:href="@{/mahasiswa/course/nav/grading(id=${selectedMatkulId})}">
+                                <a th:href="@{/mahasiswa/grading-phase(id=${selectedMatkulId})}">
                                     <img th:src="@{/images/view-details.svg}" alt="view details">
                                 </a>
                             </div>
@@ -122,16 +122,16 @@
 
                                         <td th:text="${tahap.namaTahap}">SRS</td>
 
-                                        <td th:text="${#temporals.format(tahap.deadline, 'EEEE, d MMM yyyy HH:mm')}">
+                                        <td th:text="${#temporals.format(tahap.tanggalAkhir, 'EEEE, d MMM yyyy')}">
                                         </td>
 
                                         <td th:text="${tahap.statusPenilaian == 'Graded'} ? 'Graded' : 'Not Graded'">
                                         </td>
 
                                         <td>
-                                            <a th:href="@{/mahasiswa/course/tahap/detail(tahapId=${tahap.id}, matkulId=${selectedMatkulId})}"
-                                                class="view-button">
-                                                <i class="fas fa-eye"></i> View
+                                            <a href="javascript:void(0)" class="view-comment-btn"
+                                                th:attr="data-tahapid=${tahap.id}">
+                                                View Comment
                                             </a>
                                         </td>
                                     </tr>
@@ -154,7 +154,7 @@
 
                                     <div th:if="${!isGroupLocked}">
                                         <span class="status-tag-unlocked">Not Locked</span>
-                                        <a th:href="@{/mahasiswa/course/group/view(id=${selectedMatkulId})}"
+                                        <a th:href="@{/mahasiswa/course-nav-group(id=${selectedMatkulId})}"
                                             title="View Group">
                                             <img th:src="@{/images/view-details.svg}" alt="view details">
                                         </a>
@@ -162,7 +162,7 @@
 
                                     <div th:if="${isGroupLocked}">
                                         <span class="status-tag-locked">Locked</span>
-                                        <a th:href="@{/mahasiswa/course/group/view(id=${selectedMatkulId})}"
+                                        <a th:href="@{/mahasiswa/course-nav-group(id=${selectedMatkulId})}"
                                             title="View Group">
                                             <img th:src="@{/images/view-details.svg}" alt="view details">
                                         </a>
@@ -170,13 +170,26 @@
                                 </div>
                             </div>
                             <div class="group-name" name="group-name" th:if="${groupName != null}"><span
-                                    th:text="${groupName}"></div>
+                                    th:text="${groupName}">A</div>
                         </div>
                     </section>
                 </section>
             </div>
         </main>
+
     </div>
+
+    <!-- OVERLAY UNTUK MODAL -->
+    <div id="comment-overlay"></div>
+
+    <!-- MODAL COMMENT -->
+    <section id="popup-comment">
+        <h2>Comment</h2>
+        <div id="comment-content">
+            <p id="comment-text">This is a sample comment.</p>
+        </div>
+        <button class="closeComment">Close</button>
+    </section>
 </body>
 
 </html>

@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Course Group</title>
     <link rel="stylesheet" th:href="@{/css/mahasiswa/course-nav-group.css}">
+    <script th:src="@{/js/mahasiswa/Group.js}" defer></script>
 </head>
 
 <body>
@@ -23,7 +24,7 @@
                 </li>
                 <li>
                     <div>
-                        <a th:href="@{/mahasiswa/profile}">
+                        <a th:href="@{/mahasiswa/profile-page}">
                             <img th:src="@{/images/default-profile.png}" alt="profile">
                         </a>
                     </div>
@@ -45,70 +46,89 @@
                 name="Group">Groups</a>
         </nav>
 
-        <div id="status-group">
-            <img th:if="${tubes.isLocked}" th:src="@{/images/lock-group.svg}" alt="Group Locked">
-            <img th:unless="${tubes.isLocked}" th:src="@{/images/unlock-group.svg}" alt="Group Unlocked">
-        </div>
-
         <section id="view-group-container">
 
-            <div id="table-wrapper">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Choice</th>
-                            <th>Group</th>
-                            <th>Capacity</th>
-                            <th>Group Members</th>
-                            <th class="header-with-button">
-                                <button type="button" id="show-selected-group-btn">Show Group Members</button>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr th:each="group : ${listKelompok}">
-                            <td style="text-align: center;">
-                                <input type="radio" name="selectedGroup" th:id="|group-${group.id}|"
-                                    th:value="${group.id}" th:checked="${group.id == selectedGroupId}"
-                                    th:disabled="${tubes.isLocked or alreadyJoined}">
-                                <label th:for="|group-${group.id}|"></label>
-                            </td>
-                            <td>
-                                <span th:text="${group.namaKelompok}" style="font-weight:bold;"></span>
-                            </td>
+            <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
+            <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
+            <form th:action="@{/mahasiswa/course-nav-group/submit}" method="POST">
+                <input type="hidden" name="id" th:value="${tubesId}" />
 
-                            <td th:text="${group.jmlAnggota}"></td>
+                <div id="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Choice</th>
+                                <th>Group</th>
+                                <th>Capacity</th>
+                                <th>Group Members</th>
+                                <th class="header-with-button">
+                                    <button type="button" id="show-selected-group-btn">Show Group Members</button>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="group : ${listKelompok}">
+                                <td style="text-align: center;">
+                                    <input type="radio" name="selectedGroup" th:id="|group-${group.id}|"
+                                        th:value="${group.id}" th:checked="${group.id == selectedGroupId}"
+                                        th:disabled="${tubes.isLocked}">
+                                    <label th:for="|group-${group.id}|"></label>
+                                </td>
+                                <td>
+                                    <span th:text="${group.namaKelompok}" style="font-weight:bold;">Nama Kelompok
+                                        X</span>
+                                </td>
 
-                            <td class="member-list">
-                                <div class="member-wrapper">
-                                    <div th:if="${not #lists.isEmpty(group.listAnggota)}">
-                                        <div th:each="member : ${group.listAnggota}" class="member-item">
-                                            <span th:text="${member.nama}">Nama</span>
+                                <td th:text="${group.jmlAnggota}">X</td>
+
+                                <td class="member-list">
+                                    <div class="member-wrapper">
+                                        <div th:if="${not #lists.isEmpty(group.listAnggota)}">
+                                            <div th:each="member : ${group.listAnggota}" class="member-item">
+                                                <span th:text="${member.nama}">Nama Anggota</span>
+                                            </div>
+                                        </div>
+                                        <div th:if="${#lists.isEmpty(group.listAnggota)}"
+                                            style="color: #aaa; font-style: italic;">
+                                            No members yet
                                         </div>
                                     </div>
-                                    <div th:if="${#lists.isEmpty(group.listAnggota)}"
-                                        style="color: #aaa; font-style: italic;">
-                                        No members yet
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
+                                </td>
+                                <td>
+                                </td>
+                            </tr>
 
-                        <tr th:if="${#lists.isEmpty(listKelompok)}">
-                            <td colspan="4" style="text-align: center; padding: 2em; color: gray;">
-                                No groups created yet.
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                            <tr th:if="${#lists.isEmpty(listKelompok)}">
+                                <td colspan="5" style="text-align: center; padding: 2em; color: gray;">
+                                    No groups created yet.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
 
-                <div style="text-align:center; margin-top:20px;">
-                    <button type="submit" class="save-btn"
-                        th:text="${alreadyJoined ? 'Remove My Choice' : 'Save My Choice'}" th:name="action"
-                        th:value="${alreadyJoined ? 'remove' : 'save'}" th:disabled="${tubes.isLocked}">
-                    </button>
+                    <div style="text-align:center; margin-top:20px;">
+                        <button type="submit" class="save-btn" th:if="${not alreadyJoined and not tubes.isLocked}"
+                            th:text="'Save My Choice'" th:name="action" value="save">
+                            Save My Choice
+                        </button>
+
+                        <button type="submit" class="save-btn" th:if="${alreadyJoined and not tubes.isLocked}"
+                            th:name="action" value="remove">
+                            Remove My Choice
+                        </button>
+
+                        <button type="button" class="disabled-btn" th:if="${tubes.isLocked}" disabled>
+                            Group Selection Locked
+                        </button>
+
+                        <p th:if="${tubes.isLocked}"
+                            style="color: var(--danger-color); font-size: 0.9em; margin-top: 10px;">
+                            Group selection has been locked by lecturer.
+                        </p>
+                    </div>
                 </div>
-            </div>
+
+            </form>
 
     </main>
 </body>
