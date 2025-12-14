@@ -25,7 +25,10 @@
                 <li>
                     <div>
                         <a href="/profile">
-                            <img src="" alt="profile picture">
+                            <img th:src="${user.fotoProfil != null} 
+                            ? @{/uploads/profile/{f}(f=${user.fotoProfil})} 
+                            : @{/images/default_profile.png}" 
+                            alt="profile picture">
                         </a>
                     </div>
                 </li>
