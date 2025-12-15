@@ -10,7 +10,8 @@ description = "Sistem manajemen tugas besar untuk dosen dan mahasiswa."
 
 java {
 	toolchain {
-		languageVersion = JavaLanguageVersion.of(21)
+		// languageVersion = JavaLanguageVersion.of(17)
+        languageVersion = JavaLanguageVersion.of(21)
 	}
 }
 

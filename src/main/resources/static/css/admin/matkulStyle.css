@@ -1,0 +1,601 @@
+:root {
+    --text-color: #535F24;
+    --secondary-color: #ACBD6F;
+    --background-color: #FDFAE7;
+    --button-color: #8FA053;
+    --input-background: #FFFFFF;
+    --input-border: #D8D8D8;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: var(--background-color);
+    display: grid;
+    height: 100vh;
+    grid-template-areas: 
+        "header"
+        "main";
+    grid-template-rows: auto 1fr;
+}
+
+body::-webkit-scrollbar {
+    display: none;
+}
+
+header {
+    position: sticky;
+    top: 0;
+    z-index: 99;
+    grid-area: header;
+    width: 100%;
+    background-color: var(--secondary-color);
+    padding: 0.5em 0;
+    color: #FFFFFF;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.1em;
+}
+
+nav ul {
+    list-style-type: none;
+    display: flex;
+    align-items: center;
+    gap: 1.5em;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #FFFFFF;
+}
+
+nav img {
+    width: 2.5em;
+    filter: brightness(0) invert(1);
+}
+
+#nav-left {
+    width: 20%;
+    margin-left: 2em;
+}
+
+#nav-left img {
+    transform: scale(1);
+}
+
+#nav-left li:nth-child(3) {
+    background-color: var(--button-color);
+}
+
+#nav-left li:nth-child(2),
+#nav-left li:nth-child(3) {
+    padding: 0.5em;
+}
+
+#nav-left li:nth-child(2):hover,
+#nav-left li:nth-child(3):hover {
+    cursor: pointer;
+    background-color: var(--button-color);
+}
+
+#nav-right {
+    margin-right: 2em;
+    cursor: pointer;
+}
+
+#nav-right li:first-child {
+    display: flex;
+    flex-direction: column;
+    text-align: right;
+    font-size: small;
+    justify-content: end;
+}
+
+#nav-right div {
+    width: 3.5em;
+    height: 3.5em;
+    background-color: rgb(198, 172, 209);
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+#nav-right div img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: none;
+}
+
+#nav-right li:hover {
+    background-color: var(--button-color);
+}
+
+/* MAIN CONTENT */
+main {
+    grid-area: main;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    gap: 2em;
+}
+
+#course-overview {
+    color: var(--text-color);
+    width: 95%;
+    height: 90%;
+    margin-top: 2em;
+    padding: 1em;
+    border-radius: 0.5em;
+    border: 1px solid var(--text-color);
+}
+
+#course-overview h3 {
+    margin-bottom: 0.5em;
+}
+
+#course-header {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+}
+
+#filter-sort {
+    padding: 0.5em;
+    display: flex;
+    border: 1px solid var(--text-color);
+    border-radius: 0.2em;
+    border: 1px solid var(--text-color);
+    background-color: #FFFFFF;
+}
+
+#filter-sort select {
+    border: none;
+    outline: none;
+}
+
+#filter-checkbox {
+    display: none;
+}
+
+#search {
+    padding: 0.5em;
+    display: flex;
+    width: 90%;
+    border-radius: 0.2em;
+    border: 1px solid var(--text-color);
+    background-color: #FFFFFF;
+    gap: 0.5em;
+}
+
+#search input {
+    width: 100%;
+    border: none;
+    outline: none;
+}
+
+#course-card-wrapper {
+    width: 100%;
+    height: 80%;
+    margin-top: 1em;
+    overflow-y: auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    gap: 1.5em;
+}
+
+#course-card-wrapper a {
+    color: var(--text-color);
+    text-decoration: none;
+    width: 18%;
+    height: 35%;
+    display: block;
+}
+
+
+.course-card {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    border-radius: 0.5em;
+    border: 1px solid var(--text-color);
+    background-color: #FFFFFF;
+    overflow: visible;
+    margin: 0.5em; /* ini butuh */
+    position: relative;
+}
+
+.card-color {
+    height: 90%;
+    border-radius: 0.5em 0.5em 0 0;
+}
+
+#course-card-wrapper a:nth-child(4n + 1) .card-color {
+    background-image: linear-gradient(to bottom, #FCE2A9 30%, #F8BE85 100%);
+}
+
+#course-card-wrapper a:nth-child(4n + 2) .card-color {
+    background-image: linear-gradient(to bottom, #FDFAE7 0%, #CFD8A4 100%);
+}
+
+#course-card-wrapper a:nth-child(4n + 3) .card-color {
+    background-image: linear-gradient(to bottom, #CBCBE7 30%, #9D9DBE 100%);
+}
+
+#course-card-wrapper a:nth-child(4n + 4) .card-color {
+    background-image: linear-gradient(to bottom, #E7F2FD 0%, #A4C2D8 100%);
+}
+
+.course-card h4 {
+    color: var(--text-color);
+}
+
+.course-card img {
+    height: 2em;
+    width: auto;
+}
+
+/*======== NEW BUAT ADMIN ========*/
+/* tombol add gede berbentuk card pada list card matkul & semester */
+#create-course-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#create-course-button {
+    border: 1px solid var(--text-color);
+    background-color: #FFFFFF;
+    width: 18%;
+    height: 35%;
+    border-radius: 0.5em;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    padding: 0;
+}
+
+#create-course-button h4 {
+    margin: 0.5em;
+    font-size: 1.3em;
+    color: var(--text-color);
+}
+
+#create-course-button .create-color {
+    display: flex;
+    align-items: center;
+    justify-self: center;
+    height: 90%;
+    border-radius: 0.5em 0.5em 0 0;
+}
+
+/* keterangan card */
+.card-name {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    padding: 5px;
+    position: relative;
+}
+
+.card-name h4 {
+    flex: 1;
+}
+
+/* Menu ellipsis buat delete matkul & semester */
+.menu-container {
+    position: relative;
+    z-index: 10;
+}
+
+.menu-icon {
+    width: 1em;
+    height: 1em;
+    cursor: pointer;
+    padding: 0.3em;
+    border-radius: 0.3em;
+    transition: background-color 0.2s;
+    display: block;
+}
+
+.menu-icon:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* buat menu ellipsis */
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 0.3em;
+    background-color: white;
+    border: 1px solid var(--input-border);
+    border-radius: 0.3em;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    min-width: 100px;
+    z-index: 20;
+}
+
+.dropdown-menu.show {
+    display: block;
+}
+
+.dropdown-menu .delete-btn {
+    width: 100%;
+    padding: 0.7em 1em;
+    border: none;
+    background-color: white;
+    color: #d32f2f;
+    cursor: pointer;
+    text-align: left;
+    font-size: 0.9em;
+    border-radius: 0.3em;
+    transition: background-color 0.2s;
+}
+
+.dropdown-menu .delete-btn:hover {
+    background-color: #ffebee;
+}
+
+/*======= POPUP ADMIN =======*/
+/* popnya itu sendiri (general css) */
+.popup {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: max-content;
+  border: 1px solid var(--text-color); 
+  border-radius: 0.5em;
+  padding: 20px;
+  background-color: white;
+  z-index: 10;
+}
+
+.popup-top { /* penempatan tombol close */
+    display: flex;
+    width: 100%;
+    justify-content: right;
+}
+
+.popup-top input{  /* tombol close */
+    width: 1.3em;
+}
+
+.popup-bottom{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    row-gap: 20px;
+    padding-left: 30px;
+    padding-right: 30px;
+    row-gap: 20px;
+}
+
+/* buat "forms" di popup (general css) */
+.popup-header {
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    width: 100%;
+}
+
+.popup-header h1 {
+    color: var(--text-color);
+    margin-bottom: 0.3em;
+}
+
+.popup-header span {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+
+/* container pasangan input */
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3em;
+    flex: 1;
+}
+
+/* pasangan label & input */
+.input-group label {
+    color: var(--text-color);
+    font-size: 0.9em;
+    font-weight: 500;
+}
+
+.manual-input {
+    padding: 0.7em;
+    border: 1px solid var(--input-border);
+    border-radius: 0.3em;
+    background-color: var(--input-background);
+    font-size: 1em;
+}
+
+
+/* khusus buat bagian nambah matkul */
+.course-list {
+    display: flex;
+    flex-direction: column;
+    height: 200px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    border: 1px solid var(--input-border);
+    border-radius: 0.3em;
+    padding: 0.5em;
+    gap: 0.5em;
+    background-color: var(--input-background);
+}
+
+.course-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.course-list::-webkit-scrollbar-thumb {
+    background-color: #b8c28b;
+    border-radius: 10px;
+}
+
+.course-list::-webkit-scrollbar-track {
+    background-color: #f0f0f0;
+    border-radius: 10px;
+}
+
+.course-list-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5em;
+    background-color: white;
+    border: 1px solid var(--input-border);
+    border-radius: 0.3em;
+}
+
+.course-list-item span {
+    color: var(--text-color);
+    flex: 1;
+}
+
+.course-list-item .remove-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    margin-left: 0.5em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.course-list-item .remove-btn:hover {
+    opacity: 0.7;
+}
+
+#courseForm .popup-body {
+    display: flex;
+    row-gap: 10px;
+    flex-direction: column;
+    width: 100%;
+}
+
+.input-section {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    gap: 1.5em;
+}
+
+
+/* add manually button */
+.add-manual-btn {
+    padding: 0.7em 1.5em;
+    background-color: var(--button-color);
+    color: white;
+    border: none;
+    border-radius: 0.3em;
+    cursor: pointer;
+    white-space: nowrap;
+    height: fit-content;
+    border-radius: 0.3em;
+}
+
+.add-manual-btn:hover {
+    background-color: #7a8a45;
+}
+
+/* add with file button */
+.add-file-btn {
+    background-color: var(--button-color);
+    color: white;
+    border: none;
+    padding: 0.5em 1em;
+    border-radius: 0.3em;
+    cursor: pointer;
+    font-size: 0.9em;
+    width: fit-content;
+    border-radius: 0.3em;
+}
+
+/* submit button popup */
+.submit-btn {
+    background-color: var(--button-color);
+    color: white;
+    border: none;
+    padding: 0.8em;
+    border-radius: 0.3em;
+    cursor: pointer;
+    font-size: 1em;
+    width: 100%;
+    transition: background-color 0.2s;
+}
+
+.submit-btn:hover {
+    background-color: #7a8a45;
+}
+
+
+
+/* ======== BREADCRUMB ======== */
+/* Style the list */
+ul.breadcrumb {
+    display: flex;
+    flex-direction: row;
+    list-style: none;
+}
+
+/* Add a slash symbol (/) before/behind each list item */
+ul.breadcrumb li+li:before {
+    color: var(--text-color);
+    margin-bottom: 5px;
+    margin-left: 7px;
+    content: ">\00a0";
+    font-size: 1em;
+    font-weight: normal;
+}
+
+ul.breadcrumb li {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+ul.breadcrumb a {
+    color: var(--text-color);
+    text-decoration: none;
+}
+
+ul.breadcrumb a:visited {
+    color: var(--text-color);
+}
+
+ul.breadcrumb a:hover {
+    color: var(--text-color);
+    opacity: 0.8;
+}
