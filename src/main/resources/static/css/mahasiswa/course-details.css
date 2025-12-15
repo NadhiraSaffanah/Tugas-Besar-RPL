@@ -5,6 +5,7 @@
     --button-color: #8FA053;
     --input-background: #FFFFFF;
     --input-border: #D8D8D8;
+    --border-radius-base: 0.75em;
 }
 
 * {
@@ -467,6 +468,14 @@ nav img {
     border-radius: 8px;
     width: 300px;
     border: 2px solid #333;
+}
+
+.desc-box,
+.finalScore-box,
+.tubes-phasePrev,
+.tubes-group,
+#project {
+    border-radius: var(--border-radius-base);
 }
 
 

@@ -123,6 +123,14 @@ public class MahasiswaController {
 
             List<TahapTubes> listTahap = tahapRepository.findAllByTubesId(tubes.getId());
             model.addAttribute("listTahap", listTahap);
+
+            Kelompok kelompokUser = kelompokRepository.findKelompokByUserAndTubes(user.getId(), tubes.getId());
+
+            if (kelompokUser != null) {
+                model.addAttribute("groupName", kelompokUser.getNamaKelompok());
+            } else {
+                model.addAttribute("groupName", null); // atau "Belum ada kelompok"
+            }
         } else {
             model.addAttribute("tubes", null);
             model.addAttribute("listTahap", null);
