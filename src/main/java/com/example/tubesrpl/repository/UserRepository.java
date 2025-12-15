@@ -43,7 +43,7 @@ public class UserRepository {
 
     // Find users by role
     public List<User> findByRole(String role) {
-        String sql = "SELECT * FROM users WHERE role = ? AND isActive = TRUE ORDER BY nama";
+        String sql = "SELECT * FROM users WHERE role = ? AND status_aktif='Aktif' ORDER BY nama";
         return jdbcTemplate.query(sql, userRowMapper, role);
     }
 
@@ -51,7 +51,7 @@ public class UserRepository {
     public List<User> searchUsers(String role, String searchTerm) {
         String sql = """
             SELECT * FROM users 
-            WHERE role = ? AND isActive = TRUE 
+            WHERE role = ? AND status_aktif='Aktif' 
             AND (LOWER(nama) LIKE LOWER(?) OR LOWER(email) LIKE LOWER(?))
             ORDER BY nama
             LIMIT 20
@@ -65,7 +65,7 @@ public class UserRepository {
         String sql = """
             SELECT u.* FROM users u
             JOIN user_matkul um ON u.id = um.user_id
-            WHERE um.matkul_id = ? AND u.isActive = TRUE
+            WHERE um.matkul_id = ? AND u.status_aktif='Aktif'
             ORDER BY u.nama
         """;
         return jdbcTemplate.query(sql, userRowMapper, matkulId);

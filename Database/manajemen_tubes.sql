@@ -71,20 +71,21 @@ INSERT INTO users (nama, email, password_hash, role, npm, no_induk, foto_profil,
 CREATE TABLE matkul (
     id BIGSERIAL PRIMARY KEY,
     nama_matkul VARCHAR(100) NOT NULL,
-	kelas_matkul VARCHAR(10)
+	kelas_matkul VARCHAR(10),
+    isActive BOOLEAN NOT NULL 
 );
 
 INSERT INTO matkul (nama_matkul, kelas_matkul) VALUES
-('Algoritma dan Struktur Data', 'A'),
-('Algoritma dan Struktur Data', 'B'),
-('Basis Data', 'A'),
-('Basis Data', 'C'),
-('Pemrograman Berorientasi Objek', 'A'),
-('Pemrograman Berorientasi Objek', 'B'),
-('Jaringan Komputer', 'A'),
-('Sistem Operasi', 'A'),
-('Sistem Operasi', 'B'),
-('Rekayasa Perangkat Lunak', 'A');
+('Algoritma dan Struktur Data', 'A', TRUE),
+('Algoritma dan Struktur Data', 'B', TRUE),
+('Basis Data', 'A', TRUE),
+('Basis Data', 'C', TRUE),
+('Pemrograman Berorientasi Objek', 'A', TRUE),
+('Pemrograman Berorientasi Objek', 'B', TRUE),
+('Jaringan Komputer', 'A', TRUE),
+('Sistem Operasi', 'A', TRUE),
+('Sistem Operasi', 'B', TRUE),
+('Rekayasa Perangkat Lunak', 'A', TRUE);
 
 -- =======================
 -- SEMESTER 
@@ -372,14 +373,3 @@ INSERT INTO penilaian (nilai, komentar, tahap_id, user_id) VALUES
 (94.00, 'Great job', 4, 11),
 (85.25, 'Nice slides', 4, 12);
 
--- ======================================
--- NOTIFIKASI
--- ======================================
-CREATE TABLE notifikasi (
-    id BIGSERIAL PRIMARY KEY,
-    user_id BIGINT REFERENCES users(id) ON DELETE CASCADE,
-    tipe VARCHAR(50),
-    konten TEXT,
-    is_read BOOLEAN DEFAULT FALSE,
-    created_at TIMESTAMP DEFAULT NOW()
-);
