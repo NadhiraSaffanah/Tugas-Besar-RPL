@@ -57,7 +57,7 @@ public class MatkulRepository {
         String sql = """
             SELECT id, nama_matkul, kelas_matkul
             FROM matkul
-            WHERE id = ? AND isActive = TRUE
+            WHERE id = ? AND status_aktif='Aktif'
         """;
         List<Matkul> results = jdbcTemplate.query(sql, matkulRowMapper, id);
         return results.isEmpty() ? null : results.get(0);
@@ -79,7 +79,7 @@ public class MatkulRepository {
     // Create a new matkul
     public Long createMatkul(String namaMatkul, String kelasMatkul) {
         String sql = """
-            INSERT INTO matkul (nama_matkul, kelas_matkul, isActive)
+            INSERT INTO matkul (nama_matkul, kelas_matkul, status_aktif)
             VALUES (?, ?, TRUE)
             RETURNING id
         """;
@@ -98,9 +98,9 @@ public class MatkulRepository {
         jdbcTemplate.update(sql, matkulId, semesterId);
     }
 
-    // Soft delete matkul (set isActive = FALSE)
+    // Soft delete matkul (set status_aktif='non-Aktif')
     public void deleteMatkul(Long id) {
-        String sql = "UPDATE matkul SET isActive = FALSE WHERE id = ?";
+        String sql = "UPDATE matkul SET status_aktif='non-Aktif' WHERE id = ?";
         jdbcTemplate.update(sql, id);
     }
 
