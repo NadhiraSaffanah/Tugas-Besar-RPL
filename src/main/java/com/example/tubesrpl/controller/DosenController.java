@@ -317,13 +317,17 @@ public class DosenController {
         }
 
         Optional<Tubes> tubesOpt = tubesRepository.findById(tubesId);
-        if (tubesOpt.isPresent()) {
-            Tubes tubes = tubesOpt.get();
-            model.addAttribute("tubes", tubes);
-            model.addAttribute("matkulId", tubes.getIdMatkul());
-            
-            tubesRepository.syncGroupCount(tubesId, tubes.getJmlKelompok());
+        
+        if (tubesOpt.isEmpty()) {
+            System.out.println("Tubes ID " + tubesId + " tidak ditemukan. Redirecting...");
+            return "redirect:/dosen/course"; 
         }
+
+        Tubes tubes = tubesOpt.get();
+        model.addAttribute("tubes", tubes);
+        model.addAttribute("matkulId", tubes.getIdMatkul());
+        
+        tubesRepository.syncGroupCount(tubesId, tubes.getJmlKelompok());
 
         List<Kelompok> listKelompok = kelompokRepository.findAllByTubesId(tubesId);
         

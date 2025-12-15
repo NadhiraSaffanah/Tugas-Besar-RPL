@@ -43,7 +43,7 @@
         <section id="course-nav">
             <a th:href="@{/dosen/course/nav/grading(id=${selectedMatkulId})}"><p>Grading</p></a>
             <a th:href="@{/dosen/course/nav/participant(id=${selectedMatkulId})}"><p>Participant</p></a>
-            <a th:href="@{/dosen/course/nav/group(id=${selectedMatkulId})}"><p>Group</p></a>
+            <a th:href="${tubes != null} ? @{/dosen/course/nav/group(id=${tubes.id})} : '#'"><p>Group</p></a>
         </section>
 
         <section id="project">
@@ -85,7 +85,7 @@
                 <div class="desc-group">
                     <div class="desc-group-header">
                         <h3>Group</h3>
-                        <a th:href="@{/dosen/course/nav/group(id=${selectedMatkulId})}">
+                        <a th:href="@{/dosen/course/nav/group(id=${tubes.id})}">
                             <img th:src="@{/images/view-details.svg}" alt="view details">
                         </a>
                     </div>
