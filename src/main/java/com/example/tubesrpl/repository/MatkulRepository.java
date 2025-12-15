@@ -53,6 +53,16 @@ public class MatkulRepository {
         return jdbcTemplate.query(sql, matkulRowMapper, idSemester);   
     }
 
+    public Matkul findById(Long id) {
+        String sql = """
+            SELECT id, nama_matkul, kelas_matkul
+            FROM matkul
+            WHERE id = ? AND isActive = TRUE
+        """;
+        List<Matkul> results = jdbcTemplate.query(sql, matkulRowMapper, id);
+        return results.isEmpty() ? null : results.get(0);
+    }
+
     // BARU : Method untuk mengambil Header Info (Nama Matkul + Tanggal Semester)
     public Map<String, Object> findHeaderInfo(Long matkulId) {
         String sql = """
@@ -64,6 +74,34 @@ public class MatkulRepository {
         """;
         
         return jdbcTemplate.queryForMap(sql, matkulId);
+    }
+
+    // Create a new matkul
+    public Long createMatkul(String namaMatkul, String kelasMatkul) {
+        String sql = """
+            INSERT INTO matkul (nama_matkul, kelas_matkul, isActive)
+            VALUES (?, ?, TRUE)
+            RETURNING id
+        """;
+        
+        return jdbcTemplate.queryForObject(sql, Long.class, namaMatkul, kelasMatkul);
+    }
+
+    // Link matkul to semester
+    public void linkMatkulToSemester(Long matkulId, Long semesterId) {
+        String sql = """
+            INSERT INTO matkul_semester (matkul_id, semester_id)
+            VALUES (?, ?)
+            ON CONFLICT DO NOTHING
+        """;
+        
+        jdbcTemplate.update(sql, matkulId, semesterId);
+    }
+
+    // Soft delete matkul (set isActive = FALSE)
+    public void deleteMatkul(Long id) {
+        String sql = "UPDATE matkul SET isActive = FALSE WHERE id = ?";
+        jdbcTemplate.update(sql, id);
     }
 
     public List<User> findParticipantsByMatkulId(Long matkulId) {
@@ -86,4 +124,5 @@ public class MatkulRepository {
             return user;
         }, matkulId);
     }
+
 }
