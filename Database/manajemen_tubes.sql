@@ -75,7 +75,7 @@ CREATE TABLE matkul (
     isActive BOOLEAN NOT NULL 
 );
 
-INSERT INTO matkul (nama_matkul, kelas_matkul) VALUES
+INSERT INTO matkul (nama_matkul, kelas_matkul, isActive) VALUES
 ('Algoritma dan Struktur Data', 'A', TRUE),
 ('Algoritma dan Struktur Data', 'B', TRUE),
 ('Basis Data', 'A', TRUE),
