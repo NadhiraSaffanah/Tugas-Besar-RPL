@@ -50,10 +50,10 @@
                 <img id="profile-img" 
                      th:src="${user.fotoProfil != null} 
                                 ? @{/uploads/profile/{f}(f=${user.fotoProfil})} 
-                                : @{/images/default_profile.png}" 
+                                : @{/images/default-profile.jpg}" 
                      th:attr="data-original-src=${user.fotoProfil != null} 
                                 ? @{/uploads/profile/{f}(f=${user.fotoProfil})} 
-                                : @{/images/default_profile.png}"
+                                : @{/images/default-profile.jpg}"
                      alt="profile picture">
                 <input id="file-input" type="file" accept="image/*" style="display:none" />
                 <button id="pfp-btn" type="file">

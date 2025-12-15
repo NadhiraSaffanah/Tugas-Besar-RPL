@@ -158,6 +158,10 @@ nav img {
     transition: 0.5s;
 }
 
+.course-tabs a:nth-child(3) {
+    background-color: var(--secondary-color);
+}
+
 .course-tab a:active{
     background-color: var(--primary-green);
     color: white;
